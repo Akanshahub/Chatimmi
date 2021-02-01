@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="model"
+            type="com.chatimmi.usermainfragment.connectfragment.details.ConnectDetailsViewModel" />
+    </data>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        >
+<RelativeLayout
+    android:id="@+id/bg"
+    android:background="@drawable/bg_text_cannect"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_10sdp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"
+        android:text="@string/uK_immigration"
+        android:gravity="center"
+        android:textSize="@dimen/_13sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textColor="@color/water_blue"
+        />
+
+</RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/bg">
+    <TextView
+        android:id="@+id/uk"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_50sdp"
+        android:text="@string/uk"
+        android:gravity="center"
+        android:textSize="@dimen/_13sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:fontFamily="@font/montserrat_medium"
+        android:textColor="@color/brownish_grey"
+        />
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layerType="software"
+        android:background="@color/view"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_below="@+id/uk"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+
+        />
+
+</RelativeLayout>
+    </RelativeLayout>
+</layout>

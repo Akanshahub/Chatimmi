@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/main_bg"
+        android:minHeight="125dp"
+
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp">
+
+            <ImageView
+                android:id="@+id/ivBtnBack"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/_7sdp"
+                app:srcCompat="@drawable/ic_back_arrow_ico"
+                app:tint="#fff" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toRightOf="@id/ivBtnBack"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/create_account"
+                android:textColor="@color/title_text_color_white"
+                android:textSize="@dimen/_27sdp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvTitle"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_toRightOf="@id/ivBtnBack"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:minLines="2"
+                android:text="@string/contrary_to_popular_belief_lorem_ipsum_is_not_simply_random_text"
+                android:textColor="@color/title_text_color_white"
+                android:textSize="@dimen/_13sdp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>
+

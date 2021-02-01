@@ -1,0 +1,4 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_active_check_box_ico" android:state_checked="true" />
+    <item android:drawable="@drawable/ic_inactive_rember_me_ico" android:state_checked="false" />
+</selector>

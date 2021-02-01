@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="model"
+            type="com.chatimmi.usermainfragment.group.filter.filtercategorygroup.FilterGroupViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.common.SignInActivity">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_60sdp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="@dimen/_5sdp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/backButton"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:padding="@dimen/_12sdp"
+                    app:srcCompat="@drawable/ic_back_arrow_ico"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:id="@+id/tvTitle11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical|center"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:text="@string/filter"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_18sdp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical|center"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:text="@string/clear_all"
+                    android:textColor="@color/red"
+                    android:textSize="13.3dp"
+                    android:textStyle="normal" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/category"
+            android:textColor="@color/black_two"
+            android:textSize="@dimen/_18sdp" />
+
+        <!--<RelativeLayout
+            android:id="@+id/rv_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/category"
+            android:orientation="horizontal"
+
+            >
+
+          <CheckBox
+              android:id="@+id/UK_immigration_checkbox"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentStart="true"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_15sdp" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_20sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:layout_toRightOf="@+id/UK_immigration_checkbox"
+              android:fontFamily="@font/montserrat_medium"
+              android:lineSpacingExtra="2.3sp"
+              android:text="@string/uK_immigration"
+              android:textColor="@color/browen_grey"
+              android:textSize="@dimen/_13sdp"
+              android:textStyle="normal" />
+          <TextView
+              android:id="@+id/tick"
+              android:layout_width="@dimen/_15sdp"
+              android:layout_height="@dimen/_15sdp"
+              android:layout_marginTop="@dimen/_20sdp"
+              android:layout_marginEnd="@dimen/_25sdp"
+              android:background="@drawable/bg_circle_tike"
+              android:layout_toStartOf="@+id/back"
+              android:gravity="center"
+              android:text="1"
+              android:textColor="@color/white"
+              android:textSize="@dimen/_10sdp" />
+
+          <ImageView
+              android:id="@+id/back"
+              android:layout_width="@dimen/_20sdp"
+              android:layout_height="@dimen/_20sdp"
+              android:layout_alignParentEnd="true"
+              android:layout_marginTop="@dimen/_15sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:src="@drawable/ic_back_arrow" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rv_category"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/white_two"
+            android:layerType="software" />
+
+        <RelativeLayout
+            android:id="@+id/rv_canada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view"
+            android:orientation="horizontal"
+
+            >
+
+          <CheckBox
+              android:id="@+id/canada_checkbox"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentStart="true"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_15sdp" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_20sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:layout_toRightOf="@+id/canada_checkbox"
+              android:fontFamily="@font/montserrat_medium"
+              android:lineSpacingExtra="2.3sp"
+              android:text="@string/canada_"
+              android:textColor="@color/browen_grey"
+              android:textSize="@dimen/_13sdp"
+              android:textStyle="normal" />
+
+          <ImageView
+              android:layout_width="@dimen/_20sdp"
+              android:layout_height="@dimen/_20sdp"
+              android:layout_alignParentEnd="true"
+              android:layout_marginTop="@dimen/_15sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:src="@drawable/ic_back_arrow" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/canada_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rv_canada"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/white_two"
+            android:layerType="software" />
+
+        <RelativeLayout
+            android:id="@+id/rv_uk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/canada_view"
+            android:orientation="horizontal"
+
+            >
+
+          <CheckBox
+              android:id="@+id/uk_checkbox"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentStart="true"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_15sdp" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_20sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:layout_toRightOf="@+id/uk_checkbox"
+              android:fontFamily="@font/montserrat_medium"
+              android:lineSpacingExtra="2.3sp"
+              android:text="@string/uk_text"
+              android:textColor="@color/browen_grey"
+              android:textSize="@dimen/_13sdp"
+              android:textStyle="normal" />
+
+          <ImageView
+              android:layout_width="@dimen/_20sdp"
+              android:layout_height="@dimen/_20sdp"
+              android:layout_alignParentEnd="true"
+              android:layout_marginTop="@dimen/_15sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:src="@drawable/ic_back_arrow" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/UK_immigration_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rv_uk"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/white_two"
+            android:layerType="software" />
+
+        <RelativeLayout
+            android:id="@+id/rv_UK_immigration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/UK_immigration_view"
+            android:orientation="horizontal"
+
+            >
+
+          <CheckBox
+              android:id="@+id/immigration_checkbox"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentStart="true"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_15sdp" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_20sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:layout_toRightOf="@+id/immigration_checkbox"
+              android:fontFamily="@font/montserrat_medium"
+              android:lineSpacingExtra="2.3sp"
+              android:text="@string/uK_immigration"
+              android:textColor="@color/browen_grey"
+              android:textSize="@dimen/_13sdp"
+              android:textStyle="normal" />
+
+          <ImageView
+              android:layout_width="@dimen/_20sdp"
+              android:layout_height="@dimen/_20sdp"
+              android:layout_alignParentEnd="true"
+              android:layout_marginTop="@dimen/_15sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:src="@drawable/ic_back_arrow" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/uk_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rv_UK_immigration"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/white_two"
+            android:layerType="software" />
+
+        <RelativeLayout
+            android:id="@+id/rv_canada_immigration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/uk_view"
+            android:orientation="horizontal"
+
+            >
+
+          <CheckBox
+              android:id="@+id/canada_immigration_checkbox"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentStart="true"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_15sdp" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_20sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:layout_toRightOf="@+id/canada_immigration_checkbox"
+              android:fontFamily="@font/montserrat_medium"
+              android:lineSpacingExtra="2.3sp"
+              android:text="@string/canada_immigration"
+              android:textColor="@color/browen_grey"
+              android:textSize="@dimen/_13sdp"
+              android:textStyle="normal" />
+
+          <ImageView
+              android:layout_width="@dimen/_20sdp"
+              android:layout_height="@dimen/_20sdp"
+              android:layout_alignParentEnd="true"
+              android:layout_marginTop="@dimen/_15sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:src="@drawable/ic_back_arrow" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/canada_immigration_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rv_canada_immigration"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/white_two"
+            android:layerType="software" />
+
+        <RelativeLayout
+            android:id="@+id/rv_UK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/canada_immigration_view"
+            android:orientation="horizontal"
+
+            >
+
+          <CheckBox
+              android:id="@+id/UK_checkbox"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentStart="true"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_15sdp" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_20sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:layout_toRightOf="@+id/UK_checkbox"
+              android:fontFamily="@font/montserrat_medium"
+              android:lineSpacingExtra="2.3sp"
+              android:text="@string/uk_text"
+              android:textColor="@color/browen_grey"
+              android:textSize="@dimen/_13sdp"
+              android:textStyle="normal" />
+
+          <ImageView
+              android:layout_width="@dimen/_20sdp"
+              android:layout_height="@dimen/_20sdp"
+              android:layout_alignParentEnd="true"
+              android:layout_marginTop="@dimen/_15sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:src="@drawable/ic_back_arrow" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/UK_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rv_UK"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/white_two"
+            android:layerType="software" />
+
+        <RelativeLayout
+            android:id="@+id/rv_canada_"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/UK_view"
+            android:orientation="horizontal"
+
+            >
+
+          <CheckBox
+              android:id="@+id/canada_checkbox_"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentStart="true"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_15sdp" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_20sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:layout_toRightOf="@+id/canada_checkbox_"
+              android:fontFamily="@font/montserrat_medium"
+              android:lineSpacingExtra="2.3sp"
+              android:text="@string/canada_"
+              android:textColor="@color/browen_grey"
+              android:textSize="@dimen/_13sdp"
+              android:textStyle="normal" />
+
+          <ImageView
+              android:layout_width="@dimen/_20sdp"
+              android:layout_height="@dimen/_20sdp"
+              android:layout_alignParentEnd="true"
+              android:layout_marginTop="@dimen/_15sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:src="@drawable/ic_back_arrow" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/canada_view_"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rv_canada_"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/white_two"
+            android:layerType="software" />
+
+        <RelativeLayout
+            android:id="@+id/rv_"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/canada_view_"
+            android:orientation="horizontal"
+
+            >
+
+          <CheckBox
+              android:id="@+id/checkbox_"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentStart="true"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_15sdp" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_marginTop="@dimen/_20sdp"
+              android:layout_marginEnd="@dimen/_10sdp"
+              android:layout_toRightOf="@+id/checkbox_"
+              android:fontFamily="@font/montserrat_medium"
+              android:lineSpacingExtra="2.3sp"
+              android:text="@string/uK_immigration"
+              android:textColor="@color/browen_grey"
+              android:textSize="@dimen/_13sdp"
+              android:textStyle="normal"/>
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view_"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rv_canada_"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/white_two"
+            android:layerType="software" />-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/category"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="@dimen/_80sdp"
+            app:setAdapter="@{model.getAdapter()}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <Button
+            android:id="@+id/btnSignup"
+            style="@style/AppTheme.ButtonMain"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_25sdp"
+            android:layout_marginBottom="@dimen/_25sdp"
+            android:shadowColor="@color/black"
+            android:text="@string/apply" />
+
+    </RelativeLayout>
+
+
+</layout>

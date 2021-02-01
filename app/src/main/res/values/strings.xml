@@ -1,0 +1,125 @@
+<resources>
+    <string name="facebook_app_id">856813971775421</string>
+    <string name="fb_login_protocol_scheme">fb856813971775421</string>
+
+    <string name="app_name">chatimmi</string>
+    <string name="content_description_image">Image</string>
+    <string name="contrary_to_popular_belief_lorem_ipsum_is_not_simply_random_text">Contrary to popular belief, Lorem Ipsum is not simply random text.</string>
+    <string name="name">Full Name</string>
+    <string name="enter_full_name">Enter Full Name</string>
+    <string name="email_id">Email ID</string>
+    <string name="enter_email_id">Enter Email ID</string>
+    <string name="password">Password</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="enter_your_confirm_password">Enter your confirm password</string>
+    <string name="enter_confirm_password">Enter Confirm Password</string>
+    <string name="by_signing_up_you_agree_to_our">By signing up, you agree to our</string>
+    <string name="term_amp_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="and"> and</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_have_a_account_sign_in">Already have a account? Sign In</string>
+
+    <string name="please_enter_full_name">Please enter your full name</string>
+    <string name="please_enter_email">Please enter your email</string>
+    <string name="please_enter_valid_email">Email address is not valid, please provide a valid email</string>
+    <string name="please_enter_password">Please enter your password</string>
+    <string name="please_enter_password_with_minimum">Password should not less than 6 characters</string>
+    <string name="please_enter_valid_password">Please enter valid Password</string>
+    <string name="please_enter_password_to_confirm">Please enter your confirm password</string>
+    <string name="confirm_password_does_not_match">Password and confirm password does not match</string>
+    <string name="signed_up">Signed Up</string>
+    <string name="sign_in">Sign In</string>
+    <string name="connect_with_experts_and_schools">Connect with experts and schools...</string>
+    <string name="submit">Submit</string>
+    <string name="or_connect_with">Or connect with</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="create_account">Create Account</string>
+    <string name="forgot_your_password">Forgot Your Password?</string>
+    <string name="please_enter_your_email_address_you_will_receive_a_link_to_create_a_new_password_via_email">Please enter your email address, You Will receive a link to create a new password via email.</string>
+
+    <!-- Socket chat -->
+    <string name="connect">Connect to a Consultant</string>
+    <string name="disconnect">Disconnected, Please check your internet connection</string>
+    <string name="error_connect">Failed to connect</string>
+
+    <string name="done">DONE</string>
+    <string name="under_development">Under development</string>
+    <string name="fullname_must_6_digt">FullName must be atleast 2 characters</string>
+    <string name="comfrim_passwor_not_less_than_6_characters">Confirm password should not less than 6 characters</string>
+    <string name="please_accept_termconditions_and_privacy_policy"><![CDATA[Please accept term & conditions and privacy policy]]></string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search">Search For...</string>
+    <string name="groups">Groups</string>
+    <string name="toronto">Toronto Lawyers Forum</string>
+    <string name="canada">Canada immigration</string>
+    <string name="people">People</string>
+    <string name="join">Join</string>
+    <string name="join_now">Join Now</string>
+    <string name="details">Details</string>
+    <string name="toronto_lawyers_forum">Toronto Lawyers Forum</string>
+    <string name="canada_immigration">Canada immigration</string>
+    <string name="sub_category">Sub Category</string>
+    <string name="uK_immigration">UK Immigration</string>
+    <string name="canada_">Canada</string>
+    <string name="description">Description</string>
+    <string name="join_member">Joined Members</string>
+    <string name="joshua_smith">Joshua Smith</string>
+    <string name="expert">Expert</string>
+    <string name="join_button">Join</string>
+    <string name="close">Close</string>
+    <string name="immigration">UK immigration</string>
+    <string name="Christopher">Christopher Smith</string>
+    <string name="connect_to">Connect to a Consultant</string>
+    <string name="connect_button">Connect</string>
+    <string name="chat">Chat</string>
+    <string name="categories">Categories</string>
+    <string name="category">Category</string>
+    <string name="view_more">VIEW MORE</string>
+    <string name="filter">Filter</string>
+    <string name="clear_all">Clear All</string>
+    <string name="filter_by">Filter By</string>
+    <string name="connected">Connected</string>
+    <string name="uk_text">UK</string>
+    <string name="apply">Apply Filter</string>
+    <string name="ago">5 mins ago</string>
+    <string name="not_connected">Not Connected</string>
+    <string name="various">Various versions have evolved over the years.  </string>
+    <string name="notification">Notifications</string>
+    <string name="uk">UK immigration     Canada immigration     Canada     UK</string>
+    <string name="carnegie">Carnegie Vanguard High</string>
+    <string name="join_text">This group is private, you need to join first this group to chat.</string>
+    <string name="description_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo.</string>
+    <string name="description_text_details">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</string>
+    <string name="settings">Settings</string>
+    <string name="enter_user_name">Enter Full Name</string>
+    <string name="user_name">Full Name</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="change_password">Change Password</string>
+    <string name="current_password">Current Password</string>
+    <string name="enter_current_password">Enter Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="enter_new_password">Enter New Password</string>
+    <string name="update_password">Update Password</string>
+    <string name="create_a_new_password">Create a New Password</string>
+    <string name="my_profile">My Profile</string>
+    <string name="market_place">Marketplace</string>
+    <string name="Liberal">Liberal Arts and Science</string>
+    <string name="free">Free</string>
+    <string name="Premium">Premium</string>
+    <string name="Liberal_text">There are many variations of passages of Lorem Ipsum available, but the majority...</string>
+    <string name="liberal_arts_and_science">Liberal Arts and Science</string>
+    <string name="_00_00">00:00</string>
+    <string name="university_high_school">University High School</string>
+    <string name="todo">TODO</string>
+    <string name="cateagories">Cateagories</string>
+    <string name="image">Image</string>
+
+
+</resources>
+

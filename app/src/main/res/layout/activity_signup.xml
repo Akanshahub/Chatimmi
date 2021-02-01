@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="signUpViewModel"
+            type="com.chatimmi.viewmodel.SignUpViewModel" />
+    </data>
+    <ScrollView
+        android:background="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/appBar"
+                layout="@layout/app_bar_editprofile" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:translationY="-15.00dp"
+                app:cardCornerRadius="@dimen/_22sdp"
+                app:cardElevation="0dp">
+
+                <RelativeLayout
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_13sdp"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <com.chatimmi.custom.CircleImageView
+                        android:id="@+id/ivImages"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_100sdp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/user_placeholder_img" />
+
+                    <com.chatimmi.custom.CircleImageView
+                        android:id="@+id/iv_camera"
+                        android:layout_width="@dimen/_27sdp"
+                        android:layout_height="@dimen/_27sdp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="end"
+                        android:layout_marginStart="@dimen/_72sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:background="@drawable/camera_ico"
+                        android:padding="@dimen/_100sdp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_25sdp"
+                        android:layout_marginTop="@dimen/_150sdp"
+                        android:layout_marginEnd="@dimen/_25sdp"
+                        android:focusableInTouchMode="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:paddingTop="@dimen/_6sdp"
+                            android:paddingBottom="@dimen/_6sdp"
+                            android:text="@string/name"
+                            android:textColor="#505050"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etName"
+                            style="@style/AppTheme.EditTextStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="43dp"
+                            android:background="@drawable/bg_edit_text"
+                            android:drawableEnd="@drawable/ic_user_ico"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="@string/enter_full_name"
+                            android:text="@={signUpViewModel.fullName}"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPersonName"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:paddingEnd="10dp"
+                            android:textColorHint="#a5a5a5"
+                            android:textSize="@dimen/_13sdp">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+
+                        <TextView
+                            style="@style/AppTheme.TextViewStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:paddingTop="@dimen/_6sdp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="@dimen/_6sdp"
+
+                            android:text="@string/email_id"
+                            android:textColor="#505050" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEmail"
+                            style="@style/AppTheme.EditTextStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="43dp"
+                            android:background="@drawable/bg_edit_text"
+                            android:drawableEnd="@drawable/ic_mail_ico"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="@string/enter_email_id"
+                            android:text="@={signUpViewModel.emailAddress}"
+                            android:imeOptions="actionNext"
+                            android:inputType="textEmailAddress"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:paddingEnd="10dp"
+                            android:textColorHint="#a5a5a5">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+                        <TextView
+                            style="@style/AppTheme.TextViewStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:paddingTop="@dimen/_6sdp"
+                            android:paddingBottom="@dimen/_6sdp"
+                            android:text="@string/password"
+                            android:textColor="#505050" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPassword"
+                            style="@style/AppTheme.EditTextStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_45sdp"
+                            android:background="@drawable/bg_edit_text"
+                            android:drawableEnd="@drawable/ic_lock_icon"
+                            android:text="@={signUpViewModel.password}"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="@string/enter_password"
+                            android:imeOptions="actionNext"
+                            android:inputType="textNoSuggestions|textPassword"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:paddingEnd="10dp"
+                            android:textColorHint="#a5a5a5">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+
+                        <TextView
+                            style="@style/AppTheme.TextViewStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:paddingTop="@dimen/_6sdp"
+                            android:paddingBottom="@dimen/_6sdp"
+                            android:text="@string/confirm_password"
+                            android:textColor="#505050" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPasswordConfirm"
+                            style="@style/AppTheme.EditTextStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_43sdp"
+                            android:background="@drawable/bg_edit_text"
+                            android:drawableEnd="@drawable/ic_lock_icon"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="@string/enter_confirm_password"
+                            android:imeOptions="actionDone"
+                            android:inputType="textNoSuggestions|textPassword"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:text="@={signUpViewModel.passwordConfirm}"
+                            android:paddingEnd="10dp"
+                            android:textColorHint="#a5a5a5">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"
+                        android:layout_weight="1"
+                        android:background="@color/transparent" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_25sdp"
+                        android:layout_marginTop="@dimen/_13sdp"
+                        android:layout_marginEnd="@dimen/_25sdp"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <CheckBox
+                                android:id="@+id/cb_term"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+
+
+                                android:button="@drawable/custom_checkboxtwo" />
+
+
+                            <TextView
+                                android:id="@+id/tvSignup"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_20sdp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:text="@string/by_signing_up_you_agree_to_our"
+                                android:textColor="#828282"
+                                android:textSize="@dimen/_11sdp" />
+
+                            <TextView
+                                android:id="@+id/tvTerm"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_4sdp"
+                                android:layout_toEndOf="@id/tvSignup"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:text="@string/term_amp_conditions"
+                                android:textColor="#eb324b"
+                                android:textSize="@dimen/_11sdp" />
+
+                            <TextView
+                                android:id="@+id/textAnd"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tvSignup"
+                                android:layout_marginStart="@dimen/_22sdp"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:text="@string/and"
+                                android:textColor="#828282"
+                                android:textSize="@dimen/_11sdp"
+                                tools:ignore="NotSibling" />
+
+                            <TextView
+                                android:id="@+id/tvPrivacyPolicy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tvSignup"
+                                android:layout_marginStart="@dimen/_4sdp"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:layout_toEndOf="@+id/textAnd"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:text="@string/privacy_policy"
+                                android:textColor="#eb324b"
+                                android:textSize="@dimen/_11sdp"
+                                tools:ignore="NotSibling" />
+                        </RelativeLayout>
+
+                        <Button
+                            android:id="@+id/btnSignup"
+                            style="@style/AppTheme.ButtonMain"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_50sdp"
+                            android:layout_marginTop="@dimen/_30sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:shadowColor="@color/black"
+                            android:text="@string/sign_up"
+                            android:onClick="@{() -> signUpViewModel.updateOnClicked()}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvLogin"
+                            style="@style/AppTheme.TextViewStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_20sdp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:paddingBottom="4dp"
+                            android:text="@string/already_have_a_account_sign_in"
+                            android:textColor="#828282"
+                            android:visibility="visible" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</layout>

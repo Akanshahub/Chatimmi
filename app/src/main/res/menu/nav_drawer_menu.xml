@@ -1,0 +1,34 @@
+<menu xmlns:android = "http://schemas.android.com/apk/res/android"
+      xmlns:tools = "http://schemas.android.com/tools"
+      tools:context = "com.chatimmi.fragmentchatimmi.ChatimmiActivity">
+    <item
+        android:id = "@+id/group_fragment"
+        android:title = "Groups"
+        android:icon="@drawable/ic_home"
+        android:orderInCategory = "100"
+       />
+    <item
+        android:id = "@+id/connect_fragment"
+        android:title = "Connects"
+        android:icon="@drawable/ic_connect"
+        android:orderInCategory = "100"
+       />
+    <item
+        android:id = "@+id/market_place_fragment"
+        android:title = "Market Place"
+        android:icon="@drawable/ic_marketplace"
+        android:orderInCategory = "100"
+       />
+    <item
+        android:id = "@+id/chat_fragment"
+        android:title = "Chat"
+        android:icon="@drawable/ic_chat"
+        android:orderInCategory = "100"
+        />
+    <item
+        android:id = "@+id/other_fragment"
+        android:title = "Others"
+        android:icon="@drawable/ic_outher"
+        android:orderInCategory = "100"
+        />
+</menu>

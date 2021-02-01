@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android = "http://schemas.android.com/apk/res/android"
+            xmlns:app = "http://schemas.android.com/apk/res-auto"
+            xmlns:tools = "http://schemas.android.com/tools"
+            android:id = "@+id/android_navigation"
+            app:startDestination = "@+id/group_fragment">
+    <fragment
+        android:id = "@+id/group_fragment"
+        android:name = "com.chatimmi.usermainfragment.group.GroupFragment"
+        tools:layout = "@layout/fragment_group">
+
+    </fragment>
+    <fragment
+        android:id = "@+id/connect_fragment"
+        android:name = "com.chatimmi.usermainfragment.connectfragment.ConnectFragment"
+        tools:layout = "@layout/fragment_connect">
+    </fragment>
+
+    <fragment
+        android:id = "@+id/market_place_fragment"
+        android:name = "com.chatimmi.usermainfragment.marketplace.MarketPlaceFragment"
+        tools:layout = "@layout/fragment_market_place" />
+
+    <fragment
+        android:id = "@+id/chat_fragment"
+        android:name = "com.chatimmi.usermainfragment.chat.ChatFragment"
+        tools:layout = "@layout/fragment_chat">
+    </fragment>
+
+    <fragment
+        android:id = "@+id/other_fragment"
+        android:name = "com.chatimmi.usermainfragment.otherfragment.OtherFragment"
+        tools:layout = "@layout/fragment_other">
+    </fragment>
+</navigation>

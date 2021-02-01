@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="model"
+            type="com.chatimmi.usermainfragment.group.immigration.details.ImmigrationDetailsViewModel" />
+    </data>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_10sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+        <com.chatimmi.custom.CircleImageView
+            android:id="@+id/ivImages"
+            android:layout_width="@dimen/_50sdp"
+
+            android:layout_height="@dimen/_50sdp"
+            android:src="@drawable/image3"
+            android:layout_marginStart="@dimen/_10sdp"
+            />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_toRightOf="@+id/ivImages"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/transport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:text="@string/joshua_smith"
+                    android:textColor="@color/black_two"
+                    android:textSize="@dimen/_15sdp" />
+
+                <TextView
+                    android:id="@+id/date_and_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="@color/browen_grey"
+                    android:textSize="@dimen/_15sdp"
+                    android:text="@string/expert"/>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+</layout>

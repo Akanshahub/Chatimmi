@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- <data>
+         <variable
+             name="model"
+             type="com.chatimmi.fragmentchat.connectfragment.immigration.ImmigrationViewmodel" />
+     </data>-->
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <com.chatimmi.custom.CircleImageView
+                android:id="@+id/image"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:src="@drawable/image3"
+                app:civ_border_width="@dimen/_2sdp"
+                android:elevation="@dimen/_8sdp"
+                app:civ_border_overlay="true"
+                app:civ_border_color="@color/white"
+                android:layout_marginTop="@dimen/_10sdp"
+                tools:ignore="MissingConstraints"
+                android:layout_marginStart="@dimen/_10sdp"/>
+
+            <LinearLayout
+                android:id="@+id/linear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@+id/image"
+                android:layout_marginStart="@dimen/_20sdp">
+                <TextView
+                    android:id="@+id/trnsport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black_two"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textSize="@dimen/_13sdp"
+                    android:text="@string/Christopher"/>
+
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:textSize="@dimen/_12sdp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/browen_grey"
+                    android:text="@string/immigration"/>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:elevation="@dimen/_2sdp"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/join"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/browen_grey"
+                    android:gravity="center"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_18sdp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="03:15 PM"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

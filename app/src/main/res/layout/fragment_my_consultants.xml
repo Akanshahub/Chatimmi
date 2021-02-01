@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="model"
+            type="com.chatimmi.usermainfragment.otherfragment.myProfile.MyConsultantsImmigrationViewModel" />
+    </data>
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fafafa">
+        <LinearLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/filter"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/checkboxImmigration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="@{() -> model.connectedcheckboxOnClicked()}"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textSize="13.3sp"
+                    android:textColor="@color/black"
+                    android:text="Immigration"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp" />
+
+
+
+                <RadioButton
+                    android:id="@+id/checkboxStudy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:lineSpacingExtra="2.3sp"
+                    android:text="Study"
+                    android:onClick="@{() -> model.checkboxOnClicked()}"
+                    android:checked="false"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:textSize="13.3sp"
+                    android:textColor="#999999"
+                    android:textStyle="normal"
+                    android:layout_marginTop="@dimen/_15sdp" />
+
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvImmigration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/linear_layout"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="0dp"
+            android:nestedScrollingEnabled="false"
+            android:visibility="visible"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:setAdapter="@{model.getAdapter()}"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvStudy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/linear_layout"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="0dp"
+            android:visibility="gone"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:setAdapter="@{model.getAdapter1()}"/>
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>
+
+</layout>
