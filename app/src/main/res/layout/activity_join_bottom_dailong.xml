@@ -7,6 +7,9 @@
         <variable
             name="joinViewModel"
             type="com.chatimmi.helper.joindailong.JoinViewModel"/>
+
+
+
     </data>
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -92,22 +95,22 @@
                     android:textAllCaps="false"
                     android:onClick="@{() -> joinViewModel.onLaterClick()}"
                     />
+
                 <Button
                     android:id="@+id/join"
                     android:layout_width="@dimen/_95sdp"
-                    android:layout_height="@dimen/_35sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:background="@drawable/bg_join"
-                    android:fontFamily="@font/montserrat_semibold"
+                    android:layout_height="31dp"
                     android:layout_below="@+id/view"
-                    android:text="@string/join_now"
-                    android:textSize="@dimen/_12sdp"
-                    android:textAllCaps="false"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/bg_join"
                     android:elevation="@dimen/_2sdp"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:gravity="center"
                     android:onClick="@{() -> joinViewModel.onSubmitClick()}"
-                    />
+                    android:text="@string/join_now"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12sdp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

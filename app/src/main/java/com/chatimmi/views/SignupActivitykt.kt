@@ -24,12 +24,14 @@ import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
 import android.webkit.MimeTypeMap
+import android.widget.CompoundButton
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.chatimmi.R
+import com.chatimmi.app.pref.Session
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseActivitykt
@@ -60,6 +62,7 @@ var signUpViewModel: SignUpViewModel? = null
     private var imageUri: Uri? = null
     private var mimeType: String? = null
     private var temPhoto: Uri? = null
+    lateinit var session: Session
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -70,7 +73,7 @@ var signUpViewModel: SignUpViewModel? = null
         binding?.lifecycleOwner = this
         binding!!.signUpViewModel = signUpViewModel
         binding?.invalidateAll()
-
+        session = Session(this)
         /*viewModel.getValidationData().observe(this, Observer {
     it?.let {
         val msg = it as UIStateManager.Error
@@ -79,7 +82,7 @@ var signUpViewModel: SignUpViewModel? = null
 
 })*/
 
-        binding?.cbTerm!!.setOnCheckedChangeListener { buttonView, isChecked -> signUpViewModel!!.isSelect = isChecked }
+        binding?.cbTerm!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> signUpViewModel!!.isSelect = isChecked }
         signUpViewModel!!.getValidationData().observe(this, androidx.lifecycle.Observer {
             it?.let {
                 val msg = it as UIStateManager.Error
@@ -93,6 +96,7 @@ var signUpViewModel: SignUpViewModel? = null
                     is UIStateManager.Success<*> -> {
 
                         val getData = it.data as UserDetialResponse
+                        session.setUserData(getData)
                         Log.d("fbasfbjasfa", "onCreate: $getData")
                       /*  showToast(getData.message.toString())*/
                         // showToast("Under Development")

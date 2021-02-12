@@ -38,10 +38,12 @@ class OtherFragmentViewModel(val logoutRepository: LogoutRepository) : ViewModel
         commonTaskPerformer.performAction(FqaActivity::class.java)
     }
    fun llLogoutOnClicked() {
-       logoutRepository.callLogoutApi(UUID.randomUUID().toString(),"hdjhfhdjh", "2", TimeZone.getDefault().displayName)
+       commonTaskPerformer.launchAction()
    }
     fun rlProfileOnClicked() {
         commonTaskPerformer.performAction(MyProfileActivity::class.java)
     }
-
+ fun logoutRequest(){
+     logoutRepository.callLogoutApi(UUID.randomUUID().toString(),"hdjhfhdjh", "2", TimeZone.getDefault().displayName)
+ }
 }

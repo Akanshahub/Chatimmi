@@ -29,8 +29,9 @@ class LogoutRepository {
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<LogoutResponse>, response: Response<LogoutResponse>) {
                 if (response.isSuccessful) {
-                    logoutResponseObserver.value = UIStateManager.Success(response.body())
                     logoutResponseObserver.value = UIStateManager.Loading(false)
+                    logoutResponseObserver.value = UIStateManager.Success(response.body())
+
                 } else {
                     val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
                     logoutResponseObserver.value = UIStateManager.Loading(false)

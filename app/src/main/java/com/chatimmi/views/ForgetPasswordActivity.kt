@@ -8,23 +8,18 @@ import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.View
-import android.view.WindowManager
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.databinding.ActivityForgetPasswordBinding
-import com.chatimmi.model.LoginRegistrationResponse
 import com.chatimmi.model.ResetPasswordResponse
 import com.chatimmi.repository.ForgetPasswordRepository
 import com.chatimmi.viewmodel.ForgetPasswordViewModalFactory
 import com.chatimmi.viewmodel.ForgetPasswordViewModel
-import com.chatimmi.viewmodel.SignInViewModalFactory
 import com.chatimmi.viewmodel.SignInViewModel
 
 
@@ -40,7 +35,7 @@ class ForgetPasswordActivity : BaseActivitykt() {
         val factory = ForgetPasswordViewModalFactory(forgetPasswordRepository)
         viewModal = ViewModelProviders.of(this, factory).get(ForgetPasswordViewModel::class.java)
         binding.forgetPasswordViewModel = viewModal
-        binding.lifecycleOwner = this
+
         binding.etEmail.addTextChangedListener(viewModal)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val decor = window.decorView

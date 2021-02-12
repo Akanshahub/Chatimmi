@@ -23,6 +23,8 @@ import com.chatimmi.app.utils.KeyboardUtil;
 import com.chatimmi.app.utils.ProgressDialog;
 import com.chatimmi.app.utils.StackSet;
 
+import org.jetbrains.annotations.NotNull;
+
 
 public abstract class BaseActivity extends AppCompatActivity {
     private StackSet<Fragment> stackSet = new StackSet<>();

@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.chatimmi.databinding.SingleItemFilterGroupBinding
 import com.chatimmi.databinding.SingleItemFilterSubCategoryGroupBinding
-import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.FilterGroupAdapter
-import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.FilterGroupViewModel
+import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterResponse
 
-class FilterSubCategoryGroupAdapter (val layout: Int, filterSubCategoryGroupViewModel: FilterSubCategoryGroupViewModel) : RecyclerView.Adapter<FilterSubCategoryGroupAdapter.ViewHolder>() {
+class FilterSubCategoryGroupAdapter(val layout: Int,
+                                    private var groupListItem: ArrayList<GroupFilterResponse.Data.Category.Subcategory>,
+                                    var click: onClick) : RecyclerView.Adapter<FilterSubCategoryGroupAdapter.ViewHolder>() {
     var context: Activity? = null
     private var viewModel: FilterSubCategoryGroupViewModel? = null
     private var selectedPosition = -1
@@ -22,26 +22,44 @@ class FilterSubCategoryGroupAdapter (val layout: Int, filterSubCategoryGroupView
 
     }
 
-    override fun getItemCount() = 10
+    override fun getItemCount(): Int = groupListItem.size
+
 
     class ViewHolder(binding: SingleItemFilterSubCategoryGroupBinding) : RecyclerView.ViewHolder(binding.root) {
         var binding: SingleItemFilterSubCategoryGroupBinding = binding
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-/*        holder.binding.rvCategory.setOnClickListener() {
-            selectedPosition = holder.adapterPosition
+        val categoryListItem: GroupFilterResponse.Data.Category.Subcategory = groupListItem[position]
+        holder.binding.tvSubCategory.text = categoryListItem.name
 
+
+        holder.binding.rvCategory.setOnClickListener {
+
+            holder.binding.UKImmigrationCheckbox.isChecked = !holder.binding.UKImmigrationCheckbox.isChecked
+            categoryListItem.isselected = categoryListItem.isselected != true
             notifyDataSetChanged()
-        }*/
-/*        holder.binding.UKImmigrationCheckbox.setOnClickListener() {
-            selectedPosition = holder.adapterPosition
-            notifyDataSetChanged()
-        }*/
 
-        holder.binding.UKImmigrationCheckbox.isChecked = selectedPosition == position
+        }
 
 
+        if (categoryListItem.isselected!!) {
+            holder.binding.UKImmigrationCheckbox.isChecked  = true
+        } else {
+            holder.binding.UKImmigrationCheckbox.isChecked  = false
+        }
     }
+
+    fun addData(list: List<GroupFilterResponse.Data.Category.Subcategory>) {
+        groupListItem.addAll(list)
+    }
+
+    interface onClick {
+        fun onItemClick() {
+
+        }
+    }
+
+
 }
 

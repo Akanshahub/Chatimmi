@@ -2,8 +2,11 @@ plugins {
     id 'com.android.application'
 
 }
-apply plugin: 'kotlin-android'
 
+
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-parcelize'
 android {
     buildFeatures{
         dataBinding = true
@@ -72,7 +75,7 @@ dependencies {
     implementation 'com.kartik.stackimageview:stackimageview:0.0.2'
     implementation 'com.google.android.exoplayer:exoplayer:2.11.4'
     implementation 'com.google.android.material:material:1.2.0-alpha02'
-
+    implementation 'com.squareup.picasso:picasso:2.71828'
     //Socket chat    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 
     implementation('io.socket:socket.io-client:0.8.3') {

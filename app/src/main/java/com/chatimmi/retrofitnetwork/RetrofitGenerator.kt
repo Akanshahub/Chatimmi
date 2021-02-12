@@ -13,7 +13,7 @@ open class RetrofitGenerator {
     companion object {
 
          val API_BASE_URI = "http://70.54.131.186:3000/"
-
+       // http://70.54.131.186:3000/
 
 
         lateinit var  retrofit: Retrofit

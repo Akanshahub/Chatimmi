@@ -3,20 +3,22 @@ package com.chatimmi.views
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.util.Patterns
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.chatimmi.R
+import com.chatimmi.app.pref.Session
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.databinding.ActivitySignInBinding
 import com.chatimmi.fragmentchatimmi.ChatimmiActivity
-import com.chatimmi.model.LoginRegistrationResponse
+import com.chatimmi.model.UserDetialResponse
+import com.chatimmi.repository.CheckSocialSignUpRepository
 import com.chatimmi.repository.SignInRepository
+import com.chatimmi.repository.socialSignUpRepository
+import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.viewmodel.SignInViewModalFactory
 import com.chatimmi.viewmodel.SignInViewModel
 import com.facebook.*
@@ -29,9 +31,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import org.json.JSONObject
+import java.util.*
 
 @Suppress("DEPRECATION")
-class SignInActivity : BaseActivitykt() {
+class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, ApiCallback.SocialSignupCallback {
     lateinit var viewModel: SignInViewModel
     lateinit var mGoogleSignInClient: GoogleSignInClient
     private val REQ_CODE_GOOGLE = 9001
@@ -44,6 +47,7 @@ class SignInActivity : BaseActivitykt() {
     private var socialId = ""
     private var personPhoto = ""
     private var socialType = ""
+    lateinit var session: Session
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,37 +58,25 @@ class SignInActivity : BaseActivitykt() {
         binding?.lifecycleOwner = this
         binding!!.signInViewModel = viewModel
         binding?.invalidateAll()
-        /*    viewModel!!.getLoginResponseLiveData()?.observe(this@SignInActivity, Observer<Any?> { volumesResponse ->
-                if (volumesResponse != null) {
-                    toastMessage(getString(R.string.done), this)
-                }
-            })*/
 
         val w = window
         w.setFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        if (packageName.equals("com.chatimmi")) {
-            gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        gso = if (packageName.equals("com.chatimmi")) {
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
                     .build()
         } else {
-            gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
                     .build()
         }
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         callbackManager = CallbackManager.Factory.create()
-        /*      binding!!.btnSignup.setOnClickListener {
-                  if (validate()) {
-                      //showToast("Under Development")
 
-                      val intent = Intent(this@SignInActivity, ChatimmiActivity::class.java)
-                      //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                      // startActivity(intent)
-                      navigateTo(intent, true)
-                  }
-              }*/
+        session = Session(this)
+
         binding!!.tvCreate.setOnClickListener {
 
             val intent = Intent(this@SignInActivity, SignupActivitykt::class.java)
@@ -99,25 +91,25 @@ class SignInActivity : BaseActivitykt() {
             facebookSignIn()
         }
         binding!!.buttonTwitter.setOnClickListener {
-            /*  val intent = Intent(this@SignInActivity, ChatimmiActivity::class.java)*/
-            /*    navigateTo(intent,true)*/
-            showToast("Under Development")
+            showToast("Under development")
         }
         binding!!.tvForgotPassword.setOnClickListener {
             val intent = Intent(this@SignInActivity, ForgetPasswordActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
         }
+
         signInRepository.getLoginResponseData().observe(this, Observer {
             it?.let {
                 when (it) {
                     is UIStateManager.Success<*> -> {
 
-                        val getData = it.data as LoginRegistrationResponse
+                        val getData = it.data as UserDetialResponse
+                        session.setUserData(getData)
                         Log.d("fbasfbjasfa", "onCreate: $getData")
+                        session.setIsUserLoggedIn("isLogin")
                         val intent = Intent(this@SignInActivity, ChatimmiActivity::class.java)
                         navigateTo(intent, true)
-
                     }
                     is UIStateManager.Error -> {
                         showToast(it.msg)
@@ -135,8 +127,6 @@ class SignInActivity : BaseActivitykt() {
                 }
             }
         })
-
-
         viewModel.getValidationData().observe(this, Observer {
             it?.let {
                 val msg = it as UIStateManager.Error
@@ -145,7 +135,6 @@ class SignInActivity : BaseActivitykt() {
 
         })
     }
-
     fun gmailSignIn() {
         val signInIntent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, REQ_CODE_GOOGLE)
@@ -166,7 +155,6 @@ class SignInActivity : BaseActivitykt() {
             }
 
         } else {
-            showToast("Under Development")
             callbackManager.onActivityResult(requestCode, resultCode, data)
         }
     }
@@ -180,27 +168,29 @@ class SignInActivity : BaseActivitykt() {
                         socialName = obj!!.getString("name")
                         if (obj.has("email")) {
                             socialEmail = obj.getString("email")
-                        } else {
+                        } /*else {
                             socialEmail = ""
-                        }
+                        }*/
 
                         socialId = obj.getString("id")
+
+                        /*  if (socialEmail != null && socialEmai)
+                              socialEmail = socialEmail!!
+                          else
+                              socialEmail = socialId + "@facebook.com"*/
+                        if (socialEmail.isEmpty()) {
+                            socialEmail = socialId + "@facebook.com"
+                        }
+                        Log.d("socialssss", socialId + "@facebook.com")
                         socialType = "2"
                         val personPhoto1 = obj.getJSONObject("picture")
                         val data = personPhoto1.getJSONObject("data")
                         personPhoto = data.getString("url")
 
-                        /*CheckSocialSignUpPresenter(this@LoginActivity, this@LoginActivity)
-                                     .callCheckSocialSignUpApi(
-                                             getDeviceId(),
-                                             "2",
-                                             getDeviceTimeZone(),
-                                             socialEmail,
-                                             socialId,
-                                             socialType,
-                                             "buyer",
-                                             tokenGlobal
-                                     )*/
+                        CheckSocialSignUpRepository(this@SignInActivity, this@SignInActivity)
+                                .callCheckSocialSignUpApi(getDeviceId(), "skdskx", "2", UUID.randomUUID().toString(), socialId, socialType, "1")
+
+
                         LoginManager.getInstance().logOut()
                     }
                 })
@@ -212,9 +202,14 @@ class SignInActivity : BaseActivitykt() {
             }
 
             override fun onCancel() {
+
+                Log.e("onCancel: ", "onCancel")
             }
 
             override fun onError(error: FacebookException?) {
+
+                // App code
+                Log.e("onError: ", error.toString())
             }
         })
     }
@@ -225,54 +220,55 @@ class SignInActivity : BaseActivitykt() {
         else
             socialName = ""
 
-        if (account.email != null)
-            socialEmail = account.email!!
-        else
-            socialEmail = ""
-
         if (account.id != null)
             socialId = account.id!!
         else
             socialId = ""
 
+        if (account.email != null)
+            socialEmail = account.email!!
+        else
+            socialEmail = socialId + "@facebook.com"
+
+
+
         socialType = "1"
 
         personPhoto = account.photoUrl.toString()
-        showToast("Under Development")
-        /*  CheckSocialSignUpPresenter(this@LoginActivity, this@LoginActivity)
-                  .callCheckSocialSignUpApi(
-                          getDeviceId(), "2", getDeviceTimeZone(), socialEmail, socialId, socialType,
-                          "buyer", tokenGlobal
-                  )*/
+        //   showToast("Under Development")
+        CheckSocialSignUpRepository(this@SignInActivity, this@SignInActivity)
+                .callCheckSocialSignUpApi(getDeviceId(), "skdskx", "2", UUID.randomUUID().toString(), socialId, socialType, "1")
 
         mGoogleSignInClient.signOut()
     }
 
-    /*  private fun validate(): Boolean {
-
-
-          val email = binding!!.etEmail.text.toString()
-          val password = binding!!.etPassword.text.toString()
-
-
-          if ("" == email) {
-              Toast.makeText(this, getString(R.string.please_enter_email), Toast.LENGTH_SHORT).show();
-              return false
-          }
-          if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-              Toast.makeText(this, getString(R.string.please_enter_valid_email), Toast.LENGTH_SHORT).show();
-              return false
-          }
-          if ("" == password) {
-              Toast.makeText(this, getString(R.string.please_enter_password), Toast.LENGTH_SHORT).show();
-              return false
-          }
-          if (password.length < 6) {
-              Toast.makeText(this, getString(R.string.please_enter_password_with_minimum), Toast.LENGTH_SHORT).show();
-              return false
-          }
-
-
-          return true
-      }*/
+    override fun onSuccessCheckSocialSignup(registrationResponse: UserDetialResponse) {
+        session.setUserData(registrationResponse)
+        Log.d("cjjxjkxjc", "onSuccessCheckSocialSignup:${session.getUserData()} ")
+        if (registrationResponse.status.equals("success")) {
+            if (registrationResponse.data?.social_status.equals("2")) {
+                socialSignUpRepository(this@SignInActivity, this@SignInActivity).callSocialSignUpApi(getDeviceId(), "chxcjhx", "2", UUID.randomUUID().toString(), socialName, socialEmail, "1", socialId, socialType, "jnkjn")
+                session.setUserData(registrationResponse)
+            } else {
+                session.setIsUserLoggedIn("isLogin")
+                session.setUserData(registrationResponse)
+                val intent = Intent(this@SignInActivity, ChatimmiActivity::class.java)
+                navigateTo(intent, true)
+            }
+        }
+    }
+    override fun onSuccessSocialSignup(registrationResponse: UserDetialResponse) {
+        session.setIsUserLoggedIn("isLogin")
+        session.setUserData(registrationResponse)
+        val intent = Intent(this@SignInActivity, ChatimmiActivity::class.java)
+        navigateTo(intent, true)
+    }
+    override fun onShowBaseLoader() {
+        showLoader()
+    }
+    override fun onHideBaseLoader() {
+        hideLoader()
+    }
+    override fun onError(errorMessage: String) {
+    }
 }

@@ -184,6 +184,7 @@
                         app:srcCompat="@drawable/lock_ico" />
 
                     <TextView
+                        android:id="@+id/tvPassword"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"

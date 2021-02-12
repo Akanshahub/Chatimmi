@@ -1,8 +1,7 @@
 <resources>
     <string name="facebook_app_id">856813971775421</string>
     <string name="fb_login_protocol_scheme">fb856813971775421</string>
-
-    <string name="app_name">chatimmi</string>
+    <string name="app_name">Chatimmi</string>
     <string name="content_description_image">Image</string>
     <string name="contrary_to_popular_belief_lorem_ipsum_is_not_simply_random_text">Contrary to popular belief, Lorem Ipsum is not simply random text.</string>
     <string name="name">Full Name</string>
@@ -119,6 +118,11 @@
     <string name="todo">TODO</string>
     <string name="cateagories">Cateagories</string>
     <string name="image">Image</string>
+    <string name="nointernet_connection_mssge">Please check your internet connections</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="request_pending">Request Pending</string>
+    <string name="set_password">Set Password</string>
+    <string name="set_a_new_password">Set a New Password</string>
 
 
 </resources>

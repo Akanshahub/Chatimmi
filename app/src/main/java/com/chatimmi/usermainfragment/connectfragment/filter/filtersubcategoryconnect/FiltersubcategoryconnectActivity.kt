@@ -48,11 +48,15 @@ class FiltersubcategoryconnectActivity: BaseActivitykt(), CommonTaskPerformer {
     }
 
     override fun showMsg(msg: String) {
-        TODO("Not yet implemented")
+
     }
 
     override fun dismissDialog() {
-        TODO("Not yet implemented")
+
+    }
+
+    override fun launchAction() {
+
     }
 
 

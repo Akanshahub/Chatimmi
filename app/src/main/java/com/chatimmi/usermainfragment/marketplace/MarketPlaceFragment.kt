@@ -81,4 +81,8 @@ class MarketPlaceFragment : BaseFragment(),CommonTaskPerformer {
 
     }
 
+    override fun launchAction() {
+
+    }
+
 }

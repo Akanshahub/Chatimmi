@@ -6,10 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.model.ErrorResponse
-import com.chatimmi.model.LoginRegistrationResponse
 import com.chatimmi.model.ResetPasswordResponse
 import com.chatimmi.retrofitnetwork.API
-import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
 import com.google.gson.Gson
 import retrofit2.Call

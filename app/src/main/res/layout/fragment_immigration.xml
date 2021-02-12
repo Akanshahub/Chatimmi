@@ -43,6 +43,7 @@
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/montserrat_medium"
                     android:hint="@string/search"
+
                     android:maxLines="1"
                     android:paddingStart="@dimen/_10sdp"
                     android:singleLine="true"
@@ -76,12 +77,18 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/rl_serach"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="0dp"
+            android:layout_marginBottom="100dp"
             android:layout_marginTop="@dimen/_15sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:setAdapter="@{model.getAdapter()}" />
+
+        <include
+            android:id="@+id/noDataAvailable"
+            layout="@layout/no_data_available"
+            android:visibility="gone" />
     </RelativeLayout>
 </layout>

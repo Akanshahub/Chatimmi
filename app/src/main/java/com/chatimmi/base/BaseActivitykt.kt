@@ -102,8 +102,7 @@ open class BaseActivitykt: AppCompatActivity() {
     }
     @SuppressLint("HardwareIds")
     fun getDeviceId(): String {
-        val deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
-        return deviceId
+        return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
     }
     fun navigateTo(intent: Intent?, isFinishing: Boolean) {
         startActivity(intent)

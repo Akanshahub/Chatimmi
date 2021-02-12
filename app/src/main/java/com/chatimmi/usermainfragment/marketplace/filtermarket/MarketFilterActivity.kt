@@ -64,4 +64,8 @@ class MarketFilterActivity : BaseActivitykt(), CommonTaskPerformer {
 
     }
 
+    override fun launchAction() {
+
+    }
+
 }

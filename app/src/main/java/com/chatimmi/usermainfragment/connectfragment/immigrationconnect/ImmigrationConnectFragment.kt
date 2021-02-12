@@ -25,7 +25,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ImmigrationConnectFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ImmigrationConnectFragment: BaseFragment(),CommonTaskPerformer {
+class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer {
     private var viewModel: ImmigrationConnectViewModel? = null
 
     lateinit var binding: FragmentImmigrationconnect2Binding
@@ -34,7 +34,7 @@ class ImmigrationConnectFragment: BaseFragment(),CommonTaskPerformer {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_immigrationconnect2,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_immigrationconnect2, container, false)
         setupBindings(savedInstanceState)
         binding.filter.setOnClickListener {
             val intent = Intent(getActivity(), FilterActivity::class.java)
@@ -43,6 +43,7 @@ class ImmigrationConnectFragment: BaseFragment(),CommonTaskPerformer {
         }
         return binding.root
     }
+
     private fun setupBindings(savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(this)[ImmigrationConnectViewModel::class.java]
         if (savedInstanceState == null) {
@@ -50,7 +51,8 @@ class ImmigrationConnectFragment: BaseFragment(),CommonTaskPerformer {
         }
         binding.studyModel = viewModel
     }
-    companion object{
+
+    companion object {
         @JvmStatic
         fun newInstance(param1: String) =
                 ImmigrationConnectFragment().apply {
@@ -60,7 +62,7 @@ class ImmigrationConnectFragment: BaseFragment(),CommonTaskPerformer {
     }
 
     override fun <T> performAction(clazz: Class<T>) {
-        Intent(requireContext(),clazz).apply {
+        Intent(requireContext(), clazz).apply {
             startActivity(this)
         }
 
@@ -71,5 +73,9 @@ class ImmigrationConnectFragment: BaseFragment(),CommonTaskPerformer {
     }
 
     override fun dismissDialog() {
+    }
+
+    override fun launchAction() {
+
     }
 }

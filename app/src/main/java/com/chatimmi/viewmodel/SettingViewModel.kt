@@ -2,13 +2,15 @@ package com.chatimmi.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.chatimmi.app.utils.CommonTaskPerformer
+import com.chatimmi.repository.LogoutRepository
 import com.chatimmi.usermainfragment.otherfragment.activity.ChangePasswordActivity
 import com.chatimmi.usermainfragment.otherfragment.activity.EditProfileActivity
 
 import com.chatimmi.views.SignInActivity
+import java.util.*
 
 
-class SettingViewModel : ViewModel() {
+class SettingViewModel(val logoutRepository: LogoutRepository) : ViewModel() {
     lateinit var commonTaskPerformer: CommonTaskPerformer
     fun init(commonTaskPerformer: CommonTaskPerformer) {
         this.commonTaskPerformer = commonTaskPerformer;
@@ -22,6 +24,11 @@ class SettingViewModel : ViewModel() {
         commonTaskPerformer.performAction(ChangePasswordActivity::class.java)
     }
     fun logoutOnClicked() {
-        commonTaskPerformer.performAction(SignInActivity::class.java)
+        commonTaskPerformer.launchAction()
+       // commonTaskPerformer.performAction(SignInActivity::class.java)
+    }
+
+    fun logoutRequest(){
+        logoutRepository.callLogoutApi(UUID.randomUUID().toString(),"hdjhfhdjh", "2", TimeZone.getDefault().displayName)
     }
 }

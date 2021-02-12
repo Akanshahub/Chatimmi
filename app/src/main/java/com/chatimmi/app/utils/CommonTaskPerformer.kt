@@ -6,5 +6,7 @@ interface CommonTaskPerformer {
     fun <T> performAction(clazz: Class<T>)
     fun  showMsg(msg: String)
     fun dismissDialog()
+    fun launchAction()
+
 
 }

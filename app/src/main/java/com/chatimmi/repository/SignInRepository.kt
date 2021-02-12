@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.model.ErrorResponse
-import com.chatimmi.model.LoginRegistrationResponse
+import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
@@ -16,21 +16,21 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class SignInRepository : ApiCallback.LoginCallback {
+class SignInRepository  {
     private val loginResponseObserver by lazy {
         MutableLiveData<UIStateManager>()
     }
 
     fun getLoginResponseData() = loginResponseObserver as LiveData<UIStateManager>
-    private val fbResponseLiveData: MutableLiveData<LoginRegistrationResponse>? = null
+    private val fbResponseLiveData: MutableLiveData<UserDetialResponse>? = null
 
     fun callLoginApi(deviceId: String, deviceType: String, deviceTimeZone: String, email: String, password: String, device_token: String, user_type: String) {
         loginResponseObserver.value=UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
         val callApi = api.callLoginApi(deviceId, deviceType, deviceTimeZone, email, password, user_type, device_token)
-        callApi.enqueue(object : Callback<LoginRegistrationResponse> {
+        callApi.enqueue(object : Callback<UserDetialResponse> {
             @RequiresApi(Build.VERSION_CODES.KITKAT)
-            override fun onResponse(call: Call<LoginRegistrationResponse>, response: Response<LoginRegistrationResponse>) {
+            override fun onResponse(call: Call<UserDetialResponse>, response: Response<UserDetialResponse>) {
 
                 if (response.isSuccessful) {
                     loginResponseObserver.value=UIStateManager.Loading(false)
@@ -44,7 +44,7 @@ class SignInRepository : ApiCallback.LoginCallback {
                 }
             }
 
-            override fun onFailure(call: Call<LoginRegistrationResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserDetialResponse>, t: Throwable) {
                 loginResponseObserver.value=UIStateManager.Loading(false)
                 t.localizedMessage.let {
                     loginResponseObserver.value = UIStateManager.Error(it)
@@ -55,21 +55,7 @@ class SignInRepository : ApiCallback.LoginCallback {
         })
     }
 
-    override fun onSuccessLogin(loginResponse: LoginRegistrationResponse) {
-        TODO("Not yet implemented")
-    }
 
-    override fun onShowBaseLoader() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onHideBaseLoader() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onError(errorMessage: String) {
-        TODO("Not yet implemented")
-    }
 
 
 }

@@ -45,6 +45,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_15sdp"
@@ -158,8 +159,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/join_member"
-                            android:layout_marginEnd="0dp"
                             android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginEnd="0dp"
                             android:layout_marginBottom="@dimen/_10sdp"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:setAdapter="@{studyModel.getAdapter()}"
@@ -173,24 +174,36 @@
 
         <RelativeLayout
             android:id="@+id/btnSignup"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:elevation="0dp">
 
-            <Button
+            <TextView
+                android:id="@+id/tvRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/montserrat_semibold"
+                android:layout_marginBottom="@dimen/_50sdp"
+                android:text="@string/request_pending"
+                android:textColor="#ff6600"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="normal"
+                android:visibility="gone" />
 
+            <Button
+                android:id="@+id/joinButton"
                 style="@style/AppTheme.ButtonMain"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="@dimen/_25sdp"
-
                 android:layout_marginEnd="@dimen/_25sdp"
                 android:layout_marginBottom="@dimen/_50sdp"
                 android:shadowColor="@color/black"
-                android:text="@string/join_button" />
+                android:text="@string/join_button"/>
         </RelativeLayout>
     </RelativeLayout>
 </layout>

@@ -88,4 +88,8 @@ class MyChatGroupsFragment : BaseFragment(), CommonTaskPerformer {
     override fun dismissDialog() {
     }
 
+    override fun launchAction() {
+
+    }
+
 }

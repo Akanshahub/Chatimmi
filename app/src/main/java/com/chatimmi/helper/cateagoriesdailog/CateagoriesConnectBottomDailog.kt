@@ -89,5 +89,9 @@ class CateagoriesConnectBottomDailog : BottomSheetDialogFragment(), CommonTaskPe
     override fun dismissDialog() {
         this.dismiss()
     }
+
+    override fun launchAction() {
+
+    }
 }
 

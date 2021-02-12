@@ -1,14 +1,11 @@
 package com.chatimmi.repository
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.retrofitnetwork.API
-import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
 import com.google.gson.Gson
 import okhttp3.MultipartBody
@@ -16,9 +13,8 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Multipart
 
-class SignUpRepository : ApiCallback.SignUpCallback {
+class SignUpRepository {
     private val signUpesponseObserver by lazy {
         MutableLiveData<UIStateManager>()
     }
@@ -54,23 +50,4 @@ class SignUpRepository : ApiCallback.SignUpCallback {
             }
         })
     }
-
-    override fun onSuccessRegistration(userDetialResponse: UserDetialResponse) {
-        TODO("Not yet implemented")
-    }
-
-
-    override fun onShowBaseLoader() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onHideBaseLoader() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onError(errorMessage: String) {
-        TODO("Not yet implemented")
-    }
-
-
 }

@@ -78,4 +78,8 @@ class MyConsultantsFragment : BaseFragment(), CommonTaskPerformer {
 
     override fun dismissDialog() {
     }
+
+    override fun launchAction() {
+
+    }
 }

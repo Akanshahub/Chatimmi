@@ -7,34 +7,40 @@ data class UserDetialResponse(
 )
 
 data class Data(
-	val userDetails: UserDetails? = null
+		val user_details: UserDetails,
+
+		val social_status: String
 )
 
 data class UserDetails(
-	val lastLoginAt: String? = null,
+	val last_login_at: String? = null,
+	val updated_at: String? = null,
+	val created_at: String? = null,
 	val gender: Int? = null,
 	val bio: Any? = null,
 	val createdAt: String? = null,
 	val language: String? = null,
 	val userID: Int? = null,
-	val userType: Int? = null,
-	val alertCount: Int? = null,
+	val user_type: Int? = null,
+	val is_avatar_url: Int? = null,
+	val alert_count: Int? = null,
 	val updatedAt: String? = null,
 	val isAvatarUrl: Int? = null,
-	val signupFrom: Int? = null,
+	val signup_from: Int? = null,
 	val email: String? = null,
-	val emailVerified: Int? = null,
+	val email_verified: Int? = null,
 	val avatar: String? = null,
-	val contactNumber: Any? = null,
-	val signupType: Int? = null,
+	val contact_number: Any? = null,
+	val signup_type: Int? = null,
 	val token: String? = null,
-	val countryCode: Any? = null,
-	val fullName: String? = null,
-	val pushAlertStatus: Int? = null,
-	val emailVerificationToken: Int? = null,
+	val country_code: Any? = null,
+	val full_name: String? = null,
+	val push_alert_status: Int? = null,
+	val email_verification_token: Int? = null,
 	val dob: Any? = null,
-	val passwordToken: Int? = null,
-	val countryDial: Any? = null,
+	val password_token: Int? = null,
+	val password: String? = null,
+	val country_dial: Any? = null,
 	val status: Int? = null
 )
 
