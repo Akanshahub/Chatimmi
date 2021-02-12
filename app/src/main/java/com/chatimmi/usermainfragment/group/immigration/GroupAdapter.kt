@@ -61,7 +61,39 @@ abstract class GroupAdapter(val layout: Int, private var groupListItem: ArrayLis
             }
         }
 
-        if (groupListItem.groupScope == 2) {
+        if(groupListItem.groupScope == 2){
+            holder.binding.lock.visibility = View.VISIBLE
+            if(groupListItem.is_group_connect==2){
+                holder.binding.tvRequestPending.visibility = View.VISIBLE
+                holder.binding.ivChat.visibility = View.GONE
+                holder.binding.btJoin.visibility = View.GONE
+            }else if(groupListItem.is_group_connect==1){
+                holder.binding.tvRequestPending.visibility = View.VISIBLE
+                holder.binding.ivChat.visibility = View.GONE
+                holder.binding.btJoin.visibility = View.GONE
+            }else{
+                holder.binding.tvRequestPending.visibility = View.GONE
+                holder.binding.ivChat.visibility = View.GONE
+                holder.binding.btJoin.visibility = View.VISIBLE
+            }
+
+
+        }else{
+            holder.binding.lock.visibility = View.GONE
+            if(groupListItem.is_group_connect==1){
+                holder.binding.tvRequestPending.visibility = View.GONE
+                holder.binding.ivChat.visibility = View.VISIBLE
+                holder.binding.btJoin.visibility = View.GONE
+            }else{
+                holder.binding.tvRequestPending.visibility = View.GONE
+                holder.binding.ivChat.visibility = View.GONE
+                holder.binding.btJoin.visibility = View.VISIBLE
+            }
+
+
+        }
+
+    /*    if (groupListItem.groupScope == 2) {
             holder.binding.lock.visibility = View.VISIBLE
             for (j in groupListItem.memberList.indices) {
                 if (groupListItem.memberList[j].userID == session.getUserData()?.data?.user_details?.userID) {
@@ -105,7 +137,7 @@ abstract class GroupAdapter(val layout: Int, private var groupListItem: ArrayLis
 
                 }
             }
-        }
+        }*/
     }
 
 

@@ -7,6 +7,7 @@ import com.chatimmi.model.ResetPasswordResponse
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterResponse
 import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
+import com.chatimmi.usermainfragment.group.immigration.details.ImmigrationDetailsResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -162,4 +163,18 @@ interface API {
 
 
     ): Call<GroupFilterResponse>?
+
+
+    @GET("api/v1/group/detail?")
+    fun groupDetailApi(
+
+            @Header("Authorization") authToken: String,
+            @Header("device-id") deviceId: String,
+            @Header("device-token") deviceToken: String,
+            @Header("device-type") deviceType: String,
+            @Header("timezone") timezone: String,
+            @Field("groupID") groupId: String,
+
+
+    ): Call<ImmigrationDetailsResponse>?
 }

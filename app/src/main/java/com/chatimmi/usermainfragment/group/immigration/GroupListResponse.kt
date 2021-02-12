@@ -27,6 +27,8 @@ data class GroupListResponse(
             var groupName: String? = "",
             @SerializedName("group_scope")
             var groupScope: Int? = 0,
+            @SerializedName("is_group_connect")
+            var is_group_connect: Int? = 0,
             @SerializedName("category_id")
             var categoryId: Int? = 0,
             @SerializedName("subcategory_id")

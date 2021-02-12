@@ -53,7 +53,7 @@ abstract class StudyAdapter(val layout: Int, private var groupListItem: ArrayLis
                 showOverlapImages(groupListItem.memberList, holder)
             }
         }
-        if (groupListItem.groupScope == 2) {
+        /*if (groupListItem.groupScope == 2) {
             holder.binding.lock.visibility = View.VISIBLE
             for (j in groupListItem.memberList.indices) {
                 if (groupListItem.memberList[j].userID == session.getUserData()?.data?.user_details?.userID) {
@@ -89,9 +89,37 @@ abstract class StudyAdapter(val layout: Int, private var groupListItem: ArrayLis
                     holder.binding.btJoin.visibility=View.VISIBLE
 
                 }
+            }*/
+
+
+        if (groupListItem.groupScope == 2) {
+            holder.binding.lock.visibility = View.VISIBLE
+            if (groupListItem.is_group_connect == 2) {
+                holder.binding.tvRequestPending.visibility = View.VISIBLE
+                holder.binding.ivChat.visibility = View.GONE
+                holder.binding.btJoin.visibility = View.GONE
+            } else if (groupListItem.is_group_connect == 1) {
+                holder.binding.tvRequestPending.visibility = View.VISIBLE
+                holder.binding.ivChat.visibility = View.GONE
+                holder.binding.btJoin.visibility = View.GONE
+            } else {
+                holder.binding.tvRequestPending.visibility = View.GONE
+                holder.binding.ivChat.visibility = View.GONE
+                holder.binding.btJoin.visibility = View.VISIBLE
             }
 
 
+        } else {
+            holder.binding.lock.visibility = View.GONE
+            if (groupListItem.is_group_connect == 1) {
+                holder.binding.tvRequestPending.visibility = View.GONE
+                holder.binding.ivChat.visibility = View.VISIBLE
+                holder.binding.btJoin.visibility = View.GONE
+            } else {
+                holder.binding.tvRequestPending.visibility = View.GONE
+                holder.binding.ivChat.visibility = View.GONE
+                holder.binding.btJoin.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -141,12 +169,12 @@ abstract class StudyAdapter(val layout: Int, private var groupListItem: ArrayLis
                 holder.binding.ivShowCount.visibility = View.VISIBLE
                 holder.binding.count.visibility = View.VISIBLE
                 holder.binding.rll.visibility = View.VISIBLE
-               /* Picasso.get().load(getList?.avatar).into(holder.binding.ivOne)
-                Picasso.get().load(getList?.avatar).into(holder.binding.ivTwo)
-                Picasso.get().load(getList?.avatar).into(holder.binding.ivThree)*/
-                 /* Glide.with(context).load(getList?.avatar).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivOne)
-                  Glide.with(context).load(getList?.avatar).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivTwo)
-                  Glide.with(context).load(getList?.avatar).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivThree)*/
+                /* Picasso.get().load(getList?.avatar).into(holder.binding.ivOne)
+                 Picasso.get().load(getList?.avatar).into(holder.binding.ivTwo)
+                 Picasso.get().load(getList?.avatar).into(holder.binding.ivThree)*/
+                Glide.with(context).load(getList?.avatar).into(holder.binding.ivOne)
+                Glide.with(context).load(getList?.avatar).into(holder.binding.ivTwo)
+                Glide.with(context).load(getList?.avatar).into(holder.binding.ivThree)
                 holder.binding.tvImgCount.text = "${list.size - 3}"
             }
         }
