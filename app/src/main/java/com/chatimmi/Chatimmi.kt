@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.util.Base64
 import android.util.Log
 import com.chatimmi.socketchat.SocketConstant
+import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterResponse
 import io.socket.client.IO
 import io.socket.client.Socket
 import java.net.URISyntaxException
@@ -38,6 +39,9 @@ class Chatimmi : Application() {
 
     companion object {
         private lateinit var context: Context
+
+        var groupFilterResponse: GroupFilterResponse?=null
+
         var instance: Chatimmi? = null
 
         fun applicationContext(): Context {

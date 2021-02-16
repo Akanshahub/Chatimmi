@@ -37,6 +37,12 @@ class JoinBottomDialog(val group: GroupListResponse.Data.Group,val listner: onIt
 
         Log.d(TAG, "onCreateView: ${group}")
 
+        if(group.groupScope==1){
+            binding.item.text = getString(R.string.join_text_public)
+        }else{
+            binding.item.text = getString(R.string.join_text)
+        }
+
 
         
         joinViewRespository.getConnectGroupResponseData().observe(viewLifecycleOwner, Observer {
@@ -46,11 +52,7 @@ class JoinBottomDialog(val group: GroupListResponse.Data.Group,val listner: onIt
                         val getData = it.data as JoinGroupResponse
                         listner.clicked()
                         dismiss()
-                        /*Log.d("Results", "onCreate: $getData")
-                        val intent = Intent(context, ImmigrationDetailsActivity::class.java)
 
-                         dismiss()
-                         startActivity(intent)*/
                     }
                     is UIStateManager.Error -> {
                         baseActivity?. showToast(it.msg)
@@ -87,18 +89,6 @@ class JoinBottomDialog(val group: GroupListResponse.Data.Group,val listner: onIt
         super.onAttach(context)
        arguments?.getString("groupId",myValue)
     }
-    /*companion object {
-        private const val TAG = "RateUsDialog"
-        fun newInstance(): JoinBottomDialog {
-         val fragment = JoinBottomDialog(it)
-
-            val bundle = Bundle()
-
-            fragment.arguments = bundle
-
-            return fragment
-        }
-    }*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
@@ -119,6 +109,10 @@ class JoinBottomDialog(val group: GroupListResponse.Data.Group,val listner: onIt
     }
 
     override fun launchAction() {
+
+    }
+
+    override fun connectClick(userID: Int) {
 
     }
 }

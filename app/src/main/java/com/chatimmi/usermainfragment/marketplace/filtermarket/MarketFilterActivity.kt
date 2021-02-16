@@ -68,4 +68,8 @@ class MarketFilterActivity : BaseActivitykt(), CommonTaskPerformer {
 
     }
 
+    override fun connectClick(userID: Int) {
+
+    }
+
 }

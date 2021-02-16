@@ -85,4 +85,8 @@ class MarketPlaceFragment : BaseFragment(),CommonTaskPerformer {
 
     }
 
+    override fun connectClick(userID: Int) {
+
+    }
+
 }

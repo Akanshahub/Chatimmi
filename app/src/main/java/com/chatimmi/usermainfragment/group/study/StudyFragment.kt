@@ -2,12 +2,14 @@ package com.chatimmi.usermainfragment.group.study
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -22,11 +24,15 @@ import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.FilterGrou
 import com.chatimmi.helper.joindailong.JoinBottomDialog
 import com.chatimmi.usermainfragment.group.immigration.*
 import com.chatimmi.usermainfragment.group.immigration.details.ImmigrationDetailsActivity
+import java.util.*
+import kotlin.collections.ArrayList
 
 class StudyFragment : BaseFragment(), CommonTaskPerformer {
     private var viewModel: StudyViewModel? = null
     lateinit var immigrationGroupRepositary: ImmigrationGroupRepositary
     lateinit var session: Session
+    var position = 0
+    lateinit var group: ArrayList<GroupListResponse.Data.Group>
     var searchResult = SearchResponse()
     lateinit var binding: FragmentStudyBinding
     override fun onCreateView(
@@ -35,13 +41,13 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer {
             savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_study, container, false)
-
+        group = ArrayList()
         immigrationGroupRepositary = ImmigrationGroupRepositary(activity)
         val factory = StudyGroupViewFactory(immigrationGroupRepositary)
         viewModel = ViewModelProviders.of(this, factory)[StudyViewModel::class.java]
         binding.studyModel = viewModel
         session = Session(activity)
-        viewModel?.init(this,session)
+        viewModel?.init(this, session)
         setupBindings()
         viewModel?.getAdapterClickObserver()?.observeForever {
             it?.let {
@@ -63,12 +69,15 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer {
 
         viewModel?.getAdapterCardObserver()?.observeForever {
             it?.let {
-                it?.let {
+                it.let {
                     val intent = Intent(context, ImmigrationDetailsActivity::class.java)
                     intent.putExtra("groupName", it.groupName)
                     intent.putExtra("categoryName", it.categoryName)
                     intent.putExtra("subCategoryName", it.subCategoryName)
-                    startActivity(intent)
+                    intent.putExtra("groupId", it.groupID.toString())
+                    intent.putExtra("position", group.indexOf(it))
+                    intent.putExtra("is_group_connect", it.is_group_connect)
+                    startActivityForResult(intent, 1)
                 }
 
             }
@@ -76,9 +85,10 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer {
         binding.filter.setOnClickListener {
             val intent = Intent(getActivity(), FilterGroupActivity::class.java)
             //listener?.onClick(AlbumsData)
-            intent.putExtra("search", searchResult)
+            intent.putExtra("groupName", searchResult)
             startActivityForResult(intent, 2)
         }
+
         return binding.root
     }
 
@@ -88,13 +98,17 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer {
                 when (it) {
                     is UIStateManager.Success<*> -> {
                         val getData = it.data as GroupListResponse
-                        Log.d("bnjnknk", "setupBindings: ${getData.data?.groupList!!.size}")
+                        Log.d("bnjnknk", "setupBindings: ${getData.data!!.groupList.size}")
 
-
-                        if (getData.data!!.groupList.size ==0) {
+                        group.addAll(getData.data!!.groupList)
+                        if (getData.data!!.groupList.isEmpty()) {
+                            binding.rvMain.visibility = View.GONE
+                            binding.noDataAvailable.visibility = View.VISIBLE
                             viewModel?.clearList()
                         } else {
                             viewModel?.getAdapter()?.let {
+                                binding.rvMain.visibility = View.VISIBLE
+                                binding.noDataAvailable.visibility = View.GONE
                                 binding.rvMain.adapter = viewModel?.getAdapter()
                                 viewModel?.getAdapter()!!.addData(getData.data!!.groupList)
                                 viewModel?.getAdapter()!!.notifyDataSetChanged()
@@ -106,12 +120,29 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer {
                     is UIStateManager.Error -> {
                         showMsg(it.msg)
                     }
+                    is UIStateManager.Loading -> {
+                        if (it.shouldShowLoading) {
+                            activity.showLoader()
+                        } else {
+                            activity.hideLoader()
+                        }
+
+                    }
                     else -> {
 
                     }
                 }
             }
         })
+        binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context!!, R.color.primary_100))
+        binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
+
+        binding.itemsswipetorefresh.setOnRefreshListener {
+            group.clear()
+            immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "2", "", "", "")
+            viewModel!!.getAdapter()!!.notifyDataSetChanged()
+            binding.itemsswipetorefresh.isRefreshing = false
+        }
     }
 
     companion object {
@@ -122,29 +153,53 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer {
                     }
                 }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         try {
             super.onActivityResult(requestCode, resultCode, data)
-            if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
-                searchResult = data?.getParcelableExtra("searchResult")!!
-                var categoryId=""
-                var subCategoryId=""
-                var groupScope=""
-                categoryId=searchResult.category!!
-                subCategoryId=searchResult.subcategory!!
-                groupScope=searchResult.group_scope!!
-                binding.rvMain.adapter = viewModel?.getAdapter()
-                viewModel!!.sendData(categoryId,subCategoryId,groupScope)
-                viewModel?.getAdapter()!!.notifyDataSetChanged()
-                Log.d("TAG", "searchResult: " + searchResult)
+            if (requestCode == 2) {
+                if (resultCode == Activity.RESULT_OK) {
+                    searchResult = data?.getParcelableExtra("searchResult")!!
+                    var categoryId = ""
+                    var subCategoryId = ""
+                    var groupScope = ""
+                    groupScope = searchResult.group_scope!!
+
+                    if (searchResult.category != null) {
+                        categoryId = searchResult.category!!
+                        subCategoryId = searchResult.subcategory!!
+                        viewModel!!.sendData(categoryId, subCategoryId, groupScope)
+
+                    } else {
+                        viewModel!!.sendData("", "", groupScope)
+                    }
+                    binding.rvMain.adapter = viewModel?.getAdapter()
+                    viewModel?.getAdapter()!!.notifyDataSetChanged()
+                    Log.d("TAG", "searchResult: " + searchResult)
 
 
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    searchResult = SearchResponse()
+                    viewModel!!.fetchUsers()
+
+                }
+            }
+            if (requestCode == 1) {
+                if (Activity.RESULT_OK == resultCode) {
+                    position = data?.getIntExtra("position", -1) as Int
+                    /*  val temp = group[position]
+                      group[position] = temp*/
+                    immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "2", "", "", "")
+                    // temp.is_group_connect = 1
+                    // viewModel!!.getAdapter()!!.addData(group)
+                }
             }
         } catch (ex: Exception) {
             Toast.makeText(context, ex.toString(),
                     Toast.LENGTH_SHORT).show()
         }
     }
+
     override fun <T> performAction(clazz: Class<T>) {
         Intent(requireContext(), clazz).apply {
             startActivity(this)
@@ -160,6 +215,10 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer {
     }
 
     override fun launchAction() {
+
+    }
+
+    override fun connectClick(userID: Int) {
 
     }
 

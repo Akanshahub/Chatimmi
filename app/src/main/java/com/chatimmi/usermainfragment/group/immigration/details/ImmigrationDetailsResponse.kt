@@ -20,7 +20,7 @@ data class ImmigrationDetailsResponse(
         @SerializedName("groupData")
         var groupData: GroupData? = GroupData(),
         @SerializedName("group_member")
-        var groupMember: List<GroupMember?>? = listOf(),
+        var groupMember: List<GroupMember> = listOf(),
         @SerializedName("is_group_connect")
         var isGroupConnect: Int? = 0,
         @SerializedName("category")

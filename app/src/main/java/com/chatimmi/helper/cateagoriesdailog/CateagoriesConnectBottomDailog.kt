@@ -93,5 +93,9 @@ class CateagoriesConnectBottomDailog : BottomSheetDialogFragment(), CommonTaskPe
     override fun launchAction() {
 
     }
+
+    override fun connectClick(userID: Int) {
+
+    }
 }
 

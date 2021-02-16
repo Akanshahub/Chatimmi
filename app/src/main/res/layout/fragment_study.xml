@@ -72,6 +72,14 @@
                 android:src="@drawable/ic_filter_ico" />
 
         </RelativeLayout>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/itemsswipetorefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_serach"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="100dp"
+            android:layout_marginTop="@dimen/_10sdp">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_main"
             android:layout_width="match_parent"
@@ -80,8 +88,11 @@
             android:layout_below="@+id/rl_serach"
             android:layout_marginTop="@dimen/_15sdp"
             android:layout_marginEnd="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-
-          />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <include
+            android:id="@+id/noDataAvailable"
+            layout="@layout/no_data_available"
+            android:visibility="gone" />
     </RelativeLayout>
 </layout>

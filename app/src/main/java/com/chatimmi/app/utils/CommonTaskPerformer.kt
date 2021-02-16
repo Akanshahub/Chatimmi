@@ -7,6 +7,6 @@ interface CommonTaskPerformer {
     fun  showMsg(msg: String)
     fun dismissDialog()
     fun launchAction()
-
+fun connectClick(userID: Int)
 
 }

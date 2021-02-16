@@ -92,4 +92,8 @@ class MyChatGroupsFragment : BaseFragment(), CommonTaskPerformer {
 
     }
 
+    override fun connectClick(userID: Int) {
+
+    }
+
 }

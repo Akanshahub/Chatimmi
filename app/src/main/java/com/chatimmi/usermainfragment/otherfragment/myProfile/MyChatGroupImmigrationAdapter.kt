@@ -10,7 +10,7 @@ import com.chatimmi.usermainfragment.connectfragment.study.StudyConnectViewModel
 
 abstract class MyChatGroupImmigrationAdapter (val layout: Int, myChatGroupImmigrationViewModel: MyChatGroupImmigrationViewModel) : RecyclerView.Adapter<MyChatGroupImmigrationAdapter.ViewHolder>() {
      var context: Activity? = null
-     private var viewModel: StudyConnectViewModel? = null
+     private var viewModel: MyChatGroupImmigrationViewModel? = null
      override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
          val binding: SingleItemImmigrationlistBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), layout, parent, false)
          return MyChatGroupImmigrationAdapter.ViewHolder(binding)
@@ -20,10 +20,7 @@ abstract class MyChatGroupImmigrationAdapter (val layout: Int, myChatGroupImmigr
      override fun getItemCount()=10
 
      class ViewHolder(binding: SingleItemImmigrationlistBinding) : RecyclerView.ViewHolder(binding.getRoot()) {
-         var binding: SingleItemImmigrationlistBinding
-         init {
-             this.binding = binding
-         }
+         var binding: SingleItemImmigrationlistBinding = binding
      }
      override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 

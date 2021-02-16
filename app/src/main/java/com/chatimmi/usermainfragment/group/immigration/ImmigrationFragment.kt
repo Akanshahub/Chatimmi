@@ -1,7 +1,9 @@
 package com.chatimmi.usermainfragment.group.immigration
 
+import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -22,7 +25,10 @@ import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentImmigrationBinding
 import com.chatimmi.helper.joindailong.JoinBottomDialog
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.FilterGroupActivity
+import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterResponse
 import com.chatimmi.usermainfragment.group.immigration.details.ImmigrationDetailsActivity
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 private const val ARG_PARAM1 = "param1"
@@ -31,10 +37,10 @@ private const val ARG_PARAM1 = "param1"
 class ImmigrationFragment : BaseFragment(), CommonTaskPerformer {
     private var viewModel: GroupViewModel? = null
     lateinit var binding: FragmentImmigrationBinding
-
-    lateinit var group: List<GroupListResponse.Data.Group>
+    lateinit var group: ArrayList<GroupListResponse.Data.Group>
     lateinit var session: Session
     var searchResult = SearchResponse()
+    var position = 0
 
     lateinit var immigrationGroupRepositary: ImmigrationGroupRepositary
     override fun onCreateView(
@@ -74,16 +80,28 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer {
         viewModel?.getAdapterCardObserver()?.observeForever {
             it?.let {
                 it.let {
+
                     val intent = Intent(context, ImmigrationDetailsActivity::class.java)
                     intent.putExtra("groupName", it.groupName)
                     intent.putExtra("categoryName", it.categoryName)
                     intent.putExtra("subCategoryName", it.subCategoryName)
-                    startActivity(intent)
+                    intent.putExtra("groupId", it.groupID.toString())
+                    intent.putExtra("is_group_connect", it.is_group_connect)
+                    intent.putExtra("position", group.indexOf(it))
+                    startActivityForResult(intent, 1)
                 }
 
             }
         }
+        binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context!!, R.color.primary_100))
+        binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
 
+        binding.itemsswipetorefresh.setOnRefreshListener {
+            group.clear()
+            immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "1", "", "", "")
+            viewModel!!.getAdapter()!!.notifyDataSetChanged()
+            binding.itemsswipetorefresh.isRefreshing = false
+        }
         binding.filter.setOnClickListener {
             val intent = Intent(getActivity(), FilterGroupActivity::class.java)
             intent.putExtra("groupName", searchResult)
@@ -91,29 +109,53 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer {
         }
         return binding.root
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         try {
             super.onActivityResult(requestCode, resultCode, data)
-            if (requestCode == 2 && resultCode ==RESULT_OK) {
-                searchResult = data?.getParcelableExtra("searchResult")!!
-                var categoryId=""
-                var subCategoryId=""
-                var groupScope=""
-                categoryId=searchResult.category!!
-                subCategoryId=searchResult.subcategory!!
-                groupScope=searchResult.group_scope!!
-                binding.rvMain.adapter = viewModel?.getAdapter()
-                viewModel!!.sendData(categoryId,subCategoryId,groupScope)
-                viewModel?.getAdapter()!!.notifyDataSetChanged()
-                Log.d("TAG", "searchResult: " + searchResult)
+            if (requestCode == 2) {
+                if (resultCode == RESULT_OK) {
+                    searchResult = data?.getParcelableExtra("searchResult")!!
+                    var categoryId = ""
+                    var subCategoryId = ""
+                    var groupScope = ""
+                    groupScope = searchResult.group_scope!!
+
+                    if (searchResult.category != null) {
+                        categoryId = searchResult.category!!
+                        subCategoryId = searchResult.subcategory!!
+                        viewModel!!.sendData(categoryId, subCategoryId, groupScope)
+
+                    } else {
+                        viewModel!!.sendData("", "", groupScope)
+                    }
+                    binding.rvMain.adapter = viewModel?.getAdapter()
+                    viewModel?.getAdapter()!!.notifyDataSetChanged()
+                    Log.d("TAG", "searchResult: " + searchResult)
 
 
+                } else if (resultCode == RESULT_CANCELED) {
+                    searchResult = SearchResponse()
+                    viewModel!!.fetchUsers()
+
+                }
+            }
+            if (requestCode == 1) {
+                if (RESULT_OK == resultCode) {
+                    position = data?.getIntExtra("position", -1) as Int
+                  /*  val temp = group[position]
+                    group[position] = temp*/
+                    immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "1", "", "", "")
+                   // temp.is_group_connect = 1
+                   // viewModel!!.getAdapter()!!.addData(group)
+                }
             }
         } catch (ex: Exception) {
             Toast.makeText(context, ex.toString(),
                     Toast.LENGTH_SHORT).show()
         }
     }
+
     private fun searchFunctionality() {
         binding.etFilterField.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -145,23 +187,23 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer {
                 when (it) {
                     is UIStateManager.Success<*> -> {
                         val getData = it.data as GroupListResponse
-                        Log.d("bnjnknk", "setupBindings: ${getData.data!!.groupList!!.size}")
+                        Log.d("bnjnknk", "setupBindings: ${getData.data!!.groupList.size}")
 
+                        group.addAll(getData.data!!.groupList)
 
-                        if (getData.data!!.groupList.size ==0) {
-                            binding.rvMain.visibility=View.GONE
-                            binding.noDataAvailable.visibility=View.VISIBLE
+                        if (getData.data!!.groupList.isEmpty()) {
+                            binding.rvMain.visibility = View.GONE
+                            binding.noDataAvailable.visibility = View.VISIBLE
                             viewModel?.clearList()
                         } else {
                             viewModel?.getAdapter()?.let {
-                                binding.rvMain.visibility=View.VISIBLE
-                                binding.noDataAvailable.visibility=View.GONE
+                                binding.rvMain.visibility = View.VISIBLE
+                                binding.noDataAvailable.visibility = View.GONE
                                 binding.rvMain.adapter = viewModel?.getAdapter()
                                 viewModel?.getAdapter()!!.addData(getData.data!!.groupList)
                                 viewModel?.getAdapter()!!.notifyDataSetChanged()
                             }
                         }
-
 
 
                     }
@@ -210,6 +252,10 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer {
     }
 
     override fun launchAction() {
+
+    }
+
+    override fun connectClick(userID: Int) {
 
     }
 }

@@ -4,6 +4,7 @@ import com.chatimmi.model.LogoutResponse
 import com.chatimmi.model.ResetPasswordResponse
 
 import com.chatimmi.model.UserDetialResponse
+import com.chatimmi.usermainfragment.connectfragment.immigrationconnect.ConsultantListResponce
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterResponse
 import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
 
@@ -36,5 +37,9 @@ interface ApiCallback {
     }
     interface GroupFilterlist: BaseInterface {
         fun onSuccessLogin(deliveryListResponse: GroupFilterResponse)
+    }
+
+    interface ConnectConsultentList: BaseInterface {
+        fun onSuccessLogin(mConsultantListResponce: ConsultantListResponce)
     }
 }

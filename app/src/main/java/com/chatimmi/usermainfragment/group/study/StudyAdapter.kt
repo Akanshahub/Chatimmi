@@ -1,5 +1,6 @@
 package com.chatimmi.usermainfragment.group.study
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -129,9 +130,12 @@ abstract class StudyAdapter(val layout: Int, private var groupListItem: ArrayLis
     abstract fun onCardCallBack(groupListItem: GroupListResponse.Data.Group)
 
     fun addData(list: List<GroupListResponse.Data.Group>) {
+        groupListItem.clear()
         groupListItem.addAll(list)
-    }
+        notifyDataSetChanged()
 
+    }
+    @SuppressLint("SetTextI18n")
     private fun showOverlapImages(list: List<GroupListResponse.Data.Group.Member?>?, holder: StudyViewHolder) {
         for (i in list!!.indices) {
             Log.d("fnaslfnlas", "showOverlapImages: ${i}")
@@ -167,7 +171,7 @@ abstract class StudyAdapter(val layout: Int, private var groupListItem: ArrayLis
                 holder.binding.ivThree.visibility = View.VISIBLE
                 holder.binding.tvImgCount.visibility = View.VISIBLE
                 holder.binding.ivShowCount.visibility = View.VISIBLE
-                holder.binding.count.visibility = View.VISIBLE
+               // holder.binding.count.visibility = View.VISIBLE
                 holder.binding.rll.visibility = View.VISIBLE
                 /* Picasso.get().load(getList?.avatar).into(holder.binding.ivOne)
                  Picasso.get().load(getList?.avatar).into(holder.binding.ivTwo)
@@ -175,7 +179,7 @@ abstract class StudyAdapter(val layout: Int, private var groupListItem: ArrayLis
                 Glide.with(context).load(getList?.avatar).into(holder.binding.ivOne)
                 Glide.with(context).load(getList?.avatar).into(holder.binding.ivTwo)
                 Glide.with(context).load(getList?.avatar).into(holder.binding.ivThree)
-                holder.binding.tvImgCount.text = "${list.size - 3}"
+                holder.binding.tvImgCount.text = ""+"+${list.size - 3}"
             }
         }
     }

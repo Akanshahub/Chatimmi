@@ -11,14 +11,19 @@
     </data>
 
     <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:background="@color/white"
+
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btnSignup">
 
             <LinearLayout
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -36,12 +41,13 @@
                     app:cardElevation="0dp">
 
                     <RelativeLayout
+
                         android:id="@+id/rl"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/_13sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
+
                         android:orientation="vertical">
 
                         <TextView
@@ -66,6 +72,7 @@
                             android:textSize="@dimen/_13sdp" />
 
                         <RelativeLayout
+                            android:id="@+id/lock"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
                             android:layout_alignParentEnd="true"
@@ -74,6 +81,7 @@
                             android:background="@drawable/bg_lock">
 
                             <ImageView
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/_8sdp"
@@ -138,9 +146,7 @@
                             android:lineSpacingExtra="7sp"
                             android:text="@string/description_text"
                             android:textColor="@color/brownish_grey"
-                            android:textSize="@dimen/_15sdp"
-
-                            />
+                            android:textSize="@dimen/_15sdp" />
 
                         <TextView
                             android:id="@+id/join_member"
@@ -156,12 +162,13 @@
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_main"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_below="@+id/join_member"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:layout_marginEnd="0dp"
-                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:background="@color/white"
+                            android:nestedScrollingEnabled="false"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:setAdapter="@{studyModel.getAdapter()}"
                             tools:listitem="@layout/single_item_join_member" />
@@ -178,15 +185,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
-            android:elevation="0dp">
+            android:elevation="0dp"
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/tvRequest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:fontFamily="@font/montserrat_semibold"
                 android:layout_marginBottom="@dimen/_50sdp"
+                android:fontFamily="@font/montserrat_semibold"
                 android:text="@string/request_pending"
                 android:textColor="#ff6600"
                 android:textSize="@dimen/_16sdp"
@@ -194,7 +202,7 @@
                 android:visibility="gone" />
 
             <Button
-                android:id="@+id/joinButton"
+                android:id="@+id/joinChat"
                 style="@style/AppTheme.ButtonMain"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
@@ -203,7 +211,20 @@
                 android:layout_marginEnd="@dimen/_25sdp"
                 android:layout_marginBottom="@dimen/_50sdp"
                 android:shadowColor="@color/black"
-                android:text="@string/join_button"/>
+                android:text="Chat"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/joinButton"
+                style="@style/AppTheme.ButtonMain"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:layout_marginEnd="@dimen/_25sdp"
+                android:layout_marginBottom="@dimen/_50sdp"
+                android:shadowColor="@color/black"
+                android:text="@string/join_button" />
         </RelativeLayout>
     </RelativeLayout>
 </layout>

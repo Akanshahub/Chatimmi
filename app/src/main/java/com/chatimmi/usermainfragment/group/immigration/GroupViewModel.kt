@@ -68,7 +68,7 @@ class GroupViewModel(val immigrationGroupRepositary: ImmigrationGroupRepositary)
     }
 
     fun sendData(categoryId: String, subCategoryId: String, groupScope: String) {
-        immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "1", categoryId, subCategoryId, "")
+        immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "1", categoryId, subCategoryId, groupScope)
     }
 
     public fun fetchUsers() {

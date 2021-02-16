@@ -1,5 +1,6 @@
 package com.chatimmi.socketchat
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.widget.Toast
 import com.chatimmi.BuildConfig
@@ -14,7 +15,7 @@ class SocketConstant {
     private var context: Activity? = null
     private var mSocket: Socket? = null
 
-    constructor() {}
+constructor() {}
     constructor(mSocket: Socket, context: BaseActivitykt?) {
         this.context = context
         this.mSocket = mSocket
@@ -69,6 +70,7 @@ class SocketConstant {
 
     companion object {
          val CHAT_SERVER_URL: String = "http://localhost:4000"
+
         private var instance: SocketConstant? = null
 
         /**

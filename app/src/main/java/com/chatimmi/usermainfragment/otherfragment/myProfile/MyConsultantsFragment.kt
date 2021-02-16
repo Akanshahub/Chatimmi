@@ -82,4 +82,8 @@ class MyConsultantsFragment : BaseFragment(), CommonTaskPerformer {
     override fun launchAction() {
 
     }
+
+    override fun connectClick(userID: Int) {
+
+    }
 }

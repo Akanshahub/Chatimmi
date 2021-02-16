@@ -123,6 +123,11 @@
     <string name="request_pending">Request Pending</string>
     <string name="set_password">Set Password</string>
     <string name="set_a_new_password">Set a New Password</string>
+    <string name="join_text_public">This group is public, you need to join first this group to chat.</string>
+    <string name="consultant">Consultant</string>
+    <string name="no_data_found">No data found</string>
+    <string name="christopher_smith">Christopher Smith</string>
+    <string name="email_add">christopher2211@gmail.com</string>
 
 
 </resources>

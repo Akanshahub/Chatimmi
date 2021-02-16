@@ -51,7 +51,7 @@ class StudyViewModel(val immigrationGroupRepositary: ImmigrationGroupRepositary)
             return adapter
         }
     fun sendData(categoryId: String, subCategoryId: String, groupScope: String) {
-        immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "1", categoryId, subCategoryId,  groupScope)
+        immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "2", categoryId, subCategoryId,  groupScope)
     }
     fun getLoginResponseLiveData(): LiveData<GroupListResponse.Data.Group?>? {
         return groupListResponse

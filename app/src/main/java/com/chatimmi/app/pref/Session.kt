@@ -25,8 +25,6 @@ class Session(context: Context) {
 
     fun getIsUserLoggedIn(): String {
         return mypref.getString(IsUserLoggedIn, "yes").toString()
-
-
     }
 
     fun setUserData(loginRegistrationResponse: UserDetialResponse) {

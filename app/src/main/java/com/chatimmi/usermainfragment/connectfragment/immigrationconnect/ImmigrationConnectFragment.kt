@@ -1,19 +1,25 @@
 package com.chatimmi.usermainfragment.connectfragment.immigrationconnect
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.chatimmi.R
 import com.chatimmi.app.utils.CommonTaskPerformer
+import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentImmigrationconnect2Binding
 import com.chatimmi.usermainfragment.connectfragment.filter.filtercategoryconnect.FilterActivity
+import java.util.*
+import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,30 +32,117 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer {
+    private var userId = 0
     private var viewModel: ImmigrationConnectViewModel? = null
 
     lateinit var binding: FragmentImmigrationconnect2Binding
+    lateinit var repo: ImmigrationConnectRepositary
+
+    var list = ArrayList<ConsultantListResponce.Data.Consultant>()
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_immigrationconnect2, container, false)
+        repo = ImmigrationConnectRepositary(activity)
         setupBindings(savedInstanceState)
         binding.filter.setOnClickListener {
             val intent = Intent(getActivity(), FilterActivity::class.java)
-            intent.putExtra("dd", "ff")
             getActivity()?.startActivity(intent)
         }
         return binding.root
     }
 
     private fun setupBindings(savedInstanceState: Bundle?) {
-        viewModel = ViewModelProviders.of(this)[ImmigrationConnectViewModel::class.java]
+        val factory = ImmigrationConnectViewFactory(repo)
+        viewModel = ViewModelProviders.of(this, factory)[ImmigrationConnectViewModel::class.java]
         if (savedInstanceState == null) {
             viewModel?.init(this)
         }
         binding.studyModel = viewModel
+        intiViews()
+    }
+
+    private fun intiViews() {
+        viewModel?.callConsultantConnectListApi()
+        observe()
+    }
+
+    private fun observe() {
+        repo.getResponseData().observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when (it) {
+                    is UIStateManager.Success<*> -> {
+                        val getData = it.data as ConsultantListResponce
+                        list.addAll(getData.data.consultantList)
+                        if (getData.data.consultantList.isEmpty()) {
+                            /* binding.rvMain.visibility = View.GONE
+                             binding.noDataAvailable.visibility = View.VISIBLE
+                             viewModel?.clearList()*/
+                        } else {
+                            viewModel?.getAdapter()?.let {
+                                binding.rvMain.visibility = View.VISIBLE
+                                binding.rvMain.adapter = viewModel?.getAdapter()
+                                viewModel?.getAdapter()!!.addData(list)
+                                viewModel?.getAdapter()!!.notifyDataSetChanged()
+                            }
+                        }
+
+
+                    }
+                    is UIStateManager.Error -> {
+                        showMsg(it.msg)
+                    }
+                    is UIStateManager.Loading -> {
+                        if (it.shouldShowLoading) {
+                            activity.showLoader()
+                        } else {
+                            activity.hideLoader()
+                        }
+
+                    }
+                    else -> {
+
+                    }
+                }
+            }
+        })
+        repo.getResponseDataConnectClick().observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when (it) {
+                    is UIStateManager.Success<*> -> {
+                        val position = list.indexOf(list.filter { it.userID.equals(this.userId) }[0])
+                        list[position].isConnect = 1
+                        viewModel!!.getAdapter()!!.addData(list)
+                    }
+                    is UIStateManager.Error -> {
+                        showMsg(it.msg)
+                    }
+                    is UIStateManager.Loading -> {
+                        if (it.shouldShowLoading) {
+                            activity.showLoader()
+                        } else {
+                            activity.hideLoader()
+                        }
+
+                    }
+                    else -> {
+
+                    }
+                }
+            }
+        })
+
+        binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context!!, R.color.primary_100))
+        binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
+
+        binding.itemsswipetorefresh.setOnRefreshListener {
+            list.clear()
+            repo.callConsultantListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "2")
+            viewModel!!.getAdapter()!!.notifyDataSetChanged()
+            binding.itemsswipetorefresh.isRefreshing = false
+        }
     }
 
     companion object {
@@ -65,7 +158,6 @@ class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer {
         Intent(requireContext(), clazz).apply {
             startActivity(this)
         }
-
     }
 
     override fun showMsg(msg: String) {
@@ -73,9 +165,15 @@ class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer {
     }
 
     override fun dismissDialog() {
+
     }
 
     override fun launchAction() {
 
+    }
+
+    override fun connectClick(userID: Int) {
+        this.userId = userID
+        viewModel?.setConnectConsultantAPI(userID.toString())
     }
 }

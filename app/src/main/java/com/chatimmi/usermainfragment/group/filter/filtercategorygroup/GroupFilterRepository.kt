@@ -3,6 +3,7 @@ package com.chatimmi.usermainfragment.group.filter.filtercategorygroup
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.chatimmi.Chatimmi
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.ApiCallback
@@ -16,13 +17,14 @@ import retrofit2.Response
 
 class GroupFilterRepository(context: Context) : ApiCallback.GroupFilterlist {
     var session=com.chatimmi.app.pref.Session(context)
-
     private val groupApiObserver by lazy {
         MutableLiveData<UIStateManager>()
     }
-
     fun getResponseData() = groupApiObserver as LiveData<UIStateManager>
     fun callGroupCategoryListApi(deviceId: String, divicetoke : String,deviceType: String, deviceTimeZone: String,  ) {
+        if(Chatimmi.groupFilterResponse!=null){
+            groupApiObserver.value = UIStateManager.Success(Chatimmi.groupFilterResponse)
+        }else{
         groupApiObserver.value= UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
         val callApi = api.groupCategoryListApi(deviceId, divicetoke,deviceType,deviceTimeZone
@@ -42,6 +44,7 @@ class GroupFilterRepository(context: Context) : ApiCallback.GroupFilterlist {
                 groupApiObserver.value = UIStateManager.Error(t.localizedMessage)
             }
         })
+        }
     }
 
     override fun onSuccessLogin(deliveryListResponse: GroupFilterResponse) {

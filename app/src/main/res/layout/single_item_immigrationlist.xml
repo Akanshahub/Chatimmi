@@ -1,199 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="model"
             type="com.chatimmi.usermainfragment.otherfragment.myProfile.MyChatGroupImmigrationViewModel" />
     </data>
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:background="@drawable/bg_list"
-            android:elevation="0dp"
-            android:layout_marginBottom="@dimen/_10sdp">
 
-            <RelativeLayout
-                android:id="@+id/rl_layout"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_200sdp"
+        android:layout_marginBottom="-10dp"
+        android:background="@drawable/white_box_img">
+
+
+        <RelativeLayout
+            android:id="@+id/rl_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_margin="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                >
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/toronto"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:textColor="@color/black_four"
-                    android:textSize="@dimen/_16sdp"/>
-                <TextView
-                    android:id="@+id/rl"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/canada"
-                    android:fontFamily="@font/montserrat_semibold"
-                    android:textColor="@color/water_blue"
-                    android:textSize="@dimen/_13sdp"
-                    android:layout_below="@+id/tv_name"
-                    android:layout_marginTop="@dimen/_10sdp"/>
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/toronto"
+                android:textColor="@color/black_four"
+                android:textSize="@dimen/_16sdp" />
 
-                <RelativeLayout
-                    android:id="@+id/lock"
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:background="@drawable/bg_lock"
-                    android:layout_alignParentEnd="true"
-                    android:elevation="@dimen/_3sdp"
-                    android:layout_marginTop="@dimen/_25sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    >
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_lock_ico"
-                        android:padding="@dimen/_8sdp"
-                        />
+            <TextView
+                android:id="@+id/rl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_name"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/canada"
+                android:textColor="@color/water_blue"
+                android:textSize="@dimen/_13sdp" />
 
-                </RelativeLayout>
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layerType="software"
-                    android:layout_below="@+id/rl"
-                    android:background="@color/view"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    />
-
-                <TextView
-                    android:id="@+id/people"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/people"
-                    android:fontFamily="@font/montserrat_semibold"
-                    android:textColor="@color/browen_grey"
-                    android:textSize="@dimen/_13sdp"
-                    android:layout_below="@+id/view"
-                    android:layout_marginTop="@dimen/_10sdp"/>
-                <!--      <app.com.stackimageview.customviews.StackImageView
-                          android:id="@+id/stack"
-                          android:layout_width="wrap_content"
-                          android:layout_below="@+id/people"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="@dimen/_10sdp"
-                          android:layout_gravity="center_horizontal"
-                          app:siv_max_visible_image="3"
-                          app:siv_image_gap="-25dp"
-                          android:layout_marginTop="@dimen/_10sdp"
-                          app:siv_image_dimen="50dp"
-                          app:siv_image_border_width="2dp"
-                          app:siv_image_border_color="#FFFFFF"
-                          app:siv_image_loader_visible="false"
-                          app:siv_image_placeholder_dimen="@dimen/_25sdp"
-                          app:siv_image_loader_color="#FFFFFF"
-                          app:siv_image_placeholder_visible="false"
-                          app:siv_count_dimen="50dp"
-                          android:elevation="@dimen/_2sdp"
-                          app:siv_count_border_width="2dp"
-                          app:siv_count_border_color="#FFFFFF"
-                          app:siv_count_position="after"
-                          app:siv_count_image_instead_of_text="true"
-                          app:siv_count_image_dimen="20dp"
-                          android:layout_marginBottom="@dimen/_10sdp"
-                          />-->
-                <RelativeLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/people"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginStart="@dimen/_10sdp">
-                    <com.chatimmi.custom.CircleImageView
-                        app:srcCompat="@drawable/image2"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:civ_border_color="@color/white"
-                        app:civ_border_width="@dimen/_1sdp"/>
-                    <com.chatimmi.custom.CircleImageView
-                        android:layout_marginStart="20dp"
-                        app:srcCompat="@drawable/image1"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:civ_border_color="@color/white"
-                        app:civ_border_width="@dimen/_1sdp"/>
-                    <com.chatimmi.custom.CircleImageView
-                        android:layout_marginStart="40dp"
-                        app:srcCompat="@drawable/image3"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:civ_border_color="@color/white"
-                        app:civ_border_width="@dimen/_1sdp"/>
-                    <RelativeLayout
-                        android:layout_marginStart="60dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <com.chatimmi.custom.CircleImageView
-                            app:srcCompat="@color/warm_grey_four"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            app:civ_border_color="@color/white"
-                            app:civ_border_width="@dimen/_1sdp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="+3"
-                            android:textColor="@color/white"/>
-                    </RelativeLayout>
-
-                </RelativeLayout>
-
-                <!--
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/recyclerView"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="40dp"
-                                    android:clipToPadding="false"
-                                    android:orientation="horizontal"
-                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                    tools:listitem="@layout/single_item_image"
-                                    app:setAdapter="@{model.getAdapterimage()}"
-                                    android:layout_below="@+id/people"/>
-                -->
-
+            <RelativeLayout
+                android:id="@+id/lock"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/bg_lock"
+                android:elevation="@dimen/_3sdp">
 
                 <ImageView
-                    android:id="@+id/join"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_50sdp"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:layout_below="@+id/view"
-                    android:layout_alignParentEnd="true"
-                 android:src="@drawable/chat_ico"
+                    android:padding="@dimen/_8sdp"
+                    android:src="@drawable/ic_lock_ico" />
 
-                    android:textSize="@dimen/_13sdp"
-                    android:layout_marginBottom="@dimen/_20sdp"
-                    />
             </RelativeLayout>
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/rl"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@color/view"
+                android:layerType="software" />
+
+            <TextView
+                android:id="@+id/people"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/people"
+                android:textColor="@color/browen_grey"
+                android:textSize="@dimen/_13sdp" />
+            <!--      <app.com.stackimageview.customviews.StackImageView
+                      android:id="@+id/stack"
+                      android:layout_width="wrap_content"
+                      android:layout_below="@+id/people"
+                      android:layout_height="wrap_content"
+                      android:layout_marginStart="@dimen/_10sdp"
+                      android:layout_gravity="center_horizontal"
+                      app:siv_max_visible_image="3"
+                      app:siv_image_gap="-25dp"
+                      android:layout_marginTop="@dimen/_10sdp"
+                      app:siv_image_dimen="50dp"
+                      app:siv_image_border_width="2dp"
+                      app:siv_image_border_color="#FFFFFF"
+                      app:siv_image_loader_visible="false"
+                      app:siv_image_placeholder_dimen="@dimen/_25sdp"
+                      app:siv_image_loader_color="#FFFFFF"
+                      app:siv_image_placeholder_visible="false"
+                      app:siv_count_dimen="50dp"
+                      android:elevation="@dimen/_2sdp"
+                      app:siv_count_border_width="2dp"
+                      app:siv_count_border_color="#FFFFFF"
+                      app:siv_count_position="after"
+                      app:siv_count_image_instead_of_text="true"
+                      app:siv_count_image_dimen="20dp"
+                      android:layout_marginBottom="@dimen/_10sdp"
+                      />-->
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/people"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp">
+
+                <com.chatimmi.custom.CircleImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_width="@dimen/_1sdp"
+                    app:srcCompat="@drawable/image2" />
+
+                <com.chatimmi.custom.CircleImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="20dp"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_width="@dimen/_1sdp"
+                    app:srcCompat="@drawable/image1" />
+
+                <com.chatimmi.custom.CircleImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="40dp"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_width="@dimen/_1sdp"
+                    app:srcCompat="@drawable/image3" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp">
+
+                    <com.chatimmi.custom.CircleImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="@dimen/_1sdp"
+                        app:srcCompat="@color/warm_grey_four" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="+3"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <!--
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="40dp"
+                                android:clipToPadding="false"
+                                android:orientation="horizontal"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:listitem="@layout/single_item_image"
+                                app:setAdapter="@{model.getAdapterimage()}"
+                                android:layout_below="@+id/people"/>
+            -->
+
+
+            <ImageView
+                android:id="@+id/join"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:gravity="center"
+                android:src="@drawable/chat_ico"
+
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13sdp" />
         </RelativeLayout>
     </RelativeLayout>
+
 </layout>

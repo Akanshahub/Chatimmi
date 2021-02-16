@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
 import com.chatimmi.R
 import com.chatimmi.app.pref.Session
 import com.chatimmi.app.utils.CommonTaskPerformer
@@ -77,7 +78,9 @@ class OtherFragment : BaseFragment(), CommonTaskPerformer {
                 }
             }
         })
-
+        Glide.with(context!!).load(session.getUserData()!!.data!!.user_details.avatar).into(binding.image)
+        binding.text.text = session.getUserData()!!.data!!.user_details.full_name
+        binding.tvEmail.text = session.getUserData()!!.data!!.user_details.email
 
         return binding.root
 
@@ -99,6 +102,10 @@ class OtherFragment : BaseFragment(), CommonTaskPerformer {
 
     override fun launchAction() {
         alertDailog()
+    }
+
+    override fun connectClick(userID: Int) {
+
     }
 
     fun alertDailog() {

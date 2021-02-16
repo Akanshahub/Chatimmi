@@ -9,8 +9,7 @@
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="@dimen/_120sdp"
@@ -44,6 +43,22 @@
                     android:textSize="@dimen/_13sdp"
 
                     />
+
+                <ImageView
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:id="@+id/ivChat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/uk"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:gravity="center"
+                    android:src="@drawable/chat_ico"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13sdp"
+                    android:visibility="gone" />
                 <RelativeLayout
                     android:id="@+id/connect"
                     android:layout_width="@dimen/_90sdp"

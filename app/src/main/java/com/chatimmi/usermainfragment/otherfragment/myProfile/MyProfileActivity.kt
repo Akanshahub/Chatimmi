@@ -7,7 +7,9 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.bumptech.glide.Glide
 import com.chatimmi.R
+import com.chatimmi.app.pref.Session
 import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.databinding.ActivityMyProfile1Binding
 import com.chatimmi.usermainfragment.otherfragment.activity.EditProfileActivity
@@ -16,7 +18,7 @@ import com.chatimmi.usermainfragment.otherfragment.activity.EditProfileActivity
 @Suppress("DEPRECATION")
 class MyProfileActivity : BaseActivitykt() {
     private var binding: ActivityMyProfile1Binding? = null
-
+    lateinit var session: Session
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_my_profile1)
@@ -34,11 +36,13 @@ class MyProfileActivity : BaseActivitykt() {
         binding!!.pager.offscreenPageLimit = 2
         binding!!.tabCategory.setupWithViewPager(binding!!.pager)
 
-
+        session = Session(activity)
         binding!!.backButton.setOnClickListener {
             onBackPressed()
         }
-
+        Glide.with(activity).load(session.getUserData()!!.data!!.user_details.avatar).into(binding!!.ivImages)
+        binding!!.text.text = session.getUserData()!!.data!!.user_details.full_name
+        binding!!.tvEmail.text = session.getUserData()!!.data!!.user_details.email
         binding!!.ivEditProfile.setOnClickListener {
             val intent = Intent(this@MyProfileActivity, EditProfileActivity::class.java)
             /*  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)

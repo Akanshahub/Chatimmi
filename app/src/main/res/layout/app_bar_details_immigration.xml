@@ -6,14 +6,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/main_bg"
-        android:minHeight="90dp"
-        >
+        android:minHeight="90dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            >
+            android:layout_centerInParent="true">
 
             <ImageView
                 android:id="@+id/ivBtnBack"
@@ -25,7 +23,7 @@
                 app:srcCompat="@drawable/ic_back_arrow_ico"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_10sdp"
-                app:tint="#fff" />
+                app:tint="#fff"/>
 
             <TextView
                 android:id="@+id/tvTitle"
