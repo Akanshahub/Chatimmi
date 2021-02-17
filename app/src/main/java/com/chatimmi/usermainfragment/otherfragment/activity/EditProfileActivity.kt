@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.chatimmi.Chatimmi
 import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.app.utils.showToast
@@ -43,6 +44,8 @@ class EditProfileActivity : BaseActivitykt() {
 
         viewModel = ViewModelProviders.of(this).get(EditProfileViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_profile)
+
+        mSocket = Chatimmi().getSocket()
         binding.lifecycleOwner = this
         binding.editProfileViewModel = viewModel
 
@@ -152,7 +155,12 @@ class EditProfileActivity : BaseActivitykt() {
 
 
     private fun getMimeType(uri: Uri?): String? {
-        var mimeType: String? = null
+        var mimeType: String? = null/*  if (validate()) {
+            updateResponseObserver.value=UIStateManager.Success("updated")
+
+        }else{
+          //  updateResponseObserver.value=UIStateManager.Error("Failed")
+        }*/
         mimeType = if (uri!!.scheme == ContentResolver.SCHEME_CONTENT) {
             val cr = contentResolver
             cr.getType(uri)
@@ -163,4 +171,5 @@ class EditProfileActivity : BaseActivitykt() {
         }
         return mimeType
     }
+
 }

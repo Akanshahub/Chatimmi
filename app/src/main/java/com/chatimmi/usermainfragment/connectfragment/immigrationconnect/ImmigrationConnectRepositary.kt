@@ -4,16 +4,19 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.chatimmi.app.utils.UIStateManager
+import com.chatimmi.model.ErrorResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 
-class ImmigrationConnectRepositary(context: Context) : ApiCallback.ConnectConsultentList {
+class ImmigrationConnectRepositary(context: Context,var connectConsultentList: ApiCallback.ConnectConsultentList) {
     var session = com.chatimmi.app.pref.Session(context)
 
     private val groupApiObserver by lazy {
@@ -26,11 +29,11 @@ class ImmigrationConnectRepositary(context: Context) : ApiCallback.ConnectConsul
     fun getResponseData() = groupApiObserver as LiveData<UIStateManager>
     fun getResponseDataConnectClick() = connectObserver as LiveData<UIStateManager>
 
-    fun callConnectApi(deviceId: String, divicetoke: String, deviceType: String, deviceTimeZone: String,userId:String) {
+    fun callConnectApi(deviceId: String, divicetoke: String, deviceType: String, deviceTimeZone: String, userId: String) {
         connectObserver.value = UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
         val callApi = api.setConsultantConnect("Bearer " + session.getAuthToken(), deviceId, divicetoke, deviceType, deviceTimeZone,
-                userId )
+                userId)
         callApi?.enqueue(object : Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
@@ -48,7 +51,7 @@ class ImmigrationConnectRepositary(context: Context) : ApiCallback.ConnectConsul
         })
     }
 
-    fun callConsultantListApi(deviceId: String, divicetoke: String, deviceType: String, deviceTimeZone: String,userType: String) {
+    fun callConsultantListApi(deviceId: String, divicetoke: String, deviceType: String, deviceTimeZone: String, userType: String) {
         groupApiObserver.value = UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
         val callApi = api.getConsultantList("Bearer " + session.getAuthToken(), deviceId, divicetoke, deviceType, deviceTimeZone,
@@ -60,35 +63,22 @@ class ImmigrationConnectRepositary(context: Context) : ApiCallback.ConnectConsul
                     groupApiObserver.value = UIStateManager.Success(response.body())
                 } else {
                     groupApiObserver.value = UIStateManager.Loading(false)
-                    groupApiObserver.value = UIStateManager.Error(response.message())
+                    val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
+                    connectConsultentList.onError(gson.message.toString())
+                    // groupApiObserver.value = UIStateManager.Error(response.message())
                 }
             }
 
             override fun onFailure(call: Call<ConsultantListResponce?>, t: Throwable) {
-                groupApiObserver.value = UIStateManager.Error(t.localizedMessage)
+                groupApiObserver.value = UIStateManager.Loading(false)
+                if (t is IOException) {
+                    connectConsultentList.onError("Please check your internet connections")
+                } else {
+                    connectConsultentList.onError("Something went wrong")
+                }
+                //groupApiObserver.value = UIStateManager.Error(t.localizedMessage)
             }
         })
     }
-
-    override fun onSuccessLogin(mConsultantListResponce: ConsultantListResponce) {
-
-    }
-
-
-    override fun onShowBaseLoader() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onHideBaseLoader() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onError(errorMessage: String) {
-        TODO("Not yet implemented")
-    }
-
-
-
-
 }
 

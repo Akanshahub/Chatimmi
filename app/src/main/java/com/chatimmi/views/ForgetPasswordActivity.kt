@@ -18,20 +18,21 @@ import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.databinding.ActivityForgetPasswordBinding
 import com.chatimmi.model.ResetPasswordResponse
 import com.chatimmi.repository.ForgetPasswordRepository
+import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.viewmodel.ForgetPasswordViewModalFactory
 import com.chatimmi.viewmodel.ForgetPasswordViewModel
 import com.chatimmi.viewmodel.SignInViewModel
 
 
 @Suppress("DEPRECATION")
-class ForgetPasswordActivity : BaseActivitykt() {
+class ForgetPasswordActivity : BaseActivitykt(),ApiCallback.ResetPasswordCallback {
     lateinit var binding: ActivityForgetPasswordBinding
     lateinit var viewModal: ForgetPasswordViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_forget_password)
-        val forgetPasswordRepository = ForgetPasswordRepository()
+        val forgetPasswordRepository = ForgetPasswordRepository(this)
         val factory = ForgetPasswordViewModalFactory(forgetPasswordRepository)
         viewModal = ViewModelProviders.of(this, factory).get(ForgetPasswordViewModel::class.java)
         binding.forgetPasswordViewModel = viewModal
@@ -109,5 +110,21 @@ class ForgetPasswordActivity : BaseActivitykt() {
             return false
         }
         return true
+    }
+
+    override fun onSuccessForgotPassword(resetPasswordResponse: ResetPasswordResponse) {
+
+    }
+
+    override fun onShowBaseLoader() {
+
+    }
+
+    override fun onHideBaseLoader() {
+
+    }
+
+    override fun onError(errorMessage: String) {
+       toastMessage(errorMessage,this)
     }
 }

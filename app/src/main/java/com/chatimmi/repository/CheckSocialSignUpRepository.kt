@@ -4,10 +4,12 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.chatimmi.R
+import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
+import com.google.gson.Gson
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,9 +34,8 @@ class CheckSocialSignUpRepository( var context: Context,var checkSocialSignupCal
                 }
                 else
                 {
-                    val jObject: JSONObject = JSONObject(response.errorBody()!!.string());
-                    val message = jObject.getString("message")
-                    checkSocialSignupCallback.onError(message)
+                    val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
+                    checkSocialSignupCallback.onError(gson.message.toString())
                 }
             }
 

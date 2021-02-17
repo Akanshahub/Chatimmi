@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentStudyConnectBinding
+import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.usermainfragment.connectfragment.filter.filtercategoryconnect.FilterActivity
 import com.chatimmi.usermainfragment.connectfragment.immigrationconnect.ConsultantListResponce
 import com.chatimmi.usermainfragment.connectfragment.immigrationconnect.ImmigrationConnectRepositary
@@ -34,7 +36,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [StudyConnectFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class StudyConnectFragment : BaseFragment(), CommonTaskPerformer {
+class StudyConnectFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.ConnectConsultentList {
     private var viewModel: StudyConnectViewModel? = null
     lateinit var binding: FragmentStudyConnectBinding
     private var userId = 0
@@ -46,7 +48,7 @@ class StudyConnectFragment : BaseFragment(), CommonTaskPerformer {
             savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_study_connect, container, false)
-        repo = ImmigrationConnectRepositary(activity)
+        repo = ImmigrationConnectRepositary(activity,this)
         setupBindings(savedInstanceState)
         binding.filter.setOnClickListener {
             val intent = Intent(getActivity(), FilterActivity::class.java)
@@ -183,5 +185,21 @@ class StudyConnectFragment : BaseFragment(), CommonTaskPerformer {
     override fun connectClick(userID: Int) {
         this.userId = userID
         viewModel?.setConnectConsultantAPI(userID.toString())
+    }
+
+    override fun onSuccessLogin(mConsultantListResponce: ConsultantListResponce) {
+
+    }
+
+    override fun onShowBaseLoader() {
+
+    }
+
+    override fun onHideBaseLoader() {
+
+    }
+
+    override fun onError(errorMessage: String) {
+        Toast.makeText(activity,errorMessage,Toast.LENGTH_LONG).show()
     }
 }

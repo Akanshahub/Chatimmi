@@ -14,11 +14,12 @@ import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.databinding.ActivityImmigrationDetailsBinding
+import com.chatimmi.retrofitnetwork.ApiCallback
 
 import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
 
 
-class ImmigrationDetailsActivity : BaseActivitykt() , CommonTaskPerformer {
+class ImmigrationDetailsActivity : BaseActivitykt() , CommonTaskPerformer,ApiCallback.ImmigrationDetailsCallBack{
 
     private var binding: ActivityImmigrationDetailsBinding? = null
     private var viewModel: ImmigrationDetailsViewModel? = null
@@ -39,7 +40,7 @@ class ImmigrationDetailsActivity : BaseActivitykt() , CommonTaskPerformer {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_immigration_details)
-        immigrationDetailsRepositary = ImmigrationDetailsRepositary(this)
+        immigrationDetailsRepositary = ImmigrationDetailsRepositary(this,this)
         val factory = ImmigrationDetailsViewFactoryModel(immigrationDetailsRepositary)
         viewModel = ViewModelProviders.of(this, factory)[ImmigrationDetailsViewModel::class.java]
 
@@ -212,5 +213,20 @@ class ImmigrationDetailsActivity : BaseActivitykt() , CommonTaskPerformer {
     override fun connectClick(userID: Int) {
         this.userId = userID
         viewModel?.setConnectConsultantAPI(userID.toString())
+    }
+
+    override fun onSuccessLogin(immigrationDetailsResponse: ImmigrationDetailsResponse) {
+
+    }
+
+    override fun onShowBaseLoader() {
+
+    }
+
+    override fun onHideBaseLoader() {
+    }
+
+    override fun onError(errorMessage: String) {
+       toastMessage(errorMessage,this)
     }
 }

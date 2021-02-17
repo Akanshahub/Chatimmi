@@ -15,13 +15,6 @@ class ContactUsActivity : AppCompatActivity() {
        // setContentView(R.layout.activity_contact_us)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_contact_us)
-        binding.appBar.ivBtnBack.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-
-                onBackPressed()
-
-            }
-
-        })
+        binding.appBar.ivBtnBack.setOnClickListener { onBackPressed() }
     }
 }

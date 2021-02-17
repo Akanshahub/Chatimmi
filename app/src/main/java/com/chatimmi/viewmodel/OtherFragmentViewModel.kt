@@ -7,10 +7,10 @@ import com.chatimmi.usermainfragment.otherfragment.activity.*
 import com.chatimmi.usermainfragment.otherfragment.myProfile.MyProfileActivity
 import java.util.*
 
-class OtherFragmentViewModel(val logoutRepository: LogoutRepository) : ViewModel(){
+class OtherFragmentViewModel(val logoutRepository: LogoutRepository) : ViewModel() {
 
     lateinit var commonTaskPerformer: CommonTaskPerformer
-    fun init(commonTaskPerformer: CommonTaskPerformer){
+    fun init(commonTaskPerformer: CommonTaskPerformer) {
         this.commonTaskPerformer = commonTaskPerformer
     }
 
@@ -37,13 +37,16 @@ class OtherFragmentViewModel(val logoutRepository: LogoutRepository) : ViewModel
     fun llFAQUsOnClicked() {
         commonTaskPerformer.performAction(FqaActivity::class.java)
     }
-   fun llLogoutOnClicked() {
-       commonTaskPerformer.launchAction()
-   }
+
+    fun llLogoutOnClicked() {
+        commonTaskPerformer.launchAction()
+    }
+
     fun rlProfileOnClicked() {
         commonTaskPerformer.performAction(MyProfileActivity::class.java)
     }
- fun logoutRequest(){
-     logoutRepository.callLogoutApi(UUID.randomUUID().toString(),"hdjhfhdjh", "2", TimeZone.getDefault().displayName)
- }
+
+    fun logoutRequest() {
+        logoutRepository.callLogoutApi(UUID.randomUUID().toString(), "hdjhfhdjh", "2", TimeZone.getDefault().displayName)
+    }
 }

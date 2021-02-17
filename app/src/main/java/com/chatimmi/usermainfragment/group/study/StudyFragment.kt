@@ -22,12 +22,13 @@ import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentStudyBinding
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.FilterGroupActivity
 import com.chatimmi.helper.joindailong.JoinBottomDialog
+import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.usermainfragment.group.immigration.*
 import com.chatimmi.usermainfragment.group.immigration.details.ImmigrationDetailsActivity
 import java.util.*
 import kotlin.collections.ArrayList
 
-class StudyFragment : BaseFragment(), CommonTaskPerformer {
+class StudyFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grouplist {
     private var viewModel: StudyViewModel? = null
     lateinit var immigrationGroupRepositary: ImmigrationGroupRepositary
     lateinit var session: Session
@@ -42,7 +43,7 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_study, container, false)
         group = ArrayList()
-        immigrationGroupRepositary = ImmigrationGroupRepositary(activity)
+        immigrationGroupRepositary = ImmigrationGroupRepositary(activity,this)
         val factory = StudyGroupViewFactory(immigrationGroupRepositary)
         viewModel = ViewModelProviders.of(this, factory)[StudyViewModel::class.java]
         binding.studyModel = viewModel
@@ -134,7 +135,7 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer {
                 }
             }
         })
-        binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context!!, R.color.primary_100))
+        binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, R.color.primary_100))
         binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
 
         binding.itemsswipetorefresh.setOnRefreshListener {
@@ -220,6 +221,22 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer {
 
     override fun connectClick(userID: Int) {
 
+    }
+
+    override fun onSuccessLogin(deliveryListResponse: GroupListResponse) {
+
+    }
+
+    override fun onShowBaseLoader() {
+
+    }
+
+    override fun onHideBaseLoader() {
+    }
+
+    override fun onError(errorMessage: String) {
+        Toast.makeText(activity, errorMessage,Toast.LENGTH_LONG).show()
+       // toastMessage(errorMessage,this)
     }
 
 

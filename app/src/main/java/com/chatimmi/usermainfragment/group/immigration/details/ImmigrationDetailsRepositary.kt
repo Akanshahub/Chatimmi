@@ -9,6 +9,7 @@ import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.helper.joindailong.JoinGroupResponse
 import com.chatimmi.model.ErrorResponse
 import com.chatimmi.retrofitnetwork.API
+import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
 import com.chatimmi.usermainfragment.connectfragment.immigrationconnect.ConsultantListResponce
 import com.google.gson.Gson
@@ -16,9 +17,10 @@ import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 
-class ImmigrationDetailsRepositary(context: Context)  {
+class ImmigrationDetailsRepositary(context: Context,var immigrationDetailsCallBack: ApiCallback.ImmigrationDetailsCallBack)  {
     var session=com.chatimmi.app.pref.Session(context)
 
     private val groupApiObserver by lazy {
@@ -40,16 +42,23 @@ class ImmigrationDetailsRepositary(context: Context)  {
                     groupApiObserver.value= UIStateManager.Loading(false)
                     groupApiObserver.value = UIStateManager.Success(response.body())
                 } else {
+                    val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
                     groupApiObserver.value= UIStateManager.Loading(false)
-                    groupApiObserver.value = UIStateManager.Error(response.message())
+                    immigrationDetailsCallBack.onError(gson.message.toString())
+                    //groupApiObserver.value = UIStateManager.Error(response.message())
                 }
             }
 
             override fun onFailure(call: Call<ImmigrationDetailsResponse?>, t: Throwable) {
                 groupApiObserver.value=UIStateManager.Loading(false)
-                t.localizedMessage.let {
-                    groupApiObserver.value = UIStateManager.Error(it!!)
+                if (t is IOException) {
+                    immigrationDetailsCallBack.onError("Please check your internet connections")
+                } else {
+                    immigrationDetailsCallBack.onError("Something went wrong")
                 }
+             /*   t.localizedMessage.let {
+                    groupApiObserver.value = UIStateManager.Error(it!!)
+                }*/
 
             }
         })

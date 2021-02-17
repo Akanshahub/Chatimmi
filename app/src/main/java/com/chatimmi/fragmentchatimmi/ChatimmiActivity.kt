@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.chatimmi.Chatimmi
 import com.chatimmi.R
 import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.databinding.ActivityChatImmiBinding
@@ -21,7 +22,10 @@ class ChatimmiActivity : BaseActivitykt() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chat_immi)
-
+      /*mSocket = Chatimmi().getInstance()!!.getSocket()
+        com.chatimmi.socketchat.SocketConstant().getInstance()!!.getmSocket(mSocket!!, this)*/
+       // mSocket!!.connect()
+      //  mSocket.Chatimmi().get
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val decor = window.decorView
             decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR

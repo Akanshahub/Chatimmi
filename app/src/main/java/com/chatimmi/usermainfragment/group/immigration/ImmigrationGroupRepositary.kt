@@ -4,15 +4,18 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.chatimmi.app.utils.UIStateManager
+import com.chatimmi.model.ErrorResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 
-class ImmigrationGroupRepositary(context: Context) : ApiCallback.grouplist {
+class ImmigrationGroupRepositary(context: Context,var grouplist :ApiCallback.grouplist)   {
 var session=com.chatimmi.app.pref.Session(context)
 
     private val groupApiObserver by lazy {
@@ -32,31 +35,27 @@ var session=com.chatimmi.app.pref.Session(context)
                     groupApiObserver.value = UIStateManager.Success(response.body())
                 } else {
                     groupApiObserver.value=UIStateManager.Loading(false)
-                    groupApiObserver.value = UIStateManager.Error(response.message())
+                   // groupApiObserver.value = UIStateManager.Error(response.message())
+                    val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
+                    grouplist.onError(gson.message.toString())
                 }
             }
 
             override fun onFailure(call: Call<GroupListResponse?>, t: Throwable) {
-                groupApiObserver.value = UIStateManager.Error(t.localizedMessage)
+                groupApiObserver.value=UIStateManager.Loading(false)
+
+                if(t is IOException) {
+                    grouplist.onError("Please check your internet connections")
+                }
+                else {
+                    grouplist.onError("Something went wrong")
+                }
+               // groupApiObserver.value = UIStateManager.Error(t.localizedMessage)
             }
         })
     }
 
-    override fun onSuccessLogin(deliveryListResponse: GroupListResponse) {
-        TODO("Not yet implemented")
-    }
 
-    override fun onShowBaseLoader() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onHideBaseLoader() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onError(errorMessage: String) {
-        TODO("Not yet implemented")
-    }
 
 
 }

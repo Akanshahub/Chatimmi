@@ -36,7 +36,7 @@ class ChangePassViewModel(private val changePasswordRepository: ChangePasswordRe
     }
     fun updatePassOnClicked(){
         if(validate()){
-            changePasswordRepository.callChangePasswordApi(UUID.randomUUID().toString(),"cdcxczxc", "2", TimeZone.getDefault().displayName,currentPass,newPass,confirmPass)
+            changePasswordRepository.callChangePasswordApi(UUID.randomUUID().toString(),"cdcxczxc", "2", TimeZone.getDefault().displayName,newPass,currentPass,confirmPass)
         }
         else{
 

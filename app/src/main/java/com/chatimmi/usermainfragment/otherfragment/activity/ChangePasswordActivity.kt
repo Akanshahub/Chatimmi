@@ -21,14 +21,17 @@ import com.chatimmi.model.LogoutResponse
 import com.chatimmi.model.ResetPasswordResponse
 import com.chatimmi.repository.ChangePasswordRepository
 import com.chatimmi.repository.ForgetPasswordRepository
+import com.chatimmi.retrofitnetwork.API
+import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.viewmodel.ChangePassViewModel
 import com.chatimmi.viewmodel.ChangePassViewModelFactory
 import com.chatimmi.viewmodel.ForgetPasswordViewModalFactory
 import com.chatimmi.viewmodel.ForgetPasswordViewModel
 import com.chatimmi.views.SignInActivity
+import com.google.android.exoplayer2.metadata.id3.ApicFrame
 
 @Suppress("DEPRECATION")
-class ChangePasswordActivity : BaseActivitykt() {
+class ChangePasswordActivity : BaseActivitykt(),ApiCallback.ChangePasswordCallBack,ApiCallback.LogoutCallback,ApiCallback.SetPasswordCallBack {
 
     lateinit var binding: ActivityChangePasswordBinding
     lateinit var viewModel: ChangePassViewModel
@@ -37,7 +40,7 @@ class ChangePasswordActivity : BaseActivitykt() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_change_password)
-        val changePasswordRepository = ChangePasswordRepository(this)
+        val changePasswordRepository = ChangePasswordRepository(this,this,this,this)
         val factory = ChangePassViewModelFactory(changePasswordRepository)
         viewModel = ViewModelProviders.of(this, factory).get(ChangePassViewModel::class.java)
         binding.lifecycleOwner = this
@@ -193,10 +196,11 @@ class ChangePasswordActivity : BaseActivitykt() {
         mAlertDialog.setTitle("Alert") //set alertdialog title
         mAlertDialog.setMessage("You have changed your password, your session is expired. Please login again") //set alertdialog message
         mAlertDialog.setPositiveButton("Okay") { dialog, id ->
-            session.setIsUserLoggedIn("logout")
+
             viewModel.logoutRequest()
+            /*session.setIsUserLoggedIn("logout")
             val intent = Intent(activity, SignInActivity::class.java)
-            navigateTo(intent, true)
+            navigateTo(intent, true)*/
         }
         mAlertDialog.show()
     }
@@ -205,11 +209,37 @@ class ChangePasswordActivity : BaseActivitykt() {
         mAlertDialog.setTitle("Alert") //set alertdialog title
         mAlertDialog.setMessage("You have set your password, your session is expired. Please login again") //set alertdialog message
         mAlertDialog.setPositiveButton("Okay") { dialog, id ->
-            session.setIsUserLoggedIn("logout")
+           // session.setIsUserLoggedIn("logout")
             viewModel.logoutRequest()
-            val intent = Intent(activity, SignInActivity::class.java)
-            navigateTo(intent, true)
+           /* val intent = Intent(activity, SignInActivity::class.java)
+            navigateTo(intent, true)*/
         }
         mAlertDialog.show()
+    }
+
+    override fun onSuccessLogin(changePasswordResponse: ChangePasswordResponse) {
+
+    }
+
+    override fun onSuccessLogout(logoutResponse: LogoutResponse) {
+
+    }
+
+    override fun onTokenChangeError(message: String) {
+
+    }
+
+
+
+    override fun onShowBaseLoader() {
+
+    }
+
+    override fun onHideBaseLoader() {
+
+    }
+
+    override fun onError(errorMessage: String) {
+        toastMessage(errorMessage,this)
     }
 }

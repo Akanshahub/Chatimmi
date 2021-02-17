@@ -9,13 +9,14 @@ import androidx.lifecycle.ViewModelProviders
 import com.chatimmi.R
 import com.chatimmi.base.BaseActivity
 import com.chatimmi.databinding.ActivityFilterSubCategoryGroupBinding
+import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.FilterGroupActivity
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterRepository
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterResponse
 
 
 @Suppress("DEPRECATION")
-class FilterSubCategoryGroupActivity : BaseActivity() {
+class FilterSubCategoryGroupActivity : BaseActivity(),ApiCallback.GroupFilterlist {
     private var binding: ActivityFilterSubCategoryGroupBinding? = null
     lateinit var groupFilterRepository: GroupFilterRepository
 
@@ -41,7 +42,7 @@ class FilterSubCategoryGroupActivity : BaseActivity() {
 
     private fun setupBindings(savedInstanceState: Bundle?) {
 
-        groupFilterRepository = GroupFilterRepository(activity)
+        groupFilterRepository = GroupFilterRepository(activity,this)
         val factory = GroupSubCategoryViewModelFactory(groupFilterRepository)
         viewModel = ViewModelProviders.of(this, factory)[FilterSubCategoryGroupViewModel::class.java]
 
@@ -62,6 +63,22 @@ class FilterSubCategoryGroupActivity : BaseActivity() {
             setResult(RESULT_OK, intent)
             finish()
         }
+    }
+
+    override fun onSuccessLogin(deliveryListResponse: GroupFilterResponse) {
+
+    }
+
+    override fun onShowBaseLoader() {
+
+    }
+
+    override fun onHideBaseLoader() {
+
+    }
+
+    override fun onError(errorMessage: String) {
+        toastMessage(errorMessage,this)
     }
 
 }

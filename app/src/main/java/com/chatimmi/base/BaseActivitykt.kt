@@ -19,9 +19,9 @@ import com.chatimmi.app.pref.Constants
 import com.chatimmi.app.pref.PrefHelper
 import com.chatimmi.app.utils.KeyboardUtils
 import com.chatimmi.app.utils.ProgressDialog
-import com.chatimmi.app.utils.ProgressDialogkt
 import com.chatimmi.app.utils.StackSet
-import com.chatimmi.socketchat.SocketConstant
+
+
 import io.socket.client.Socket
 
 @Suppress("DEPRECATION")
@@ -43,9 +43,12 @@ open class BaseActivitykt: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         progressDialog = ProgressDialog(this)
 
+
+
         //TODO Socket chat
-        mSocket = Chatimmi().getSocket()
-        SocketConstant.getInstance()!!.getmSocket(mSocket!!, this)
+      /*  mSocket = Chatimmi().getSocket()
+        com.chatimmi.socketchat.SocketConstant().getmSocket(mSocket!!, this)*/
+
     }
 
     fun toastMessage(mssge: String?, context: Context?) {

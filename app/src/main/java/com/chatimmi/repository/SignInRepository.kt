@@ -14,9 +14,10 @@ import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 
-class SignInRepository  {
+class SignInRepository(var loginCallback: ApiCallback.LoginCallback) {
     private val loginResponseObserver by lazy {
         MutableLiveData<UIStateManager>()
     }
@@ -39,16 +40,23 @@ class SignInRepository  {
                 } else {
                     loginResponseObserver.value=UIStateManager.Loading(false)
                     val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
-                    loginResponseObserver.value = UIStateManager.Error(gson.message.toString())
+                    loginCallback.onError(gson.message.toString())
+                   // loginResponseObserver.value = UIStateManager.Error(gson.message.toString())
 
                 }
             }
 
             override fun onFailure(call: Call<UserDetialResponse>, t: Throwable) {
                 loginResponseObserver.value=UIStateManager.Loading(false)
-                t.localizedMessage.let {
-                    loginResponseObserver.value = UIStateManager.Error(it)
+                if(t is IOException) {
+                    loginCallback.onError("Please check your internet connections")
                 }
+                else {
+                    loginCallback.onError("Something went wrong")
+                }
+            /*    t.localizedMessage.let {
+                    loginResponseObserver.value = UIStateManager.Error(it)
+                }*/
 
 
             }

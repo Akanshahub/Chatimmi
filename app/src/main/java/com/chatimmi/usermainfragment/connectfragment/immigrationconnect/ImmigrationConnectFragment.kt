@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentImmigrationconnect2Binding
+import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.usermainfragment.connectfragment.filter.filtercategoryconnect.FilterActivity
 import java.util.*
 import kotlin.collections.ArrayList
@@ -31,7 +33,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ImmigrationConnectFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer {
+class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer, ApiCallback.ConnectConsultentList {
     private var userId = 0
     private var viewModel: ImmigrationConnectViewModel? = null
 
@@ -45,7 +47,7 @@ class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer {
             savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_immigrationconnect2, container, false)
-        repo = ImmigrationConnectRepositary(activity)
+        repo = ImmigrationConnectRepositary(activity, this)
         setupBindings(savedInstanceState)
         binding.filter.setOnClickListener {
             val intent = Intent(getActivity(), FilterActivity::class.java)
@@ -134,9 +136,8 @@ class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer {
             }
         })
 
-        binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context!!, R.color.primary_100))
+        binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, R.color.primary_100))
         binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
-
         binding.itemsswipetorefresh.setOnRefreshListener {
             list.clear()
             repo.callConsultantListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "2")
@@ -175,5 +176,21 @@ class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer {
     override fun connectClick(userID: Int) {
         this.userId = userID
         viewModel?.setConnectConsultantAPI(userID.toString())
+    }
+
+    override fun onSuccessLogin(mConsultantListResponce: ConsultantListResponce) {
+
+    }
+
+    override fun onShowBaseLoader() {
+
+    }
+
+    override fun onHideBaseLoader() {
+
+    }
+
+    override fun onError(errorMessage: String) {
+        Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show()
     }
 }

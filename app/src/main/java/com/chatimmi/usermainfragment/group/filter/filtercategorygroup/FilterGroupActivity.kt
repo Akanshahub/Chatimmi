@@ -19,6 +19,7 @@ import com.chatimmi.app.utils.CommonTaskPerformer
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.base.BaseActivity
 import com.chatimmi.databinding.ActivityFilterGroupBinding
+import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.usermainfragment.group.filter.filtersubcategorygroup.FilterSubCategoryGroupActivity
 import com.chatimmi.usermainfragment.group.immigration.SearchResponse
 import java.util.*
@@ -27,7 +28,7 @@ import kotlin.collections.ArrayList
 
 
 @Suppress("DEPRECATION")
-class FilterGroupActivity : BaseActivity(), CommonTaskPerformer {
+class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.GroupFilterlist {
     lateinit var session: Session
     private var binding: ActivityFilterGroupBinding? = null
     private var viewModel: FilterGroupViewModel? = null
@@ -51,7 +52,7 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_filter_group)
-        groupFilterRepository = GroupFilterRepository(activity)
+        groupFilterRepository = GroupFilterRepository(activity,this)
         val factory = GroupFilterViewModelFactory(groupFilterRepository)
         viewModel = ViewModelProviders.of(this, factory)[FilterGroupViewModel::class.java]
         binding!!.model = viewModel
@@ -317,5 +318,21 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer {
 
     override fun connectClick(userID: Int) {
 
+    }
+
+    override fun onSuccessLogin(deliveryListResponse: GroupFilterResponse) {
+
+    }
+
+    override fun onShowBaseLoader() {
+
+    }
+
+    override fun onHideBaseLoader() {
+
+    }
+
+    override fun onError(errorMessage: String) {
+        toastMessage(errorMessage,this)
     }
 }

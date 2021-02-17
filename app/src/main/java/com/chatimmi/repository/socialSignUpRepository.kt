@@ -6,10 +6,12 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.chatimmi.Chatimmi
 import com.chatimmi.R
+import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,15 +41,12 @@ class socialSignUpRepository(var context: Context, var socialSignupCallback: Api
 
                     }
                     else
-                    {
-                        socialSignupCallback.onError(context.getString(R.string.something_went_wrong))
-                        /*val jObject: JSONObject = JSONObject(response.errorBody()!!.string());
-                        val message = jObject.getString("message")
-                        socialSignupCallback.onError(message)*/
+                    { val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
+                        socialSignupCallback.onError(gson.message.toString())
                     }
                 }
                 catch (e: Exception) {
-                    socialSignupCallback.onError(context.getString(R.string.something_went_wrong))
+                   // socialSignupCallback.onError(context.getString(R.string.something_went_wrong))
                 }
             }
 

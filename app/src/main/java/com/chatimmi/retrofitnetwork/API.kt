@@ -168,7 +168,6 @@ interface API {
 
     @GET("api/v1/group/detail?")
     fun groupDetailApi(
-
             @Header("Authorization") authToken: String,
             @Header("device-id") deviceId: String,
             @Header("device-token") deviceToken: String,

@@ -34,7 +34,7 @@ import org.json.JSONObject
 import java.util.*
 
 @Suppress("DEPRECATION")
-class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, ApiCallback.SocialSignupCallback {
+class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, ApiCallback.SocialSignupCallback,ApiCallback.LoginCallback {
     lateinit var viewModel: SignInViewModel
     lateinit var mGoogleSignInClient: GoogleSignInClient
     private val REQ_CODE_GOOGLE = 9001
@@ -51,7 +51,7 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val signInRepository = SignInRepository()
+        val signInRepository = SignInRepository(this@SignInActivity)
         val factory = SignInViewModalFactory(signInRepository)
         viewModel = ViewModelProviders.of(this, factory).get(SignInViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in)
@@ -263,6 +263,10 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
         val intent = Intent(this@SignInActivity, ChatimmiActivity::class.java)
         navigateTo(intent, true)
     }
+
+    override fun onSuccessLogin(loginResponse: UserDetialResponse) {
+    }
+
     override fun onShowBaseLoader() {
         showLoader()
     }
@@ -270,5 +274,6 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
         hideLoader()
     }
     override fun onError(errorMessage: String) {
+        toastMessage(errorMessage,this)
     }
 }

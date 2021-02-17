@@ -1,11 +1,11 @@
 package com.chatimmi
 
+
 import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Base64
 import android.util.Log
-import com.chatimmi.socketchat.SocketConstant
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterResponse
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -15,10 +15,11 @@ import java.security.MessageDigest
 
 class Chatimmi : Application() {
     private var mSocket: Socket? = null
+    private var instance: Chatimmi? = null
     override fun onCreate() {
         super.onCreate()
         instance = this
-        context = applicationContext()
+      initApplication()
         getKeyHashFacebook()
         //printHash()
 
@@ -29,7 +30,7 @@ class Chatimmi : Application() {
             try {
                 val opts = IO.Options()
                 opts.reconnection = true
-                mSocket = IO.socket(SocketConstant.CHAT_SERVER_URL, opts)
+                mSocket = IO.socket("http://chatimmi.net/")
             } catch (e: URISyntaxException) {
                 e.printStackTrace()
             }
@@ -37,17 +38,7 @@ class Chatimmi : Application() {
         } else mSocket
     }
 
-    companion object {
-        private lateinit var context: Context
 
-        var groupFilterResponse: GroupFilterResponse?=null
-
-        var instance: Chatimmi? = null
-
-        fun applicationContext(): Context {
-            return instance!!.applicationContext
-        }
-    }
 
    /* private fun printHash() {
         //20:25:9B:A0:B6:F0:0F:D1:77:E0:56:79:B8:CD:11:90:99:A1:EA:5F
@@ -70,5 +61,15 @@ class Chatimmi : Application() {
            e.printStackTrace()
        }
    }
+    fun getInstance(): Chatimmi? {
+        return instance
+    }
+    private fun initApplication() {
+        instance = this
+    }
+    companion object {
+        var groupFilterResponse: GroupFilterResponse?=null
+
+    }
 }
 

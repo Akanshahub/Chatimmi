@@ -128,6 +128,11 @@
     <string name="no_data_found">No data found</string>
     <string name="christopher_smith">Christopher Smith</string>
     <string name="email_add">christopher2211@gmail.com</string>
+    <string name="reconnect">Reconnect</string>
+    <string name="enter_description">Enter Description</string>
+    <string name="where_can_i_get_some">Where can i get some</string>
+    <string name="tittle">Tittle</string>
+    <string name="contact_us">Contact Us</string>
 
 
 </resources>

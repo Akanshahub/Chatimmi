@@ -1,14 +1,15 @@
 package com.chatimmi.usermainfragment.otherfragment.activity
 
+import com.chatimmi.socketchat.SocketConstant
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import com.bumptech.glide.Glide
 import com.chatimmi.R
 import com.chatimmi.app.pref.Session
 import com.chatimmi.app.utils.CommonTaskPerformer
@@ -17,16 +18,14 @@ import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.databinding.ActivitySettingBinding
 import com.chatimmi.model.LogoutResponse
-import com.chatimmi.repository.ChangePasswordRepository
 import com.chatimmi.repository.LogoutRepository
-import com.chatimmi.viewmodel.ChangePassViewModel
-import com.chatimmi.viewmodel.ChangePassViewModelFactory
+import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.viewmodel.SettingLogoutViewModelFoctory
 import com.chatimmi.viewmodel.SettingViewModel
 import com.chatimmi.views.SignInActivity
 
 @Suppress("DEPRECATION")
-class SettingActivity : BaseActivitykt(), CommonTaskPerformer {
+class SettingActivity : BaseActivitykt(), CommonTaskPerformer,ApiCallback.LogoutCallback {
     lateinit var binding: ActivitySettingBinding
     lateinit var viewModal: SettingViewModel
     lateinit var session: Session
@@ -34,7 +33,7 @@ class SettingActivity : BaseActivitykt(), CommonTaskPerformer {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_setting)
-        val logoutRepository = LogoutRepository()
+        val logoutRepository = LogoutRepository(this,this)
         val factory = SettingLogoutViewModelFoctory(logoutRepository)
         viewModal = ViewModelProviders.of(this, factory).get(SettingViewModel::class.java)
         binding.settingViewModel = viewModal
@@ -57,6 +56,7 @@ class SettingActivity : BaseActivitykt(), CommonTaskPerformer {
                 when (it) {
                     is UIStateManager.Success<*> -> {
                         val getData = it.data as LogoutResponse
+                        SocketConstant()!!.closeConnection()
                         Log.d("fabbb", "onCreate: $getData")
                     }
 
@@ -107,10 +107,10 @@ class SettingActivity : BaseActivitykt(), CommonTaskPerformer {
         mAlertDialog.setTitle("Alert") //set alertdialog title
         mAlertDialog.setMessage("Are you sure you want to logout?") //set alertdialog message
         mAlertDialog.setPositiveButton("Yes") { dialog, id ->
-            session.setIsUserLoggedIn("logout")
+            //session.setIsUserLoggedIn("logout")
             viewModal.logoutRequest()
-            val intent = Intent(activity, SignInActivity::class.java)
-            navigateTo(intent, true)
+           /* val intent = Intent(activity, SignInActivity::class.java)
+            navigateTo(intent, true)*/
             Log.d("kkk", "logout: ${session.getIsUserLoggedIn()}")
 
 
@@ -119,5 +119,26 @@ class SettingActivity : BaseActivitykt(), CommonTaskPerformer {
             dialog.dismiss()
         }
         mAlertDialog.show()
+    }
+
+    override fun onSuccessLogout(logoutResponse: LogoutResponse) {
+
+    }
+
+    override fun onTokenChangeError(message: String) {
+
+    }
+
+    override fun onShowBaseLoader() {
+
+    }
+
+    override fun onHideBaseLoader() {
+
+
+         }
+
+    override fun onError(errorMessage: String) {
+        Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show()
     }
 }

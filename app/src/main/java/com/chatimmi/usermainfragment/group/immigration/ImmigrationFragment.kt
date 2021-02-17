@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.chatimmi.Chatimmi
 import com.chatimmi.R
 import com.chatimmi.app.pref.Session
 import com.chatimmi.app.utils.CommonTaskPerformer
@@ -24,9 +25,14 @@ import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentImmigrationBinding
 import com.chatimmi.helper.joindailong.JoinBottomDialog
+import com.chatimmi.retrofitnetwork.ApiCallback
+import com.chatimmi.usermainfragment.connectfragment.immigrationconnect.ConsultantListResponce
+
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.FilterGroupActivity
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterResponse
 import com.chatimmi.usermainfragment.group.immigration.details.ImmigrationDetailsActivity
+import io.socket.client.Socket
+import io.socket.emitter.Emitter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -34,14 +40,14 @@ import kotlin.collections.ArrayList
 private const val ARG_PARAM1 = "param1"
 
 
-class ImmigrationFragment : BaseFragment(), CommonTaskPerformer {
+class ImmigrationFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grouplist {
     private var viewModel: GroupViewModel? = null
     lateinit var binding: FragmentImmigrationBinding
     lateinit var group: ArrayList<GroupListResponse.Data.Group>
     lateinit var session: Session
     var searchResult = SearchResponse()
     var position = 0
-
+    var mSocket: Socket? = null
     lateinit var immigrationGroupRepositary: ImmigrationGroupRepositary
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -49,8 +55,10 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer {
             savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_immigration, container, false)
-        immigrationGroupRepositary = ImmigrationGroupRepositary(activity)
+        immigrationGroupRepositary = ImmigrationGroupRepositary(activity,this)
         group = ArrayList()
+        mSocket = Chatimmi().getSocket()
+
 
         val factory = ImmigrationGroupViewFactory(immigrationGroupRepositary)
         viewModel = ViewModelProviders.of(this, factory)[GroupViewModel::class.java]
@@ -93,7 +101,11 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer {
 
             }
         }
-        binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context!!, R.color.primary_100))
+           mSocket!!.on(Socket.EVENT_CONNECT, Emitter.Listener {
+            Toast.makeText(activity,"Socket is connected",Toast.LENGTH_SHORT).show()
+            //mSocket!!.emit("messages", "hi")
+        });
+        binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, R.color.primary_100))
         binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
 
         binding.itemsswipetorefresh.setOnRefreshListener {
@@ -258,6 +270,24 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer {
     override fun connectClick(userID: Int) {
 
     }
+
+    override fun onSuccessLogin(deliveryListResponse: GroupListResponse) {
+
+    }
+
+    override fun onShowBaseLoader() {
+
+    }
+
+    override fun onHideBaseLoader() {
+
+    }
+
+    override fun onError(errorMessage: String) {
+        Toast.makeText(activity, errorMessage,Toast.LENGTH_LONG).show()
+    }
+
+
 }
 
 

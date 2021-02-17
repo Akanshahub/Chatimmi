@@ -6,6 +6,7 @@ import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.retrofitnetwork.API
+import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
 import com.google.gson.Gson
 import okhttp3.MultipartBody
@@ -13,8 +14,9 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
-class SignUpRepository {
+class SignUpRepository(var signUpCallback: ApiCallback.SignUpCallback) {
     private val signUpesponseObserver by lazy {
         MutableLiveData<UIStateManager>()
     }
@@ -35,16 +37,23 @@ class SignUpRepository {
                 } else {
                     signUpesponseObserver.value = UIStateManager.Loading(false)
                     val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
-                    signUpesponseObserver.value = UIStateManager.Error(gson.message.toString())
+                    signUpCallback.onError(gson.message.toString())
+                    // signUpesponseObserver.value = UIStateManager.Error(gson.message.toString())
 
                 }
             }
 
             override fun onFailure(call: Call<UserDetialResponse>, t: Throwable) {
                 signUpesponseObserver.value = UIStateManager.Loading(false)
-                t.message?.let {
-                    signUpesponseObserver.value = UIStateManager.Error(it)
+
+                if (t is IOException) {
+                    signUpCallback.onError("Please check your internet connections")
+                } else {
+                    signUpCallback.onError("Something went wrong")
                 }
+//                t.message?.let {
+//                    signUpesponseObserver.value = UIStateManager.Error(it)
+//                }
 
 
             }

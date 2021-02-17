@@ -10,102 +10,187 @@
             type="com.chatimmi.viewmodel.OtherFragmentViewModel" />
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:overScrollMode="never">
 
-        <include
-            android:id="@+id/appBar"
-            layout="@layout/app_bar_contactus" />
-
-        <androidx.cardview.widget.CardView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/white"
-            android:translationY="-15.00dp"
-            app:cardCornerRadius="@dimen/_22sdp"
-            app:cardElevation="0dp">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <include
+                android:id="@+id/appBar"
+                layout="@layout/app_bar_contactus"/>
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_40sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:orientation="vertical">
+                android:translationY="-15.00dp"
+                app:cardCornerRadius="@dimen/_22sdp"
+                app:cardElevation="0dp">
 
-                <ImageView
-                    android:id="@+id/ivImages"
-                    android:layout_width="@dimen/_130sdp"
-                    android:layout_height="@dimen/_130sdp"
-                    android:layout_gravity="center"
-
-                    android:src="@drawable/contact_us_ico" />
-
-                <TextView
-                    android:id="@+id/tvContactUs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:fontFamily="@font/montserrat_semibold"
-                    android:lineSpacingExtra="0sp"
-                    android:text="Contact Us"
-                    android:textColor="@color/black_two"
-                    android:textSize="18.3sp"
-                    android:textStyle="normal" />
-
-
-                <TextView
-
-                    android:layout_width="324dp"
-                    android:layout_height="wrap_content"
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:layout_margin="@dimen/_10sdp"
-
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_40sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:fontFamily="@font/montserrat_regular"
+                    android:background="@color/white"
+                    android:orientation="vertical">
 
-                    android:lineSpacingExtra="11sp"
+                    <ImageView
+                        android:id="@+id/ivImages"
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_height="@dimen/_130sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/contact_us_ico" />
 
-                    android:textAlignment="center"
-
-                    android:textColor="@color/brownish_grey"
-                    android:textSize="12.3sp"
-                    android:textStyle="normal"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
-
-              <com.google.android.material.textfield.TextInputEditText
-                  android:id="@+id/etName"
-                  style="@style/AppTheme.EditTextStyleSmall"
-                  android:layout_width="249.3dp"
-                  android:layout_height="47dp"
-                  android:layout_margin="@dimen/_15sdp"
-                  android:background="@drawable/bg_edit_text"
-                  android:textAlignment="center"
-                  android:fontFamily="@font/montserrat_bold"
-                  android:hint="chatimmi.info@gmail.com"
-                  android:imeOptions="actionNext"
-                  android:inputType="textEmailAddress"
-                  android:cursorVisible="false"
-                  android:paddingStart="@dimen/_10sdp"
-                  android:paddingEnd="10dp"
-                  android:layout_gravity="center_horizontal"
-                  android:textColorHint="@color/black"
-                  android:textSize="@dimen/_13sdp">
-
-              </com.google.android.material.textfield.TextInputEditText>
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvContactUs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:lineSpacingExtra="0sp"
+                        android:text="@string/contact_us"
+                        android:textColor="@color/black_two"
+                        android:textSize="18.3sp"
+                        android:textStyle="normal" />
 
 
-        </androidx.cardview.widget.CardView>
+                    <TextView
 
-    </LinearLayout>
+                        android:layout_width="324dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:lineSpacingExtra="11sp"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                        android:textAlignment="center"
+                        android:textColor="@color/brownish_grey"
+                        android:textSize="12.3sp"
+                        android:textStyle="normal" />
+
+                    <!-- <com.google.android.material.textfield.TextInputEditText
+                         android:id="@+id/etName"
+                         style="@style/AppTheme.EditTextStyleSmall"
+                         android:layout_width="249.3dp"
+                         android:layout_height="47dp"
+                         android:layout_margin="@dimen/_15sdp"
+                         android:background="@drawable/bg_edit_text"
+                         android:textAlignment="center"
+                         android:fontFamily="@font/montserrat_bold"
+                         android:hint="chatimmi.info@gmail.com"
+                         android:imeOptions="actionNext"
+                         android:inputType="textEmailAddress"
+                         android:cursorVisible="false"
+                         android:paddingStart="@dimen/_10sdp"
+                         android:paddingEnd="10dp"
+                         android:layout_gravity="center_horizontal"
+                         android:textColorHint="@color/black"
+                         android:textSize="@dimen/_13sdp">
+
+                     </com.google.android.material.textfield.TextInputEditText>-->
+
+                    <LinearLayout
+                        android:id="@+id/llFileds"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginStart="@dimen/_25sdp"
+                        android:layout_marginTop="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_25sdp"
+                        android:focusableInTouchMode="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvCurrentPass"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:paddingTop="@dimen/_6sdp"
+                            android:paddingBottom="@dimen/_6sdp"
+                            android:text="@string/tittle"
+                            android:textColor="#505050"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etCurrentPass"
+                            style="@style/AppTheme.EditTextStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="43dp"
+                            android:fontFamily="@font/montserrat_semibold"
+                            android:hint="@string/where_can_i_get_some"
+                            android:imeOptions="actionNext"
+                            android:maxLines="1"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:paddingEnd="10dp"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/_13sdp">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+
+                        <TextView
+                            style="@style/AppTheme.TextViewStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:paddingTop="@dimen/_6sdp"
+                            android:paddingBottom="@dimen/_6sdp"
+                            android:text="@string/description"
+                            android:textColor="#505050" />
+
+
+                        <EditText
+                            android:id="@+id/et_message"
+                            style="@style/AppTheme.TextViewStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="140dp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="@drawable/bg_edit_text_descripcation"
+                            android:gravity="start"
+                            android:hint="@string/enter_description"
+                            android:imeOptions="actionDone"
+                            android:maxLength="250"
+                            android:maxLines="15"
+                            android:paddingStart="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingEnd="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="#C1C1C1"
+                            android:textSize="14sp" />
+
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_20sdp"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btnSubmit"
+                            style="@style/AppTheme.ButtonMain"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_50sdp"
+                            android:layout_centerInParent="true"
+                            android:text="@string/submit" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+    </ScrollView>
 </layout>

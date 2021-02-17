@@ -41,6 +41,7 @@ import com.chatimmi.helper.ImagePicker
 import com.chatimmi.helper.ImagePicker.PICK_IMAGE_REQUEST_CODE
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.repository.SignUpRepository
+import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.usermainfragment.otherfragment.activity.PrivacyPolicy
 import com.chatimmi.usermainfragment.otherfragment.activity.TermAndCond
 import com.chatimmi.viewmodel.SignUpViewModalFactory
@@ -53,7 +54,7 @@ import java.io.IOException
 import java.util.*
 
 
-class SignupActivitykt : BaseActivitykt() {
+class SignupActivitykt : BaseActivitykt(),ApiCallback.SignUpCallback {
 var signUpViewModel: SignUpViewModel? = null
     private var binding: ActivitySignupBinding? = null
     private var bitmap: Bitmap? = null
@@ -66,7 +67,7 @@ var signUpViewModel: SignUpViewModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val signUpRepository = SignUpRepository()
+        val signUpRepository = SignUpRepository(this)
         val factory = SignUpViewModalFactory(signUpRepository)
         signUpViewModel = ViewModelProviders.of(this, factory).get(SignUpViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
@@ -335,6 +336,23 @@ var signUpViewModel: SignUpViewModel? = null
             e.printStackTrace()
             file // it will return null
         }
+    }
+
+    override fun onSuccessRegistration(userDetialResponse: UserDetialResponse) {
+
+    }
+
+    override fun onShowBaseLoader() {
+
+    }
+
+    override fun onHideBaseLoader() {
+
+    }
+
+    override fun onError(errorMessage: String) {
+    toastMessage(errorMessage,this)
+
     }
 }
 
