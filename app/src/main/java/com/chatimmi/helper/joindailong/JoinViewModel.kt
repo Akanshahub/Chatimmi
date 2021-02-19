@@ -1,10 +1,8 @@
 package com.chatimmi.helper.joindailong
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chatimmi.app.utils.CommonTaskPerformer
 import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
-import java.util.*
 
 
 class JoinViewModel(val joinRespository: JoinRespository) : ViewModel() {
@@ -22,7 +20,7 @@ class JoinViewModel(val joinRespository: JoinRespository) : ViewModel() {
     }
 
     fun onSubmitClick() {
-        joinRespository.callConnectGroupApi(UUID.randomUUID().toString(), "jxchj", "2", TimeZone.getDefault().displayName,modelObserver.groupID.toString())
+        joinRespository.callConnectGroupApi(modelObserver.groupID.toString())
         //commonTaskPerformer.dismissDialog()
 
     }

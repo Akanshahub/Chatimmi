@@ -6,19 +6,18 @@ import android.os.Handler
 import android.util.Log
 import android.view.WindowManager
 import com.chatimmi.app.pref.Session
-import com.chatimmi.views.SignInActivity
-import com.chatimmi.base.BaseActivity
+import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.fragmentchatimmi.ChatimmiActivity
+import com.chatimmi.views.SignInActivity
 
 @Suppress("DEPRECATION")
-class SplashScreenActivity : BaseActivity() {
+class SplashScreenActivity : BaseActivitykt() {
 
     private val SPLASH_TIME_OUT = 2000
     private lateinit var session: Session
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_splash_screen)
         session = Session(this)
 
@@ -28,19 +27,20 @@ class SplashScreenActivity : BaseActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN)
         Handler().postDelayed({
             Log.d("kkk", "login: ${session.getIsUserLoggedIn()}")
-            if (session.getIsUserLoggedIn().equals("isLogin")) {
-
+            var sess = session.getIsUserLoggedIn()
+            if (sess.equals("isLogin")) {
                 val i = Intent(this, ChatimmiActivity::class.java)
                 startActivity(i)
                 finish()
-
-            }else{
+            } else {
                 val i = Intent(this, SignInActivity::class.java)
                 startActivity(i)
                 finish()
             }
 
         }, SPLASH_TIME_OUT.toLong())
+
+
     }
 
 

@@ -3,6 +3,7 @@ package com.chatimmi.usermainfragment.group.immigration
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.model.ErrorResponse
 import com.chatimmi.retrofitnetwork.API
@@ -15,7 +16,7 @@ import retrofit2.Response
 import java.io.IOException
 
 
-class ImmigrationGroupRepositary(context: Context,var grouplist :ApiCallback.grouplist)   {
+class ImmigrationGroupRepositary(var context: Context,var grouplist :ApiCallback.grouplist)   {
 var session=com.chatimmi.app.pref.Session(context)
 
     private val groupApiObserver by lazy {
@@ -23,11 +24,10 @@ var session=com.chatimmi.app.pref.Session(context)
     }
 
     fun getResponseData() = groupApiObserver as LiveData<UIStateManager>
-    fun callGroupListApi(deviceId: String, divicetoke : String,deviceType: String, deviceTimeZone: String,  grouptype: String,category: String,subcategory: String,groupscope: String) {
+    fun callGroupListApi(grouptype: String,category: String,subcategory: String,groupscope: String) {
         groupApiObserver.value=UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.groupListApi("Bearer "+session.getAuthToken(),deviceId, divicetoke,deviceType, deviceTimeZone,
-                grouptype,subcategory,category,groupscope)
+        val callApi = api.groupListApi(grouptype,subcategory,category,groupscope)
         callApi?.enqueue(object : Callback<GroupListResponse> {
             override fun onResponse(call: Call<GroupListResponse>, response: Response<GroupListResponse>) {
                 if (response.isSuccessful) {
@@ -45,10 +45,10 @@ var session=com.chatimmi.app.pref.Session(context)
                 groupApiObserver.value=UIStateManager.Loading(false)
 
                 if(t is IOException) {
-                    grouplist.onError("Please check your internet connections")
+                    grouplist.onError(context.getString(R.string.no_network_connection))
                 }
                 else {
-                    grouplist.onError("Something went wrong")
+                    grouplist.onError(context.getString(R.string.something_went_wrong))
                 }
                // groupApiObserver.value = UIStateManager.Error(t.localizedMessage)
             }

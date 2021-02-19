@@ -1,11 +1,9 @@
 package com.chatimmi.usermainfragment.group.filter.filtercategorygroup
 
 
-import CustomCategoryList
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -23,7 +21,6 @@ import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.usermainfragment.group.filter.filtersubcategorygroup.FilterSubCategoryGroupActivity
 import com.chatimmi.usermainfragment.group.immigration.SearchResponse
 import java.util.*
-import java.util.Arrays.asList
 import kotlin.collections.ArrayList
 
 
@@ -80,14 +77,7 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
         }
 
 
-        if (!searchResponse.category.isNullOrEmpty() && !searchResponse.subcategory.isNullOrEmpty()) {
 
-            mCategory = listOf(*searchResponse.category!!.trim().split(",").toTypedArray())
-
-            mSubCategory = listOf(*searchResponse.subcategory!!.trim().split(",").toTypedArray())
-
-            Log.d("TAG", "onCreate: $mCategory $mSubCategory")
-        }
 
 
 
@@ -112,6 +102,16 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
                         }
                         groupFilterResponse = getData
 
+                        if (!searchResponse.category.isNullOrEmpty() && !searchResponse.subcategory.isNullOrEmpty()) {
+
+                            mCategory = listOf(*searchResponse.category!!.trim().split(",").toTypedArray())
+
+                            mSubCategory = listOf(*searchResponse.subcategory!!.trim().split(",").toTypedArray())
+
+                            Log.d("TAG", "onCreate: $mCategory $mSubCategory")
+                        }else{
+                            binding!!.clearAll.performClick()
+                        }
 
                         if (mCategory != null) {
 
@@ -136,6 +136,9 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
                                 }
                                 getData.data!!.category[i].count = count
                             }
+
+
+
 
                         }
 
@@ -219,10 +222,8 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
                 searchResponse.category = categoryId.substring(0, categoryId.length - 1)
                 searchResponse.subcategory = subCategoryId.substring(0, subCategoryId.length - 1)
             }
-
-
-
             intent.putExtra("searchResult", searchResponse)
+
             Log.d("TAG", "onCreate: $searchResponse")
             setResult(RESULT_OK, intent)
             finish()
@@ -272,7 +273,9 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
             if (requestCode == 1 && resultCode == RESULT_OK) {
                 list = data?.getParcelableArrayListExtra("list")!!
                 position = data.getParcelableExtra("position")!!
-                val filter = list.filter { it.isselected!! }.count()
+                val filter = list.filter {
+                    it.isselected!!
+                }.count()
                 var finalPosition = -1
                 for (i in 0 until group.size) {
                     if (group[i].categoryID!! == position.categoryID) {

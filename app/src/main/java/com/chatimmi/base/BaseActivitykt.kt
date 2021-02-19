@@ -1,5 +1,6 @@
 package com.chatimmi.base
 
+
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -20,15 +21,15 @@ import com.chatimmi.app.pref.PrefHelper
 import com.chatimmi.app.utils.KeyboardUtils
 import com.chatimmi.app.utils.ProgressDialog
 import com.chatimmi.app.utils.StackSet
-
-
+import com.chatimmi.socketchat.SocketCont
 import io.socket.client.Socket
 
 @Suppress("DEPRECATION")
-open class BaseActivitykt: AppCompatActivity() {
+open class BaseActivitykt : AppCompatActivity() {
     val backStack = StackSet<Fragment>()
     private val prefHelper: PrefHelper? = null
     var mSocket: Socket? = null
+
 
     private var progressDialog: ProgressDialog? = null
     val activity: Activity
@@ -44,11 +45,9 @@ open class BaseActivitykt: AppCompatActivity() {
         progressDialog = ProgressDialog(this)
 
 
-
         //TODO Socket chat
-      /*  mSocket = Chatimmi().getSocket()
-        com.chatimmi.socketchat.SocketConstant().getmSocket(mSocket!!, this)*/
-
+        mSocket = Chatimmi().getSocket()
+         SocketCont().getmSocket(mSocket!!,this)
     }
 
     fun toastMessage(mssge: String?, context: Context?) {
@@ -103,10 +102,12 @@ open class BaseActivitykt: AppCompatActivity() {
         startActivity(intent)
         if (isFinishing) finish()
     }
+
     @SuppressLint("HardwareIds")
     fun getDeviceId(): String {
         return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
     }
+
     fun navigateTo(intent: Intent?, isFinishing: Boolean) {
         startActivity(intent)
         if (isFinishing) finish()

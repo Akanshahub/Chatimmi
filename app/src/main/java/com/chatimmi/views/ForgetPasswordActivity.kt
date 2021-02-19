@@ -21,7 +21,6 @@ import com.chatimmi.repository.ForgetPasswordRepository
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.viewmodel.ForgetPasswordViewModalFactory
 import com.chatimmi.viewmodel.ForgetPasswordViewModel
-import com.chatimmi.viewmodel.SignInViewModel
 
 
 @Suppress("DEPRECATION")
@@ -32,7 +31,7 @@ class ForgetPasswordActivity : BaseActivitykt(),ApiCallback.ResetPasswordCallbac
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_forget_password)
-        val forgetPasswordRepository = ForgetPasswordRepository(this)
+        val forgetPasswordRepository = ForgetPasswordRepository(this,this)
         val factory = ForgetPasswordViewModalFactory(forgetPasswordRepository)
         viewModal = ViewModelProviders.of(this, factory).get(ForgetPasswordViewModel::class.java)
         binding.forgetPasswordViewModel = viewModal
@@ -62,8 +61,7 @@ class ForgetPasswordActivity : BaseActivitykt(),ApiCallback.ResetPasswordCallbac
 
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
-                                           after: Int) {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,  after: Int) {
             }
 
             override fun afterTextChanged(s: Editable) {}

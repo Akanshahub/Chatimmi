@@ -5,7 +5,6 @@ import com.chatimmi.app.utils.CommonTaskPerformer
 import com.chatimmi.repository.LogoutRepository
 import com.chatimmi.usermainfragment.otherfragment.activity.*
 import com.chatimmi.usermainfragment.otherfragment.myProfile.MyProfileActivity
-import java.util.*
 
 class OtherFragmentViewModel(val logoutRepository: LogoutRepository) : ViewModel() {
 
@@ -47,6 +46,6 @@ class OtherFragmentViewModel(val logoutRepository: LogoutRepository) : ViewModel
     }
 
     fun logoutRequest() {
-        logoutRepository.callLogoutApi(UUID.randomUUID().toString(), "hdjhfhdjh", "2", TimeZone.getDefault().displayName)
+        logoutRepository.callLogoutApi()
     }
 }

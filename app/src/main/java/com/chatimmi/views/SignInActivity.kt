@@ -7,6 +7,7 @@ import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.chatimmi.Chatimmi
 import com.chatimmi.R
 import com.chatimmi.app.pref.Session
 import com.chatimmi.app.utils.UIStateManager
@@ -19,6 +20,7 @@ import com.chatimmi.repository.CheckSocialSignUpRepository
 import com.chatimmi.repository.SignInRepository
 import com.chatimmi.repository.socialSignUpRepository
 import com.chatimmi.retrofitnetwork.ApiCallback
+import com.chatimmi.socketchat.SocketCont
 import com.chatimmi.viewmodel.SignInViewModalFactory
 import com.chatimmi.viewmodel.SignInViewModel
 import com.facebook.*
@@ -51,13 +53,16 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val signInRepository = SignInRepository(this@SignInActivity)
+        val signInRepository = SignInRepository(this@SignInActivity,this@SignInActivity)
         val factory = SignInViewModalFactory(signInRepository)
         viewModel = ViewModelProviders.of(this, factory).get(SignInViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in)
         binding?.lifecycleOwner = this
         binding!!.signInViewModel = viewModel
         binding?.invalidateAll()
+
+         mSocket = Chatimmi().getSocket()
+         SocketCont().getmSocket(mSocket!!,this)
 
         val w = window
         w.setFlags(
@@ -106,6 +111,7 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
 
                         val getData = it.data as UserDetialResponse
                         session.setUserData(getData)
+                        Chatimmi.authorization = session.getAuthToken()
                         Log.d("fbasfbjasfa", "onCreate: $getData")
                         session.setIsUserLoggedIn("isLogin")
                         val intent = Intent(this@SignInActivity, ChatimmiActivity::class.java)
@@ -188,7 +194,7 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
                         personPhoto = data.getString("url")
 
                         CheckSocialSignUpRepository(this@SignInActivity, this@SignInActivity)
-                                .callCheckSocialSignUpApi(getDeviceId(), "skdskx", "2", UUID.randomUUID().toString(), socialId, socialType, "1")
+                                .callCheckSocialSignUpApi(socialId, socialType, "1")
 
 
                         LoginManager.getInstance().logOut()
@@ -237,17 +243,18 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
         personPhoto = account.photoUrl.toString()
         //   showToast("Under Development")
         CheckSocialSignUpRepository(this@SignInActivity, this@SignInActivity)
-                .callCheckSocialSignUpApi(getDeviceId(), "skdskx", "2", UUID.randomUUID().toString(), socialId, socialType, "1")
+                .callCheckSocialSignUpApi(socialId, socialType, "1")
 
         mGoogleSignInClient.signOut()
     }
 
     override fun onSuccessCheckSocialSignup(registrationResponse: UserDetialResponse) {
         session.setUserData(registrationResponse)
+        Chatimmi.authorization = session.getAuthToken()
         Log.d("cjjxjkxjc", "onSuccessCheckSocialSignup:${session.getUserData()} ")
         if (registrationResponse.status.equals("success")) {
             if (registrationResponse.data?.social_status.equals("2")) {
-                socialSignUpRepository(this@SignInActivity, this@SignInActivity).callSocialSignUpApi(getDeviceId(), "chxcjhx", "2", UUID.randomUUID().toString(), socialName, socialEmail, "1", socialId, socialType, "jnkjn")
+                socialSignUpRepository(this@SignInActivity, this@SignInActivity).callSocialSignUpApi(socialName, socialEmail, "1", socialId, socialType, "jnkjn")
                 session.setUserData(registrationResponse)
             } else {
                 session.setIsUserLoggedIn("isLogin")
@@ -260,6 +267,7 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
     override fun onSuccessSocialSignup(registrationResponse: UserDetialResponse) {
         session.setIsUserLoggedIn("isLogin")
         session.setUserData(registrationResponse)
+        Chatimmi.authorization = session.getAuthToken()
         val intent = Intent(this@SignInActivity, ChatimmiActivity::class.java)
         navigateTo(intent, true)
     }

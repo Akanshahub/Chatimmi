@@ -2,7 +2,6 @@ package com.chatimmi.views
 
 
 import android.Manifest
-import android.app.Activity
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -30,6 +29,7 @@ import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.chatimmi.Chatimmi
 import com.chatimmi.R
 import com.chatimmi.app.pref.Session
 import com.chatimmi.app.utils.UIStateManager
@@ -67,7 +67,7 @@ var signUpViewModel: SignUpViewModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val signUpRepository = SignUpRepository(this)
+        val signUpRepository = SignUpRepository(this,this)
         val factory = SignUpViewModalFactory(signUpRepository)
         signUpViewModel = ViewModelProviders.of(this, factory).get(SignUpViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
@@ -98,6 +98,7 @@ var signUpViewModel: SignUpViewModel? = null
 
                         val getData = it.data as UserDetialResponse
                         session.setUserData(getData)
+                        Chatimmi.authorization = session.getAuthToken()
                         Log.d("fbasfbjasfa", "onCreate: $getData")
                       /*  showToast(getData.message.toString())*/
                         // showToast("Under Development")

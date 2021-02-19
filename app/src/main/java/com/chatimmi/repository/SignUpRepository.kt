@@ -2,7 +2,9 @@ package com.chatimmi.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
+import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.retrofitnetwork.API
@@ -16,7 +18,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class SignUpRepository(var signUpCallback: ApiCallback.SignUpCallback) {
+class SignUpRepository(var context: BaseActivitykt, var signUpCallback: ApiCallback.SignUpCallback) {
+    var session=com.chatimmi.app.pref.Session(context)
     private val signUpesponseObserver by lazy {
         MutableLiveData<UIStateManager>()
     }
@@ -24,10 +27,10 @@ class SignUpRepository(var signUpCallback: ApiCallback.SignUpCallback) {
     fun getSignUpResponseData() = signUpesponseObserver as LiveData<UIStateManager>
 
 
-    fun SignUpCallback(devicetoken: String, device_id: String, device_type: String, timezone: String, fullName: RequestBody, email: RequestBody, password: RequestBody, user_type: RequestBody, confirm_password: RequestBody, profilePicture: MultipartBody.Part?) {
+    fun SignUpCallback(fullName: RequestBody, email: RequestBody, password: RequestBody, user_type: RequestBody, confirm_password: RequestBody, profilePicture: MultipartBody.Part?) {
         signUpesponseObserver.value = UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.callsignupApi(devicetoken, device_id, device_type, timezone, fullName, email, password, user_type, confirm_password, profilePicture)
+        val callApi = api.callsignupApi(fullName, email, password, user_type, confirm_password, profilePicture)
         callApi.enqueue(object : Callback<UserDetialResponse> {
 
             override fun onResponse(call: Call<UserDetialResponse>, response: Response<UserDetialResponse>) {
@@ -47,9 +50,9 @@ class SignUpRepository(var signUpCallback: ApiCallback.SignUpCallback) {
                 signUpesponseObserver.value = UIStateManager.Loading(false)
 
                 if (t is IOException) {
-                    signUpCallback.onError("Please check your internet connections")
+                    signUpCallback.onError(context.getString(R.string.no_network_connection))
                 } else {
-                    signUpCallback.onError("Something went wrong")
+                    signUpCallback.onError(context.getString(R.string.something_went_wrong))
                 }
 //                t.message?.let {
 //                    signUpesponseObserver.value = UIStateManager.Error(it)

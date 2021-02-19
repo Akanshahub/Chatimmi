@@ -8,8 +8,6 @@ import com.chatimmi.app.pref.Session
 import com.chatimmi.app.utils.CommonTaskPerformer
 import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
 import com.chatimmi.usermainfragment.group.immigration.ImmigrationGroupRepositary
-import java.util.*
-import kotlin.collections.ArrayList
 
 class StudyViewModel(val immigrationGroupRepositary: ImmigrationGroupRepositary): ViewModel(){
     private  var adapter: StudyAdapter?=null
@@ -45,13 +43,13 @@ class StudyViewModel(val immigrationGroupRepositary: ImmigrationGroupRepositary)
         getAdapter()?.notifyDataSetChanged()
     }
     public fun fetchUsers() {
-        immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda","2", TimeZone.getDefault().displayName,"2","","","" )
+        immigrationGroupRepositary.callGroupListApi("2","","","" )
     }
         fun getAdapter(): StudyAdapter? {
             return adapter
         }
     fun sendData(categoryId: String, subCategoryId: String, groupScope: String) {
-        immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "2", categoryId, subCategoryId,  groupScope)
+        immigrationGroupRepositary.callGroupListApi("2", categoryId, subCategoryId,  groupScope)
     }
     fun getLoginResponseLiveData(): LiveData<GroupListResponse.Data.Group?>? {
         return groupListResponse

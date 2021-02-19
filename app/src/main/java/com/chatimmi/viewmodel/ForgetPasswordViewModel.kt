@@ -4,15 +4,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
-import android.view.View
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.model.ResetPasswordResponse
 import com.chatimmi.repository.ForgetPasswordRepository
-import java.util.*
 
 
 class ForgetPasswordViewModel(val forgetPasswordRepository: ForgetPasswordRepository) :
@@ -23,7 +19,7 @@ class ForgetPasswordViewModel(val forgetPasswordRepository: ForgetPasswordReposi
 
     fun submitInOnClick() {
 
-                forgetPasswordRepository.callResetPasswordApi(UUID.randomUUID().toString(),"cdcxczxc", "2", TimeZone.getDefault().displayName, emailAddress)
+                forgetPasswordRepository.callResetPasswordApi(emailAddress)
 
 
     }

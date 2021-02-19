@@ -23,6 +23,7 @@ import com.chatimmi.databinding.FragmentOtherBinding
 import com.chatimmi.model.LogoutResponse
 import com.chatimmi.repository.LogoutRepository
 import com.chatimmi.retrofitnetwork.ApiCallback
+import com.chatimmi.socketchat.SocketCont
 import com.chatimmi.viewmodel.LogoutViewModalFactory
 import com.chatimmi.viewmodel.OtherFragmentViewModel
 import com.chatimmi.views.*
@@ -61,6 +62,7 @@ class OtherFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.LogoutCall
                 when (it) {
                     is UIStateManager.Success<*> -> {
                         val getData = it.data as LogoutResponse
+                        SocketCont().closeConnection()
                         //Log.d("fabbb", "onCreate: $getData")
                     }
 
@@ -85,7 +87,6 @@ class OtherFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.LogoutCall
         binding.tvEmail.text = session.getUserData()!!.data!!.user_details.email
 
         return binding.root
-
 
     }
 

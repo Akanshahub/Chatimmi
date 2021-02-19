@@ -1,11 +1,11 @@
 package com.chatimmi.repository
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.model.ErrorResponse
@@ -28,10 +28,10 @@ class LogoutRepository(var context: BaseActivitykt, var logoutCallBack: ApiCallb
     }
 
     fun getLogOutResponseData() = logoutResponseObserver as LiveData<UIStateManager>
-    fun callLogoutApi(deviceId: String, devicetoken: String, deviceType: String, deviceTimeZone: String) {
+    fun callLogoutApi() {
         logoutResponseObserver.value = UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.callLogoutApi(deviceId, devicetoken, deviceType, deviceTimeZone)
+        val callApi = api.callLogoutApi()
         callApi.enqueue(object : Callback<LogoutResponse> {
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<LogoutResponse>, response: Response<LogoutResponse>) {
@@ -54,9 +54,9 @@ class LogoutRepository(var context: BaseActivitykt, var logoutCallBack: ApiCallb
 
                 logoutResponseObserver.value = UIStateManager.Loading(false)
                 if (t is IOException) {
-                    logoutCallBack.onError("Please check your internet connections")
+                    logoutCallBack.onError(context.getString(R.string.no_network_connection))
                 } else {
-                    logoutCallBack.onError("Something went wrong")
+                    logoutCallBack.onError(context.getString(R.string.something_went_wrong))
                 }
                 /*  t.localizedMessage.let {
                     logoutResponseObserver.value = UIStateManager.Error(it)

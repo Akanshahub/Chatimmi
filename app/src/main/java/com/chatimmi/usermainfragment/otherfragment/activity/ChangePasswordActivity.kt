@@ -1,9 +1,7 @@
 package com.chatimmi.usermainfragment.otherfragment.activity
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -18,17 +16,10 @@ import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.databinding.ActivityChangePasswordBinding
 import com.chatimmi.model.ChangePasswordResponse
 import com.chatimmi.model.LogoutResponse
-import com.chatimmi.model.ResetPasswordResponse
 import com.chatimmi.repository.ChangePasswordRepository
-import com.chatimmi.repository.ForgetPasswordRepository
-import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.viewmodel.ChangePassViewModel
 import com.chatimmi.viewmodel.ChangePassViewModelFactory
-import com.chatimmi.viewmodel.ForgetPasswordViewModalFactory
-import com.chatimmi.viewmodel.ForgetPasswordViewModel
-import com.chatimmi.views.SignInActivity
-import com.google.android.exoplayer2.metadata.id3.ApicFrame
 
 @Suppress("DEPRECATION")
 class ChangePasswordActivity : BaseActivitykt(),ApiCallback.ChangePasswordCallBack,ApiCallback.LogoutCallback,ApiCallback.SetPasswordCallBack {

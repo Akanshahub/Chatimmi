@@ -5,13 +5,13 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.helper.joindailong.JoinGroupResponse
 import com.chatimmi.model.ErrorResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
-import com.chatimmi.usermainfragment.connectfragment.immigrationconnect.ConsultantListResponce
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import retrofit2.Call
@@ -20,7 +20,7 @@ import retrofit2.Response
 import java.io.IOException
 
 
-class ImmigrationDetailsRepositary(context: Context,var immigrationDetailsCallBack: ApiCallback.ImmigrationDetailsCallBack)  {
+class ImmigrationDetailsRepositary(var context: Context,var immigrationDetailsCallBack: ApiCallback.ImmigrationDetailsCallBack)  {
     var session=com.chatimmi.app.pref.Session(context)
 
     private val groupApiObserver by lazy {
@@ -31,10 +31,10 @@ class ImmigrationDetailsRepositary(context: Context,var immigrationDetailsCallBa
     }
 
     fun getResponseData() = groupApiObserver as LiveData<UIStateManager>
-    fun callGroupDetailResponse(deviceId: String, divicetoke : String,deviceType: String, deviceTimeZone: String,  groupId: String) {
+    fun callGroupDetailResponse(groupId: String) {
         groupApiObserver.value= UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.groupDetailApi("Bearer "+session.getAuthToken(),deviceId, divicetoke,deviceType, deviceTimeZone,groupId)
+        val callApi = api.groupDetailApi(groupId)
 
         callApi?.enqueue(object : Callback<ImmigrationDetailsResponse> {
             override fun onResponse(call: Call<ImmigrationDetailsResponse>, response: Response<ImmigrationDetailsResponse>) {
@@ -52,9 +52,9 @@ class ImmigrationDetailsRepositary(context: Context,var immigrationDetailsCallBa
             override fun onFailure(call: Call<ImmigrationDetailsResponse?>, t: Throwable) {
                 groupApiObserver.value=UIStateManager.Loading(false)
                 if (t is IOException) {
-                    immigrationDetailsCallBack.onError("Please check your internet connections")
+                    immigrationDetailsCallBack.onError(context.getString(R.string.no_network_connection))
                 } else {
-                    immigrationDetailsCallBack.onError("Something went wrong")
+                    immigrationDetailsCallBack.onError(context.getString(R.string.something_went_wrong))
                 }
              /*   t.localizedMessage.let {
                     groupApiObserver.value = UIStateManager.Error(it!!)
@@ -72,10 +72,10 @@ class ImmigrationDetailsRepositary(context: Context,var immigrationDetailsCallBa
 
     fun getConnectGroupResponseData() = connectGroupResponseObserver as LiveData<UIStateManager>
 
-    fun callConnectGroupApi( deviceId: String,deviceToken: String,deviceType: String,timezone: String,groupId: String) {
+    fun callConnectGroupApi(groupId: String) {
         connectGroupResponseObserver.value = UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.callConnectGroupApi("Bearer "+session.getAuthToken(),deviceId,deviceToken,deviceType,timezone,groupId)
+        val callApi = api.callConnectGroupApi(groupId)
         callApi.enqueue(object : Callback<JoinGroupResponse> {
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<JoinGroupResponse>, response: Response<JoinGroupResponse>) {
@@ -103,11 +103,10 @@ class ImmigrationDetailsRepositary(context: Context,var immigrationDetailsCallBa
 
     fun getResponseDataConnectClick() = connectObserver as LiveData<UIStateManager>
 
-    fun callConnectApi(deviceId: String, divicetoke: String, deviceType: String, deviceTimeZone: String,userId:String) {
+    fun callConnectApi(userId:String) {
         connectObserver.value = UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.setConsultantConnect("Bearer " + session.getAuthToken(), deviceId, divicetoke, deviceType, deviceTimeZone,
-                userId )
+        val callApi = api.setConsultantConnect(userId)
         callApi?.enqueue(object : Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {

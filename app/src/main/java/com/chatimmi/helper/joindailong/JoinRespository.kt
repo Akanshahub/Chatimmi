@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.model.ErrorResponse
-import com.chatimmi.model.ResetPasswordResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
 import com.google.gson.Gson
@@ -26,10 +25,10 @@ class JoinRespository(context: Context) {
 
     fun getConnectGroupResponseData() = connectGroupResponseObserver as LiveData<UIStateManager>
 
-    fun callConnectGroupApi( deviceId: String,deviceToken: String,deviceType: String,timezone: String,groupId: String) {
+    fun callConnectGroupApi(groupId: String) {
         connectGroupResponseObserver.value = UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.callConnectGroupApi("Bearer "+session.getAuthToken(),deviceId,deviceToken,deviceType,timezone,groupId)
+        val callApi = api.callConnectGroupApi(groupId)
         callApi.enqueue(object : Callback<JoinGroupResponse> {
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<JoinGroupResponse>, response: Response<JoinGroupResponse>) {

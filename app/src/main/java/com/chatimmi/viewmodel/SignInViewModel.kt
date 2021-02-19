@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.repository.SignInRepository
-import java.util.*
-import java.util.regex.Pattern
 
 
 class SignInViewModel(val signupRepository: SignInRepository) :
@@ -29,7 +27,7 @@ class SignInViewModel(val signupRepository: SignInRepository) :
     fun signInOnClick() {
         if (validate()) {
 
-            signupRepository.callLoginApi(UUID.randomUUID().toString(), "2", TimeZone.getDefault().displayName, emailAddress, password, "assdds", "1")
+            signupRepository.callLoginApi(emailAddress, password, "assdds", "1")
         }
 
     }

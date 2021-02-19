@@ -1,17 +1,16 @@
 package com.chatimmi.repository
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.model.ChangePasswordResponse
 import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.LogoutResponse
-import com.chatimmi.model.ResetPasswordResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
@@ -37,10 +36,10 @@ class ChangePasswordRepository(var context: BaseActivitykt, var changePasswordCa
     fun getChangePasswordResponseData() = changePasswordResponseObserver as LiveData<UIStateManager>
     fun getSetPasswordResponseData() = setResponseObserver as LiveData<UIStateManager>
 
-    fun callChangePasswordApi(deviceId: String, deviceToken: String, deviceType: String, deviceTimeZone: String, newPassword: String,oldPassword: String,confirmPassword: String) {
+    fun callChangePasswordApi(newPassword: String,oldPassword: String,confirmPassword: String) {
         changePasswordResponseObserver.value = UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.callChangePasswordApi("Bearer "+session.getAuthToken(),deviceId,deviceToken,deviceType,deviceTimeZone,newPassword,oldPassword,confirmPassword)
+        val callApi = api.callChangePasswordApi(newPassword,oldPassword,confirmPassword)
         callApi.enqueue(object : Callback<ChangePasswordResponse> {
 
             override fun onResponse(call: Call<ChangePasswordResponse>, response: Response<ChangePasswordResponse>) {
@@ -59,9 +58,9 @@ class ChangePasswordRepository(var context: BaseActivitykt, var changePasswordCa
 
                 changePasswordResponseObserver.value = UIStateManager.Loading(false)
                 if (t is IOException) {
-                    changePasswordCallBack.onError("Please check your internet connections")
+                    changePasswordCallBack.onError(context.getString(R.string.no_network_connection))
                 } else {
-                    changePasswordCallBack.onError("Something went wrong")
+                    changePasswordCallBack.onError(context.getString(R.string.something_went_wrong))
                 }
             /*   t.message?.let {
                     changePasswordResponseObserver.value = UIStateManager.Error(it)
@@ -72,10 +71,10 @@ class ChangePasswordRepository(var context: BaseActivitykt, var changePasswordCa
     }
 
     fun getLogOutResponseData() = logoutResponseObserver as LiveData<UIStateManager>
-    fun callLogoutApi(deviceId: String, devicetoken: String, deviceType: String, deviceTimeZone: String) {
+    fun callLogoutApi() {
         logoutResponseObserver.value = UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.callLogoutApi(deviceId, devicetoken, deviceType, deviceTimeZone)
+        val callApi = api.callLogoutApi()
         callApi.enqueue(object : Callback<LogoutResponse> {
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<LogoutResponse>, response: Response<LogoutResponse>) {
@@ -98,9 +97,9 @@ class ChangePasswordRepository(var context: BaseActivitykt, var changePasswordCa
 
                 logoutResponseObserver.value = UIStateManager.Loading(false)
                 if (t is IOException) {
-                    logoutCallBack.onError("Please check your internet connections")
+                    logoutCallBack.onError(context.getString(R.string.no_network_connection))
                 } else {
-                    logoutCallBack.onError("Something went wrong")
+                    logoutCallBack.onError(context.getString(R.string.something_went_wrong))
                 }
                 /*  t.localizedMessage.let {
                     logoutResponseObserver.value = UIStateManager.Error(it)
@@ -109,10 +108,10 @@ class ChangePasswordRepository(var context: BaseActivitykt, var changePasswordCa
             }
         })
     }
-    fun callSetPasswordApi(deviceId: String, deviceToken: String, deviceType: String, deviceTimeZone: String, newPassword: String,confirmPassword: String) {
+    fun callSetPasswordApi(newPassword: String,confirmPassword: String) {
         changePasswordResponseObserver.value = UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.callSetPasswordApi("Bearer "+session.getAuthToken(),deviceId,deviceToken,deviceType,deviceTimeZone,newPassword,confirmPassword)
+        val callApi = api.callSetPasswordApi(newPassword,confirmPassword)
         callApi.enqueue(object : Callback<ChangePasswordResponse> {
 
             override fun onResponse(call: Call<ChangePasswordResponse>, response: Response<ChangePasswordResponse>) {
@@ -132,9 +131,9 @@ class ChangePasswordRepository(var context: BaseActivitykt, var changePasswordCa
                 setResponseObserver.value = UIStateManager.Loading(false)
 
                 if (t is IOException) {
-                    setPasswordCallback.onError("Please check your internet connections")
+                    setPasswordCallback.onError(context.getString(R.string.no_network_connection))
                 } else {
-                    setPasswordCallback.onError("Something went wrong")
+                    setPasswordCallback.onError(context.getString(R.string.something_went_wrong))
                 }
          /*       t.message?.let {
                     setResponseObserver.value = UIStateManager.Error(it)

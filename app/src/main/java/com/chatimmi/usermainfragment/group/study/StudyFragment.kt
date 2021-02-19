@@ -20,13 +20,13 @@ import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentStudyBinding
-import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.FilterGroupActivity
 import com.chatimmi.helper.joindailong.JoinBottomDialog
 import com.chatimmi.retrofitnetwork.ApiCallback
-import com.chatimmi.usermainfragment.group.immigration.*
+import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.FilterGroupActivity
+import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
+import com.chatimmi.usermainfragment.group.immigration.ImmigrationGroupRepositary
+import com.chatimmi.usermainfragment.group.immigration.SearchResponse
 import com.chatimmi.usermainfragment.group.immigration.details.ImmigrationDetailsActivity
-import java.util.*
-import kotlin.collections.ArrayList
 
 class StudyFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grouplist {
     private var viewModel: StudyViewModel? = null
@@ -140,7 +140,7 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grouplist 
 
         binding.itemsswipetorefresh.setOnRefreshListener {
             group.clear()
-            immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "2", "", "", "")
+            immigrationGroupRepositary.callGroupListApi("2", "", "", "")
             viewModel!!.getAdapter()!!.notifyDataSetChanged()
             binding.itemsswipetorefresh.isRefreshing = false
         }
@@ -190,7 +190,7 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grouplist 
                     position = data?.getIntExtra("position", -1) as Int
                     /*  val temp = group[position]
                       group[position] = temp*/
-                    immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "2", "", "", "")
+                    immigrationGroupRepositary.callGroupListApi("2", "", "", "")
                     // temp.is_group_connect = 1
                     // viewModel!!.getAdapter()!!.addData(group)
                 }

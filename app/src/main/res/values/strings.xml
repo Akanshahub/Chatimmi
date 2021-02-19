@@ -133,6 +133,7 @@
     <string name="where_can_i_get_some">Where can i get some</string>
     <string name="tittle">Tittle</string>
     <string name="contact_us">Contact Us</string>
+    <string name="no_network_connection">No network connection</string>
 
 
 </resources>

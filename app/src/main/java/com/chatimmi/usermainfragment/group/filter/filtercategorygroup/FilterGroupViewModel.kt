@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chatimmi.R
 import com.chatimmi.app.utils.CommonTaskPerformer
-import java.util.*
-import kotlin.collections.ArrayList
 
 class FilterGroupViewModel(var groupFilterRepository: GroupFilterRepository) : ViewModel() {
 
@@ -27,7 +25,7 @@ class FilterGroupViewModel(var groupFilterRepository: GroupFilterRepository) : V
         apiCalling()
     }
 fun apiCalling(){
-    groupFilterRepository.callGroupCategoryListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName)
+    groupFilterRepository.callGroupCategoryListApi()
 }
     public fun clearList() {
         list.clear()

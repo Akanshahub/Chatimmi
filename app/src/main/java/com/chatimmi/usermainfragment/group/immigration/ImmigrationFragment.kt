@@ -26,15 +26,9 @@ import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentImmigrationBinding
 import com.chatimmi.helper.joindailong.JoinBottomDialog
 import com.chatimmi.retrofitnetwork.ApiCallback
-import com.chatimmi.usermainfragment.connectfragment.immigrationconnect.ConsultantListResponce
-
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.FilterGroupActivity
-import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterResponse
 import com.chatimmi.usermainfragment.group.immigration.details.ImmigrationDetailsActivity
 import io.socket.client.Socket
-import io.socket.emitter.Emitter
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 private const val ARG_PARAM1 = "param1"
@@ -101,17 +95,19 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grou
 
             }
         }
-           mSocket!!.on(Socket.EVENT_CONNECT, Emitter.Listener {
+      /*     mSocket!!.on(Socket.EVENT_CONNECT, Emitter.Listener {
             Toast.makeText(activity,"Socket is connected",Toast.LENGTH_SHORT).show()
             //mSocket!!.emit("messages", "hi")
-        });
+        });*/
         binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, R.color.primary_100))
         binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
 
         binding.itemsswipetorefresh.setOnRefreshListener {
+
             group.clear()
-            immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "1", "", "", "")
+            immigrationGroupRepositary.callGroupListApi( "1", "", "", "")
             viewModel!!.getAdapter()!!.notifyDataSetChanged()
+            searchResult=SearchResponse()
             binding.itemsswipetorefresh.isRefreshing = false
         }
         binding.filter.setOnClickListener {
@@ -157,7 +153,7 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grou
                     position = data?.getIntExtra("position", -1) as Int
                   /*  val temp = group[position]
                     group[position] = temp*/
-                    immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "1", "", "", "")
+                    immigrationGroupRepositary.callGroupListApi("1", "", "", "")
                    // temp.is_group_connect = 1
                    // viewModel!!.getAdapter()!!.addData(group)
                 }

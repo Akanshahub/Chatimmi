@@ -75,8 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_below="@+id/rl_serach"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/_10sdp">
+            android:layout_alignParentEnd="true">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_main"
             android:layout_width="match_parent"

@@ -2,20 +2,16 @@ package com.chatimmi.viewmodel
 
 import android.graphics.Bitmap
 import android.net.Uri
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chatimmi.app.utils.UIStateManager
-import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.repository.SignUpRepository
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
-import java.util.*
-import java.util.regex.Pattern
 
 
 class SignUpViewModel(val signupRepository: SignUpRepository) :
@@ -67,7 +63,7 @@ class SignUpViewModel(val signupRepository: SignUpRepository) :
                     userType
             )
 
-            signupRepository.SignUpCallback("hdjfdkhf", UUID.randomUUID().toString(), "2", TimeZone.getDefault().displayName, name, emaill, passwordd, usertype, cpass, profilePicture)
+            signupRepository.SignUpCallback(name, emaill, passwordd, usertype, cpass, profilePicture)
         }
 
     }

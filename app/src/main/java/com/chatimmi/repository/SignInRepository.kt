@@ -1,9 +1,11 @@
 package com.chatimmi.repository
 
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.UserDetialResponse
@@ -17,7 +19,8 @@ import retrofit2.Response
 import java.io.IOException
 
 
-class SignInRepository(var loginCallback: ApiCallback.LoginCallback) {
+class SignInRepository(var context: Context, var loginCallback: ApiCallback.LoginCallback) {
+    var session=com.chatimmi.app.pref.Session(context)
     private val loginResponseObserver by lazy {
         MutableLiveData<UIStateManager>()
     }
@@ -25,10 +28,10 @@ class SignInRepository(var loginCallback: ApiCallback.LoginCallback) {
     fun getLoginResponseData() = loginResponseObserver as LiveData<UIStateManager>
     private val fbResponseLiveData: MutableLiveData<UserDetialResponse>? = null
 
-    fun callLoginApi(deviceId: String, deviceType: String, deviceTimeZone: String, email: String, password: String, device_token: String, user_type: String) {
+    fun callLoginApi(email: String, password: String, device_token: String, user_type: String) {
         loginResponseObserver.value=UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.callLoginApi(deviceId, deviceType, deviceTimeZone, email, password, user_type, device_token)
+        val callApi = api.callLoginApi(email, password, user_type)
         callApi.enqueue(object : Callback<UserDetialResponse> {
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<UserDetialResponse>, response: Response<UserDetialResponse>) {
@@ -49,10 +52,10 @@ class SignInRepository(var loginCallback: ApiCallback.LoginCallback) {
             override fun onFailure(call: Call<UserDetialResponse>, t: Throwable) {
                 loginResponseObserver.value=UIStateManager.Loading(false)
                 if(t is IOException) {
-                    loginCallback.onError("Please check your internet connections")
+                    loginCallback.onError(context.getString(R.string.no_network_connection))
                 }
                 else {
-                    loginCallback.onError("Something went wrong")
+                    loginCallback.onError(context.getString(R.string.something_went_wrong))
                 }
             /*    t.localizedMessage.let {
                     loginResponseObserver.value = UIStateManager.Error(it)

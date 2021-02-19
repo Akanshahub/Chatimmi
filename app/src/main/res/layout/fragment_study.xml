@@ -79,7 +79,7 @@
             android:layout_below="@+id/rl_serach"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="100dp"
-            android:layout_marginTop="@dimen/_10sdp">
+           >
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_main"
             android:layout_width="match_parent"

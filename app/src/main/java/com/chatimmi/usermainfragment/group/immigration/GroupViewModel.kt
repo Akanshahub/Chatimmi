@@ -8,8 +8,6 @@ import androidx.lifecycle.ViewModel
 import com.chatimmi.R
 import com.chatimmi.app.pref.Session
 import com.chatimmi.app.utils.CommonTaskPerformer
-import java.util.*
-import kotlin.collections.ArrayList
 
 class GroupViewModel(val immigrationGroupRepositary: ImmigrationGroupRepositary) : ViewModel() {
     private var groupAdapter: GroupAdapter? = null
@@ -68,11 +66,11 @@ class GroupViewModel(val immigrationGroupRepositary: ImmigrationGroupRepositary)
     }
 
     fun sendData(categoryId: String, subCategoryId: String, groupScope: String) {
-        immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "1", categoryId, subCategoryId, groupScope)
+        immigrationGroupRepositary.callGroupListApi("1", categoryId, subCategoryId, groupScope)
     }
 
     public fun fetchUsers() {
-        immigrationGroupRepositary.callGroupListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "1", "", "", "")
+        immigrationGroupRepositary.callGroupListApi("1", "", "", "")
     }
 
     fun getAdapter(): GroupAdapter? {

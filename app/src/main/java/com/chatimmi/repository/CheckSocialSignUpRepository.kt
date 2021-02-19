@@ -10,7 +10,6 @@ import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
 import com.google.gson.Gson
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,11 +18,11 @@ import java.io.IOException
 
 class CheckSocialSignUpRepository( var context: Context,var checkSocialSignupCallback: ApiCallback.CheckSocialSignupCallback) {
 
-    fun callCheckSocialSignUpApi(deviceId: String,devicetoken: String,devicetype: String,timezone: String,socialid: String, socialtype: String,usertype: String) {
+    fun callCheckSocialSignUpApi(socialid: String, socialtype: String,usertype: String) {
         checkSocialSignupCallback.onShowBaseLoader()
 
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.callCheckSocialSignupApi(deviceId, devicetoken,devicetype, timezone, socialid, socialtype,usertype)
+        val callApi = api.callCheckSocialSignupApi(socialid, socialtype,usertype)
         callApi.enqueue(object : Callback<UserDetialResponse> {
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<UserDetialResponse>, response: Response<UserDetialResponse>) {
@@ -43,7 +42,7 @@ class CheckSocialSignUpRepository( var context: Context,var checkSocialSignupCal
                 checkSocialSignupCallback.onHideBaseLoader()
 
                 if(t is IOException) {
-                    checkSocialSignupCallback.onError(context.getString(R.string.nointernet_connection_mssge))
+                    checkSocialSignupCallback.onError(context.getString(R.string.no_network_connection))
                 }
                 else {
                     checkSocialSignupCallback.onError(context.getString(R.string.something_went_wrong))

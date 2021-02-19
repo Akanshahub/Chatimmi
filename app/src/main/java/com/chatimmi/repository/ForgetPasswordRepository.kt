@@ -1,9 +1,11 @@
 package com.chatimmi.repository
 
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.ResetPasswordResponse
@@ -16,17 +18,18 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class ForgetPasswordRepository(var resetPasswordCallback: ApiCallback.ResetPasswordCallback) {
+class ForgetPasswordRepository(var context: Context,var resetPasswordCallback: ApiCallback.ResetPasswordCallback) {
+    var session=com.chatimmi.app.pref.Session(context)
     private val resetPasswordResponseObserver by lazy {
         MutableLiveData<UIStateManager>()
     }
 
     fun getResetPasswordResponseData() = resetPasswordResponseObserver as LiveData<UIStateManager>
 
-    fun callResetPasswordApi(deviceId: String, devicetoken: String, deviceType: String, deviceTimeZone: String, email: String) {
+    fun callResetPasswordApi(email: String) {
         resetPasswordResponseObserver.value = UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.callResetPasswordApi(deviceId, devicetoken, deviceType, deviceTimeZone, email)
+        val callApi = api.callResetPasswordApi(email)
         callApi.enqueue(object : Callback<ResetPasswordResponse> {
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<ResetPasswordResponse>, response: Response<ResetPasswordResponse>) {
@@ -45,9 +48,9 @@ class ForgetPasswordRepository(var resetPasswordCallback: ApiCallback.ResetPassw
 
                 resetPasswordResponseObserver.value = UIStateManager.Loading(false)
                 if (t is IOException) {
-                    resetPasswordCallback.onError("Please check your internet connections")
+                    resetPasswordCallback.onError(context.getString(R.string.no_network_connection))
                 } else {
-                    resetPasswordCallback.onError("Something went wrong")
+                    resetPasswordCallback.onError(context.getString(R.string.something_went_wrong))
                 }
             /* t.message?.let {
                     resetPasswordResponseObserver.value = UIStateManager.Error(it)

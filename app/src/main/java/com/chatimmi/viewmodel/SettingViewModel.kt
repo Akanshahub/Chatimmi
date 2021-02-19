@@ -6,9 +6,6 @@ import com.chatimmi.repository.LogoutRepository
 import com.chatimmi.usermainfragment.otherfragment.activity.ChangePasswordActivity
 import com.chatimmi.usermainfragment.otherfragment.activity.EditProfileActivity
 
-import com.chatimmi.views.SignInActivity
-import java.util.*
-
 
 class SettingViewModel(val logoutRepository: LogoutRepository) : ViewModel() {
     lateinit var commonTaskPerformer: CommonTaskPerformer
@@ -29,6 +26,6 @@ class SettingViewModel(val logoutRepository: LogoutRepository) : ViewModel() {
     }
 
     fun logoutRequest(){
-        logoutRepository.callLogoutApi(UUID.randomUUID().toString(),"hdjhfhdjh", "2", TimeZone.getDefault().displayName)
+        logoutRepository.callLogoutApi()
     }
 }

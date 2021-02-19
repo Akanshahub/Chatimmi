@@ -1,15 +1,10 @@
 package com.chatimmi.viewmodel
 
-import android.util.Patterns
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.repository.ChangePasswordRepository
-import com.chatimmi.repository.ForgetPasswordRepository
-import java.util.*
 import java.util.regex.Pattern
 
 class ChangePassViewModel(private val changePasswordRepository: ChangePasswordRepository) : ViewModel() {
@@ -36,7 +31,7 @@ class ChangePassViewModel(private val changePasswordRepository: ChangePasswordRe
     }
     fun updatePassOnClicked(){
         if(validate()){
-            changePasswordRepository.callChangePasswordApi(UUID.randomUUID().toString(),"cdcxczxc", "2", TimeZone.getDefault().displayName,newPass,currentPass,confirmPass)
+            changePasswordRepository.callChangePasswordApi(newPass,currentPass,confirmPass)
         }
         else{
 
@@ -44,7 +39,7 @@ class ChangePassViewModel(private val changePasswordRepository: ChangePasswordRe
     }
     fun setPassOnClicked(){
         if(validate1()){
-            changePasswordRepository.callSetPasswordApi(UUID.randomUUID().toString(),"cdcxczxc", "2", TimeZone.getDefault().displayName,newPass,confirmPass)
+            changePasswordRepository.callSetPasswordApi(newPass,confirmPass)
         }
         else{
 
@@ -123,7 +118,7 @@ class ChangePassViewModel(private val changePasswordRepository: ChangePasswordRe
         return true
     }
     fun logoutRequest(){
-        changePasswordRepository.callLogoutApi(UUID.randomUUID().toString(),"hdjhfhdjh", "2", TimeZone.getDefault().displayName)
+        changePasswordRepository.callLogoutApi()
     }
 
 }

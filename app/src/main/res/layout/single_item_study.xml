@@ -52,7 +52,6 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/_25sdp"
-
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/bg_lock">
 

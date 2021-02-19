@@ -22,9 +22,6 @@ import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.usermainfragment.connectfragment.filter.filtercategoryconnect.FilterActivity
 import com.chatimmi.usermainfragment.connectfragment.immigrationconnect.ConsultantListResponce
 import com.chatimmi.usermainfragment.connectfragment.immigrationconnect.ImmigrationConnectRepositary
-import java.util.*
-
-import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -149,12 +146,12 @@ class StudyConnectFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.Con
             }
         })
 
-      binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context!!, R.color.primary_100))
+      binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, R.color.primary_100))
         binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
 
         binding.itemsswipetorefresh.setOnRefreshListener {
             list.clear()
-            repo.callConsultantListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName,"3")
+            repo.callConsultantListApi("3")
             viewModel!!.getAdapter()!!.notifyDataSetChanged()
             binding.itemsswipetorefresh.isRefreshing = false
         }

@@ -20,8 +20,6 @@ import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentImmigrationconnect2Binding
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.usermainfragment.connectfragment.filter.filtercategoryconnect.FilterActivity
-import java.util.*
-import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -140,7 +138,7 @@ class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer, ApiCallb
         binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
         binding.itemsswipetorefresh.setOnRefreshListener {
             list.clear()
-            repo.callConsultantListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, "2")
+            repo.callConsultantListApi("2")
             viewModel!!.getAdapter()!!.notifyDataSetChanged()
             binding.itemsswipetorefresh.isRefreshing = false
         }

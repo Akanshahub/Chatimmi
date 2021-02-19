@@ -39,10 +39,10 @@ class StudyConnectViewModel(val repo: ImmigrationConnectRepositary)  : ViewModel
         }
 
     fun callConsultantConnectListApi() {
-        repo.callConsultantListApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName,"3")
+        repo.callConsultantListApi("3")
     }
 
     fun setConnectConsultantAPI(userId:String) {
-        repo.callConnectApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName,userId)
+        repo.callConnectApi(userId)
     }
     }

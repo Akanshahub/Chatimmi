@@ -1,6 +1,7 @@
+
+
 package com.chatimmi.usermainfragment.otherfragment.activity
 
-import com.chatimmi.socketchat.SocketConstant
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Build
@@ -20,9 +21,9 @@ import com.chatimmi.databinding.ActivitySettingBinding
 import com.chatimmi.model.LogoutResponse
 import com.chatimmi.repository.LogoutRepository
 import com.chatimmi.retrofitnetwork.ApiCallback
+import com.chatimmi.socketchat.SocketCont
 import com.chatimmi.viewmodel.SettingLogoutViewModelFoctory
 import com.chatimmi.viewmodel.SettingViewModel
-import com.chatimmi.views.SignInActivity
 
 @Suppress("DEPRECATION")
 class SettingActivity : BaseActivitykt(), CommonTaskPerformer,ApiCallback.LogoutCallback {
@@ -56,7 +57,7 @@ class SettingActivity : BaseActivitykt(), CommonTaskPerformer,ApiCallback.Logout
                 when (it) {
                     is UIStateManager.Success<*> -> {
                         val getData = it.data as LogoutResponse
-                        SocketConstant()!!.closeConnection()
+                        SocketCont().closeConnection()
                         Log.d("fabbb", "onCreate: $getData")
                     }
 

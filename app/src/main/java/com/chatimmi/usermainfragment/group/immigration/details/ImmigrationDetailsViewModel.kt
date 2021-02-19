@@ -3,7 +3,6 @@ package com.chatimmi.usermainfragment.group.immigration.details
 import androidx.lifecycle.ViewModel
 import com.chatimmi.R
 import com.chatimmi.app.utils.CommonTaskPerformer
-import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
 import java.util.*
 
 class ImmigrationDetailsViewModel(val immigrationDetailsRepositary: ImmigrationDetailsRepositary) : ViewModel() {
@@ -27,12 +26,12 @@ class ImmigrationDetailsViewModel(val immigrationDetailsRepositary: ImmigrationD
 
 
         fetchUsers()
-        immigrationDetailsRepositary.callConnectGroupApi(UUID.randomUUID().toString(), "dcsh", "2", TimeZone.getDefault().displayName, group)
+        immigrationDetailsRepositary.callConnectGroupApi(group)
     }
 
 
     fun fetchUsers() {
-        immigrationDetailsRepositary.callGroupDetailResponse(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, group)
+        immigrationDetailsRepositary.callGroupDetailResponse(group)
     }
 
     fun getAdapter(): ImmigrationDetailsAdapter? {
@@ -40,7 +39,7 @@ class ImmigrationDetailsViewModel(val immigrationDetailsRepositary: ImmigrationD
     }
 
     fun setConnectConsultantAPI(userId: String) {
-        immigrationDetailsRepositary.callConnectApi(UUID.randomUUID().toString(), "dsda", "2", TimeZone.getDefault().displayName, userId)
+        immigrationDetailsRepositary.callConnectApi(userId)
     }
 
 }

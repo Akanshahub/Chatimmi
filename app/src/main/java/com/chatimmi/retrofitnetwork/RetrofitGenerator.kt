@@ -1,8 +1,6 @@
 package com.chatimmi.retrofitnetwork
 
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -25,6 +23,7 @@ open class RetrofitGenerator {
 
         val httpClient = OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
+                .addInterceptor(HeaderInterceptor())
                 .connectTimeout(2, TimeUnit.MINUTES)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
