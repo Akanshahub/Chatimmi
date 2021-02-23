@@ -15,13 +15,11 @@ import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.chatimmi.Chatimmi
 import com.chatimmi.app.pref.Constants
 import com.chatimmi.app.pref.PrefHelper
 import com.chatimmi.app.utils.KeyboardUtils
 import com.chatimmi.app.utils.ProgressDialog
 import com.chatimmi.app.utils.StackSet
-import com.chatimmi.socketchat.SocketCont
 import io.socket.client.Socket
 
 @Suppress("DEPRECATION")
@@ -46,8 +44,8 @@ open class BaseActivitykt : AppCompatActivity() {
 
 
         //TODO Socket chat
-        mSocket = Chatimmi().getSocket()
-         SocketCont().getmSocket(mSocket!!,this)
+       /* mSocket = Chatimmi().getSocket()
+         SocketCont().getmSocket(mSocket!!,this)*/
     }
 
     fun toastMessage(mssge: String?, context: Context?) {

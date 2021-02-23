@@ -25,7 +25,7 @@ import kotlin.collections.ArrayList
 
 
 @Suppress("DEPRECATION")
-class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.GroupFilterlist {
+class FilterGroupActivity : BaseActivity(), CommonTaskPerformer, ApiCallback.GroupFilterlist {
     lateinit var session: Session
     private var binding: ActivityFilterGroupBinding? = null
     private var viewModel: FilterGroupViewModel? = null
@@ -49,7 +49,7 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_filter_group)
-        groupFilterRepository = GroupFilterRepository(activity,this)
+        groupFilterRepository = GroupFilterRepository(activity, this)
         val factory = GroupFilterViewModelFactory(groupFilterRepository)
         viewModel = ViewModelProviders.of(this, factory)[FilterGroupViewModel::class.java]
         binding!!.model = viewModel
@@ -59,12 +59,13 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
         viewModel?.init(this)
         // setupBindings(savedInstanceState)
         binding!!.backButton.setOnClickListener {
-            if (searchResponse == null) {
-                setResult(RESULT_CANCELED)
-                finish()
-            } else {
-                onBackPressed()
-            }
+            /*     if (searchResponse==SearchResponse()) {
+                     setResult(RESULT_CANCELED)
+                     finish()
+                 } else {
+                     onBackPressed()
+                 }*/
+            onBackPressed()
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //var count = GroupFilterResponse.Data.Category()
@@ -74,6 +75,7 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
 
         if (intent.getParcelableExtra<SearchResponse>("groupName") != null) {
             searchResponse = intent.getParcelableExtra<SearchResponse>("groupName")!!
+
         }
 
 
@@ -109,8 +111,21 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
                             mSubCategory = listOf(*searchResponse.subcategory!!.trim().split(",").toTypedArray())
 
                             Log.d("TAG", "onCreate: $mCategory $mSubCategory")
-                        }else{
-                            binding!!.clearAll.performClick()
+                        }
+                            //binding!!.clearAll.performClick()
+                        if(searchResponse==SearchResponse()){
+                            for (i in 0 until group.size) {
+                                    group[i].count = 0
+                                    for (element in group[i].subcategories) {
+                                        element.isselected = false
+                                    }
+                                    viewModel!!.getAdapter()!!.notifyDataSetChanged()
+                                }
+                                searchResponse =SearchResponse()
+                                mSubCategory = null
+                                mCategory = null
+                                binding!!.cbPrivate.isChecked = true
+                                binding!!.cbPublic.isChecked = true
                         }
 
                         if (mCategory != null) {
@@ -138,8 +153,6 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
                             }
 
 
-
-
                         }
 
 
@@ -152,6 +165,24 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
                                 }
                             }
                         }*/
+
+                        binding!!.clearAll.setOnClickListener {
+                            for (i in 0 until group.size) {
+                                group[i].count = 0
+                                for (element in group[i].subcategories) {
+                                    element.isselected = false
+                                }
+                                viewModel!!.getAdapter()!!.notifyDataSetChanged()
+                            }
+                            searchResponse = SearchResponse()
+                            mSubCategory = null
+                            mCategory = null
+                            binding!!.cbPrivate.isChecked = true
+                            binding!!.cbPublic.isChecked = true
+                            setResult(RESULT_OK, intent)
+                            finish()
+                            //finish()
+                        }
                         viewModel?.getAdapter()?.let {
                             binding!!.rvMain.adapter = viewModel?.getAdapter()
                             viewModel?.getAdapter()!!.addData(getData.data!!.category)
@@ -175,20 +206,7 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
                 }
             }
         })
-        binding!!.clearAll.setOnClickListener {
-            for (i in 0 until group.size) {
-                group[i].count = 0
-                for (element in group[i].subcategories) {
-                    element.isselected = false
-                }
-                viewModel!!.getAdapter()!!.notifyDataSetChanged()
-            }
-            searchResponse = SearchResponse()
-            mSubCategory = null
-            mCategory = null
-            binding!!.cbPrivate.isChecked = true
-            binding!!.cbPublic.isChecked = true
-        }
+
         binding!!.btnSignup.setOnClickListener() {
             for (j in 0 until group.size) {
                 if (group[j].count!! > 0) {
@@ -216,14 +234,14 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
 
 
             val intent = Intent()
-            searchResponse.group_scope = groupby
+
 
             if (categoryId.isNotEmpty()) {
                 searchResponse.category = categoryId.substring(0, categoryId.length - 1)
                 searchResponse.subcategory = subCategoryId.substring(0, subCategoryId.length - 1)
             }
+            searchResponse.group_scope = groupby
             intent.putExtra("searchResult", searchResponse)
-
             Log.d("TAG", "onCreate: $searchResponse")
             setResult(RESULT_OK, intent)
             finish()
@@ -336,6 +354,6 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer,ApiCallback.Grou
     }
 
     override fun onError(errorMessage: String) {
-        toastMessage(errorMessage,this)
+        toastMessage(errorMessage, this)
     }
 }

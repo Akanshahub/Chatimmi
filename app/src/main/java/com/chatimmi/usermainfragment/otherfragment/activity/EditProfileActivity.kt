@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.webkit.MimeTypeMap
@@ -17,41 +18,52 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.chatimmi.Chatimmi
+import com.bumptech.glide.Glide
 import com.chatimmi.R
+import com.chatimmi.app.pref.Session
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.databinding.ActivityEditProfileBinding
 
 import com.chatimmi.helper.ImagePicker
+import com.chatimmi.model.UserDetails
+import com.chatimmi.model.UserDetialResponse
+import com.chatimmi.repository.EditProfileRepository
 import com.chatimmi.viewmodel.EditProfileViewModel
+import com.chatimmi.viewmodel.EditProfileViewModelFactory
 import com.yalantis.ucrop.UCrop
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 
 @Suppress("DEPRECATION")
 class EditProfileActivity : BaseActivitykt() {
     lateinit var viewModel: EditProfileViewModel
     lateinit var binding: ActivityEditProfileBinding
-    private var bitmap: Bitmap? = null
     private var avatarUri: Uri? = null
     private var mimeType: String? = null
-
+    lateinit var session: Session
+    private var temPhoto: Uri? = null
+    lateinit var userDetail: UserDetails
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(EditProfileViewModel::class.java)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_profile)
 
-        mSocket = Chatimmi().getSocket()
+        val editProfileRepository = EditProfileRepository(this)
+        val factory = EditProfileViewModelFactory(editProfileRepository)
+        viewModel = ViewModelProviders.of(this, factory).get(EditProfileViewModel::class.java)
+        session = Session(this)
         binding.lifecycleOwner = this
         binding.editProfileViewModel = viewModel
-
+        userDetail = session.getUserData()!!.data!!.user_details
         viewModel.getValidationData().observe(this, Observer {
             when (it) {
-                is UIStateManager.Error ->{
+                is UIStateManager.Error -> {
                     showToast(it.msg)
                 }
                 else -> {
@@ -60,48 +72,59 @@ class EditProfileActivity : BaseActivitykt() {
 
         })
 
-        viewModel.getUpdateData().observe(this, Observer {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val decor = window.decorView
+            decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+        editProfileRepository.editProfileResponseData().observe(this, Observer {
             it?.let {
                 when (it) {
                     is UIStateManager.Success<*> -> {
-                        showToast("Under Development")
+
+                        val getData = it.data as UserDetialResponse
+                        session.setUserData(getData)
+                        toastMessage(getData.message,this)
+                      /*  val intent = Intent(this@EditProfileActivity, ChatimmiActivity::class.java)
+                        navigateTo(intent, true)*/
+
                     }
-                    is UIStateManager.Error ->{
+                    is UIStateManager.Error -> {
                         showToast(it.msg)
+                    }
+                    is UIStateManager.Loading ->{
+                        if(it.shouldShowLoading){
+                            showLoader()
+                        }else{
+                            hideLoader()
+                        }
+
                     }
                     else -> {
                     }
                 }
             }
         })
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val decor = window.decorView
-            decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
-
         initialSetup()
     }
 
     private fun initialSetup() {
+        Glide.with(activity).load(userDetail.avatar).into(binding.ivImages)
+        viewModel.userName = userDetail.full_name!!
+        viewModel.emailAddress = userDetail.email!!
+        binding.etName.setText(viewModel.userName)
+        binding.etEmail.setText(viewModel.emailAddress)
 
-
-
-        binding.ivCamera.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ContextCompat.checkSelfPermission(this@EditProfileActivity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE), 99)
-                    } else {
-                        ImagePicker.pickImage(this@EditProfileActivity)
-                    }
+        binding.ivImages.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ContextCompat.checkSelfPermission(this@EditProfileActivity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE), 99)
                 } else {
                     ImagePicker.pickImage(this@EditProfileActivity)
-
                 }
-
+            } else {
+                ImagePicker.pickImage(this@EditProfileActivity)
             }
-        })
+        }
         binding.backButton.setOnClickListener {
             onBackPressed()
         }
@@ -111,8 +134,19 @@ class EditProfileActivity : BaseActivitykt() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
             val uri = UCrop.getOutput(data!!)
+
+            data?.let {
+                Log.d("fbasjfbajsfa", "onActivityResult: ${uri}")
+            }
+
+            temPhoto = uri
+            viewModel!!.imageUri = uri!!
+
+            var bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+            viewModel!!.file = getImageFile(uri)
             try {
                 showImage(uri!!)
+
                 bitmap = getBitmapFromUri(uri)
                 avatarUri = uri
                 mimeType = getMimeType(avatarUri)
@@ -121,14 +155,34 @@ class EditProfileActivity : BaseActivitykt() {
                 e.printStackTrace()
                 Log.e("erroris", e.printStackTrace().toString())
             }
-        }  else if (requestCode == ImagePicker.PICK_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
+        } else if (requestCode == ImagePicker.PICK_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
+            Log.d("fbasjfbajsfa", "PICK_IMAGE_REQUEST_CODE: ")
+
             val uri: Uri = ImagePicker.getImageURIFromResult(this@EditProfileActivity, requestCode, resultCode, data)
             openCropActivity(uri)
         }
-        if (resultCode== UCrop.RESULT_ERROR)  {
+        if (resultCode == UCrop.RESULT_ERROR) {
             val result = UCrop.getError(data!!)
             val error = result!!.message
         }
+    }
+
+    private fun getImageFile(uri: Uri): File {
+        val bitmap: Bitmap =
+                MediaStore.Images.Media.getBitmap(contentResolver, uri)
+
+        val f = File(cacheDir, "filename");
+        f.createNewFile()
+
+        val bos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos)
+        val bitmapdata = bos.toByteArray()
+        val fos = FileOutputStream(f)
+        fos.write(bitmapdata)
+        fos.flush()
+        fos.close()
+        Log.d("fffdfdffkkf", "MultipartBody: ${f.name}")
+        return f
     }
 
     private fun showImage(imageUri: Uri) {
@@ -144,23 +198,19 @@ class EditProfileActivity : BaseActivitykt() {
         return image
     }
 
+
     private fun openCropActivity(sourceUri: Uri) {
-        val time:Long = System.currentTimeMillis()
+        val time: Long = System.currentTimeMillis()
         val str = "" + time
         val destinationPath = str + "temp.jpg"
         val options: UCrop.Options = UCrop.Options()
         options.setHideBottomControls(true)
-        UCrop.of(sourceUri, Uri.fromFile(File( getCacheDir(), destinationPath))).withAspectRatio(4F, 3F).withOptions(options).start(this)
+        UCrop.of(sourceUri, Uri.fromFile(File(getCacheDir(), destinationPath))).withAspectRatio(4F, 3F).withOptions(options).start(this)
     }
 
 
     private fun getMimeType(uri: Uri?): String? {
-        var mimeType: String? = null/*  if (validate()) {
-            updateResponseObserver.value=UIStateManager.Success("updated")
-
-        }else{
-          //  updateResponseObserver.value=UIStateManager.Error("Failed")
-        }*/
+        var mimeType: String? = null
         mimeType = if (uri!!.scheme == ContentResolver.SCHEME_CONTENT) {
             val cr = contentResolver
             cr.getType(uri)

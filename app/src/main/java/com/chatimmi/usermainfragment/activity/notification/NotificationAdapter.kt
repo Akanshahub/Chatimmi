@@ -15,13 +15,10 @@ class NotificationAdapter  (val layout: Int, notificationViewModel: Notification
         return NotificationAdapter.ViewHolder(binding)
     }
 
-    override fun getItemCount()=10
+    override fun getItemCount()=5
 
     class ViewHolder(binding: SingleItemNotificationBinding) : RecyclerView.ViewHolder(binding.getRoot()) {
-        var binding: SingleItemNotificationBinding
-        init {
-            this.binding = binding
-        }
+        var binding: SingleItemNotificationBinding = binding
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 

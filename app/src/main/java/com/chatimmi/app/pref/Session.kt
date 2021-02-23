@@ -11,6 +11,7 @@ class Session(context: Context) {
     private val IsUserLoggedIn = "userLoggedIn"
     private var PrefName = "CHATIMMI"
     private val AuthToken = "authToken"
+    private val NotificationStatus = "notificationStatus"
 
     init {
         mypref = context.getSharedPreferences(PrefName, Context.MODE_PRIVATE)
@@ -48,5 +49,13 @@ class Session(context: Context) {
 
     fun getAuthToken(): String {
         return mypref.getString(AuthToken, "").toString()
+    }
+    fun setNotificationStatus(status: String) {
+        editor.putString(NotificationStatus, status)
+        editor.apply()
+    }
+
+    fun getNotificationStatus(): String? {
+        return mypref.getString(NotificationStatus, "")
     }
 }

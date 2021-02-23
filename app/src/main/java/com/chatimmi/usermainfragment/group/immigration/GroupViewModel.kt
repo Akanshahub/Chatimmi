@@ -69,7 +69,7 @@ class GroupViewModel(val immigrationGroupRepositary: ImmigrationGroupRepositary)
         immigrationGroupRepositary.callGroupListApi("1", categoryId, subCategoryId, groupScope)
     }
 
-    public fun fetchUsers() {
+     fun fetchUsers() {
         immigrationGroupRepositary.callGroupListApi("1", "", "", "")
     }
 

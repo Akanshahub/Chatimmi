@@ -5,11 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
-import com.chatimmi.model.ErrorResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,7 +25,7 @@ var session=com.chatimmi.app.pref.Session(context)
     fun callGroupListApi(grouptype: String,category: String,subcategory: String,groupscope: String) {
         groupApiObserver.value=UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
-        val callApi = api.groupListApi(grouptype,subcategory,category,groupscope)
+        val callApi = api.groupListApi(grouptype,category,subcategory,groupscope)
         callApi?.enqueue(object : Callback<GroupListResponse> {
             override fun onResponse(call: Call<GroupListResponse>, response: Response<GroupListResponse>) {
                 if (response.isSuccessful) {
@@ -36,8 +34,8 @@ var session=com.chatimmi.app.pref.Session(context)
                 } else {
                     groupApiObserver.value=UIStateManager.Loading(false)
                    // groupApiObserver.value = UIStateManager.Error(response.message())
-                    val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
-                    grouplist.onError(gson.message.toString())
+                   // val gson = Gson().fromJson(response.errorBody()?.ob, ErrorResponse::class.java)
+                    grouplist.onError(response.message())
                 }
             }
 

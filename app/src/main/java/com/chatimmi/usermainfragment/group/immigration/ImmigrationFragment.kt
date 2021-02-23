@@ -1,6 +1,5 @@
 package com.chatimmi.usermainfragment.group.immigration
 
-import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Color
@@ -34,11 +33,12 @@ import io.socket.client.Socket
 private const val ARG_PARAM1 = "param1"
 
 
-class ImmigrationFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grouplist {
+class ImmigrationFragment : BaseFragment(), CommonTaskPerformer, ApiCallback.grouplist {
     private var viewModel: GroupViewModel? = null
     lateinit var binding: FragmentImmigrationBinding
     lateinit var group: ArrayList<GroupListResponse.Data.Group>
     lateinit var session: Session
+    var groupScope = ""
     var searchResult = SearchResponse()
     var position = 0
     var mSocket: Socket? = null
@@ -49,7 +49,7 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grou
             savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_immigration, container, false)
-        immigrationGroupRepositary = ImmigrationGroupRepositary(activity,this)
+        immigrationGroupRepositary = ImmigrationGroupRepositary(activity, this)
         group = ArrayList()
         mSocket = Chatimmi().getSocket()
 
@@ -95,19 +95,15 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grou
 
             }
         }
-      /*     mSocket!!.on(Socket.EVENT_CONNECT, Emitter.Listener {
-            Toast.makeText(activity,"Socket is connected",Toast.LENGTH_SHORT).show()
-            //mSocket!!.emit("messages", "hi")
-        });*/
+        /*     mSocket!!.on(Socket.EVENT_CONNECT, Emitter.Listener {
+              Toast.makeText(activity,"Socket is connected",Toast.LENGTH_SHORT).show()
+              //mSocket!!.emit("messages", "hi")
+          });*/
         binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, R.color.primary_100))
         binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
 
         binding.itemsswipetorefresh.setOnRefreshListener {
-
-            group.clear()
-            immigrationGroupRepositary.callGroupListApi( "1", "", "", "")
-            viewModel!!.getAdapter()!!.notifyDataSetChanged()
-            searchResult=SearchResponse()
+            onRefresh()
             binding.itemsswipetorefresh.isRefreshing = false
         }
         binding.filter.setOnClickListener {
@@ -123,45 +119,53 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grou
             super.onActivityResult(requestCode, resultCode, data)
             if (requestCode == 2) {
                 if (resultCode == RESULT_OK) {
-                    searchResult = data?.getParcelableExtra("searchResult")!!
-                    var categoryId = ""
-                    var subCategoryId = ""
-                    var groupScope = ""
-                    groupScope = searchResult.group_scope!!
 
-                    if (searchResult.category != null) {
-                        categoryId = searchResult.category!!
-                        subCategoryId = searchResult.subcategory!!
-                        viewModel!!.sendData(categoryId, subCategoryId, groupScope)
+                    if (data?.getParcelableExtra<SearchResponse>("searchResult") != null) {
+                        searchResult = data.getParcelableExtra<SearchResponse>("searchResult")!!
+                        var categoryId = ""
+                        var subCategoryId = ""
+                        groupScope
+                        groupScope = searchResult.group_scope!!
 
+                        if (searchResult.category != null) {
+                            categoryId = searchResult.category!!
+                            subCategoryId = searchResult.subcategory!!
+                            viewModel!!.sendData(categoryId, subCategoryId, groupScope)
+                        } else {
+                            viewModel!!.sendData("", "", groupScope)
+                        }
+                        binding.rvMain.adapter = viewModel?.getAdapter()
+                        viewModel?.getAdapter()!!.notifyDataSetChanged()
+                        Log.d("TAG", "searchResult: " + searchResult)
                     } else {
-                        viewModel!!.sendData("", "", groupScope)
+                        immigrationGroupRepositary.callGroupListApi("1", "", "", "")
+                        searchResult= SearchResponse()
+
                     }
-                    binding.rvMain.adapter = viewModel?.getAdapter()
-                    viewModel?.getAdapter()!!.notifyDataSetChanged()
-                    Log.d("TAG", "searchResult: " + searchResult)
-
-
-                } else if (resultCode == RESULT_CANCELED) {
-                    searchResult = SearchResponse()
-                    viewModel!!.fetchUsers()
 
                 }
             }
             if (requestCode == 1) {
                 if (RESULT_OK == resultCode) {
                     position = data?.getIntExtra("position", -1) as Int
-                  /*  val temp = group[position]
-                    group[position] = temp*/
+                    /*  val temp = group[position]
+                      group[position] = temp*/
                     immigrationGroupRepositary.callGroupListApi("1", "", "", "")
-                   // temp.is_group_connect = 1
-                   // viewModel!!.getAdapter()!!.addData(group)
+                    // temp.is_group_connect = 1
+                    // viewModel!!.getAdapter()!!.addData(group)
                 }
             }
         } catch (ex: Exception) {
             Toast.makeText(context, ex.toString(),
                     Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun onRefresh() {
+        group.clear()
+        immigrationGroupRepositary.callGroupListApi("1", "", "", "")
+        viewModel!!.getAdapter()!!.notifyDataSetChanged()
+        searchResult = SearchResponse()
     }
 
     private fun searchFunctionality() {
@@ -280,7 +284,7 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grou
     }
 
     override fun onError(errorMessage: String) {
-        Toast.makeText(activity, errorMessage,Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show()
     }
 
 

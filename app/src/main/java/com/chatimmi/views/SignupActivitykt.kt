@@ -164,7 +164,7 @@ var signUpViewModel: SignUpViewModel? = null
                 }*/
             }
         })
-        binding!!.ivCamera.setOnClickListener(object : View.OnClickListener {
+        binding!!.ivImages.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

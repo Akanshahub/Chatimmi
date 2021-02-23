@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.chatimmi.databinding.SingleItemConnectImmigrationBinding
 
+
 abstract class ImmigrationConnectAdapter(val layout: Int, immigrationConnectViewmodel: ImmigrationConnectViewModel, private var list: java.util.ArrayList<ConsultantListResponce.Data.Consultant>) : RecyclerView.Adapter<ImmigrationConnectAdapter.ViewHolder>() {
-    var context: Activity? = null
+    var context: Activity?=null
     private var viewModel: ImmigrationConnectViewModel? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: SingleItemConnectImmigrationBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), layout, parent, false)
@@ -30,11 +31,8 @@ abstract class ImmigrationConnectAdapter(val layout: Int, immigrationConnectView
     override fun getItemCount() = list.size
 
     class ViewHolder(binding: SingleItemConnectImmigrationBinding) : RecyclerView.ViewHolder(binding.root) {
-        var binding: SingleItemConnectImmigrationBinding
+        var binding: SingleItemConnectImmigrationBinding = binding
 
-        init {
-            this.binding = binding
-        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -49,7 +47,10 @@ abstract class ImmigrationConnectAdapter(val layout: Int, immigrationConnectView
             onConnectCallBack(list[position].userID)
         }
         holder.binding.ivChat.setOnClickListener {
-
+            onChatCallBack()
+           /* val intent = Intent(context, ChatActivity::class.java)
+            intent.putExtra("dd", "ff")
+            context?.startActivity(intent)*/
         }
 
         if (list[position].isConnect == 0) {
@@ -62,6 +63,7 @@ abstract class ImmigrationConnectAdapter(val layout: Int, immigrationConnectView
     }
 
     abstract fun onConnectCallBack(userID: Int)
+    abstract fun onChatCallBack()
     abstract fun onCardCallBack(item: ConsultantListResponce.Data.Consultant)
     fun addData(consultantList: List<ConsultantListResponce.Data.Consultant>) {
         this.list.clear()

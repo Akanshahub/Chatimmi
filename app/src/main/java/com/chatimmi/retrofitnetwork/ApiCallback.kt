@@ -66,4 +66,8 @@ interface ApiCallback {
     interface ConnectConsultantCallBack : BaseInterface {
         fun onSuccessLogin(joinGroupResponse: JoinGroupResponse)
     }
+
+    interface NotificationSwitchCallBack : BaseInterface {
+        fun onSuccessLogin(joinGroupResponse: UserDetialResponse)
+    }
 }

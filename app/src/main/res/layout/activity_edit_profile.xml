@@ -111,7 +111,6 @@
                 android:fontFamily="@font/montserrat_regular"
                 android:hint="@string/enter_user_name"
                 android:imeOptions="actionNext"
-
                 android:text="@={editProfileViewModel.userName}"
                 android:inputType="textPersonName"
                 android:paddingStart="@dimen/_10sdp"
@@ -144,12 +143,16 @@
                 android:drawableEnd="@drawable/ic_mail_ico"
                 android:fontFamily="@font/montserrat_regular"
                 android:hint="@string/enter_email_id"
+                android:editable="false"
+                android:enabled="false"
+                android:textIsSelectable="false"
                 android:text="@={editProfileViewModel.emailAddress}"
                 android:imeOptions="actionDone"
                 android:inputType="textEmailAddress"
                 android:paddingStart="@dimen/_10sdp"
                 android:paddingEnd="10dp"
-                android:textColorHint="#a5a5a5">
+                android:textColorHint="#a5a5a5"
+                tools:ignore="Deprecated">
 
             </com.google.android.material.textfield.TextInputEditText>
 

@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.chatimmi.R
 import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentGroupBinding
@@ -23,11 +23,13 @@ private const val ARG_PARAM2 = "param2"
 
 class GroupFragment : BaseFragment() {
     lateinit var binding: FragmentGroupBinding
+    var immigrationFragment= ImmigrationFragment.newInstance("1")
+    var studyFragment=  StudyFragment.newInstance("2")
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate<FragmentGroupBinding>(inflater, R.layout.fragment_group, container, false)
         createVm()
         return binding.root
@@ -35,16 +37,36 @@ class GroupFragment : BaseFragment() {
 
     private fun createVm() {
         val listOfFragments = listOf(
-                ImmigrationFragment.newInstance("1"),
-                StudyFragment.newInstance("2")
+                immigrationFragment,
+                studyFragment
+               // ImmigrationFragment.newInstance("1"),
         )
         binding.notification.setOnClickListener {
             val intent = Intent(getActivity(), NotificationActivity::class.java)
-            //listener?.onClick(AlbumsData)
-            intent.putExtra("dd", "ff")
             getActivity()?.startActivity(intent)
         }
         val viewPagerAdapter = PagerAdapterGroup(childFragmentManager, listOfFragments as List<Fragment>, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
+        binding.pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+             if(position==0){
+                 immigrationFragment.onRefresh()
+             }
+                if(position==1){
+                 studyFragment.onRefresh()
+             }
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+        })
+
+
         binding.pager.adapter = viewPagerAdapter
         binding.pager.offscreenPageLimit = 2
         binding.tabCategory.setupWithViewPager(binding.pager)

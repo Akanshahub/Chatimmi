@@ -126,4 +126,17 @@ interface API {
     fun setConsultantConnect(
             @Field("user_id") user_id: String,
     ): Call<JsonObject>?
+
+    @FormUrlEncoded
+    @PUT("api/v1/user/notification-switch")
+    fun callNotificationSwitchApi(
+            @Field("flag") flag: String
+    ): Call<UserDetialResponse>
+
+    @POST("api/v1/user/update-profile")
+    @Multipart
+    fun updateProfileApi(
+            @Part("full_name") fullName: RequestBody?,
+            @Part profilePicture: MultipartBody.Part?):
+            Call<UserDetialResponse>
 }

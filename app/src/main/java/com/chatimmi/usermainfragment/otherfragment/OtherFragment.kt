@@ -21,6 +21,7 @@ import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentOtherBinding
 import com.chatimmi.model.LogoutResponse
+import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.repository.LogoutRepository
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.socketchat.SocketCont
@@ -40,7 +41,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 @Suppress("UNREACHABLE_CODE")
-class OtherFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.LogoutCallback{
+class OtherFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.LogoutCallback,ApiCallback.NotificationSwitchCallBack{
     lateinit var binding: FragmentOtherBinding
     lateinit var viewModal: OtherFragmentViewModel
     lateinit var session: Session
@@ -50,7 +51,7 @@ class OtherFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.LogoutCall
             savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate<FragmentOtherBinding>(inflater, R.layout.fragment_other, container, false)
-        val logoutRepository = LogoutRepository(activity,this)
+        val logoutRepository = LogoutRepository(activity,this,this)
         val factory = LogoutViewModalFactory(logoutRepository)
         viewModal = ViewModelProviders.of(this, factory).get(OtherFragmentViewModel::class.java)
         binding.otherFragmentViewModel = viewModal
@@ -138,6 +139,10 @@ class OtherFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.LogoutCall
     }
 
     override fun onTokenChangeError(message: String) {
+
+    }
+
+    override fun onSuccessLogin(joinGroupResponse: UserDetialResponse) {
 
     }
 

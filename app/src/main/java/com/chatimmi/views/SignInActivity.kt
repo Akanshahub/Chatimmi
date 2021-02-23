@@ -20,11 +20,9 @@ import com.chatimmi.repository.CheckSocialSignUpRepository
 import com.chatimmi.repository.SignInRepository
 import com.chatimmi.repository.socialSignUpRepository
 import com.chatimmi.retrofitnetwork.ApiCallback
-import com.chatimmi.socketchat.SocketCont
 import com.chatimmi.viewmodel.SignInViewModalFactory
 import com.chatimmi.viewmodel.SignInViewModel
 import com.facebook.*
-
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -50,6 +48,7 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
     private var personPhoto = ""
     private var socialType = ""
     lateinit var session: Session
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -61,9 +60,9 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
         binding!!.signInViewModel = viewModel
         binding?.invalidateAll()
 
-         mSocket = Chatimmi().getSocket()
+        /* mSocket = Chatimmi().getSocket()
          SocketCont().getmSocket(mSocket!!,this)
-
+*/
         val w = window
         w.setFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,

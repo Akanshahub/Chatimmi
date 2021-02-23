@@ -1,34 +1,41 @@
 package com.chatimmi.viewmodel
 
+import android.net.Uri
 import android.util.Patterns
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chatimmi.app.utils.UIStateManager
+import com.chatimmi.repository.EditProfileRepository
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 
-class EditProfileViewModel:ViewModel() {
+class EditProfileViewModel(private val editProfileRepository: EditProfileRepository):ViewModel() {
     var emailAddress = ""
     var userName = ""
+    lateinit var imageUri: Uri
+    var profilePicture: MultipartBody.Part? =null
+    var file: File? = null
 
-    private val updateResponseObserver by lazy {
-        MutableLiveData<UIStateManager>()
-
-    }
     private val validationObserver by lazy {
         MutableLiveData<UIStateManager>()
 
     }
     fun getValidationData() = validationObserver as LiveData<UIStateManager>
-    fun getUpdateData() = updateResponseObserver as LiveData<UIStateManager>
+
 
 
     fun updateOnClicked() {
         if (validate()) {
-            updateResponseObserver.value=UIStateManager.Success("updated")
+            val name = RequestBody.create(
+                    "text/plain".toMediaTypeOrNull(),
+                    userName
+            )
 
-        }else{
-          //  updateResponseObserver.value=UIStateManager.Error("Failed")
+
+            editProfileRepository.calleditProfileApi(name, profilePicture)
         }
 
     }
@@ -53,6 +60,18 @@ class EditProfileViewModel:ViewModel() {
             return false
         }
 
+        if (file != null) {
+
+            val file: File = file!!
+
+            val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val body: MultipartBody.Part =  MultipartBody.Part.createFormData("profilePicture", file.name, reqFile)
+
+            profilePicture  = body
+
+//            = MultipartBody.Part.createFormData(
+//                    "profilePicture", file.name, file.asRequestBody("image/*".toMediaTypeOrNull()))
+        }
         return true
     }
 }

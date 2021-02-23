@@ -139,9 +139,10 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grouplist 
         binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
 
         binding.itemsswipetorefresh.setOnRefreshListener {
-            group.clear()
+            onRefresh()
+           /* group.clear()
             immigrationGroupRepositary.callGroupListApi("2", "", "", "")
-            viewModel!!.getAdapter()!!.notifyDataSetChanged()
+            viewModel!!.getAdapter()!!.notifyDataSetChanged()*/
             binding.itemsswipetorefresh.isRefreshing = false
         }
     }
@@ -160,28 +161,29 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grouplist 
             super.onActivityResult(requestCode, resultCode, data)
             if (requestCode == 2) {
                 if (resultCode == Activity.RESULT_OK) {
-                    searchResult = data?.getParcelableExtra("searchResult")!!
-                    var categoryId = ""
-                    var subCategoryId = ""
-                    var groupScope = ""
-                    groupScope = searchResult.group_scope!!
 
-                    if (searchResult.category != null) {
-                        categoryId = searchResult.category!!
-                        subCategoryId = searchResult.subcategory!!
-                        viewModel!!.sendData(categoryId, subCategoryId, groupScope)
+                    if (data?.getParcelableExtra<SearchResponse>("searchResult") != null) {
+                        searchResult = data.getParcelableExtra<SearchResponse>("searchResult")!!
+                        var categoryId = ""
+                        var subCategoryId = ""
+                       var groupScope=""
+                        groupScope = searchResult.group_scope!!
 
+                        if (searchResult.category != null) {
+                            categoryId = searchResult.category!!
+                            subCategoryId = searchResult.subcategory!!
+                            viewModel!!.sendData(categoryId, subCategoryId, groupScope)
+                        } else {
+                            viewModel!!.sendData("", "", groupScope)
+                        }
+                        binding.rvMain.adapter = viewModel?.getAdapter()
+                        viewModel?.getAdapter()!!.notifyDataSetChanged()
+                        Log.d("TAG", "searchResult: " + searchResult)
                     } else {
-                        viewModel!!.sendData("", "", groupScope)
+                        immigrationGroupRepositary.callGroupListApi("2", "", "", "")
+                        searchResult= SearchResponse()
+
                     }
-                    binding.rvMain.adapter = viewModel?.getAdapter()
-                    viewModel?.getAdapter()!!.notifyDataSetChanged()
-                    Log.d("TAG", "searchResult: " + searchResult)
-
-
-                } else if (resultCode == Activity.RESULT_CANCELED) {
-                    searchResult = SearchResponse()
-                    viewModel!!.fetchUsers()
 
                 }
             }
@@ -200,7 +202,12 @@ class StudyFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.grouplist 
                     Toast.LENGTH_SHORT).show()
         }
     }
-
+    fun onRefresh(){
+        group.clear()
+        immigrationGroupRepositary.callGroupListApi("2", "", "", "")
+        viewModel!!.getAdapter()!!.notifyDataSetChanged()
+        searchResult=SearchResponse()
+    }
     override fun <T> performAction(clazz: Class<T>) {
         Intent(requireContext(), clazz).apply {
             startActivity(this)

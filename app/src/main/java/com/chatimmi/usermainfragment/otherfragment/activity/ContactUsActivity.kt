@@ -1,14 +1,13 @@
 package com.chatimmi.usermainfragment.otherfragment.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.chatimmi.R
+import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.databinding.ActivityContactUsBinding
 
 
-class ContactUsActivity : AppCompatActivity() {
+class ContactUsActivity : BaseActivitykt() {
     lateinit var binding: ActivityContactUsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

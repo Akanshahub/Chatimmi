@@ -3,6 +3,7 @@ package com.chatimmi.viewmodel
 import androidx.lifecycle.ViewModel
 import com.chatimmi.app.utils.CommonTaskPerformer
 import com.chatimmi.repository.LogoutRepository
+import com.chatimmi.usermainfragment.activity.notification.NotificationActivity
 import com.chatimmi.usermainfragment.otherfragment.activity.*
 import com.chatimmi.usermainfragment.otherfragment.myProfile.MyProfileActivity
 
@@ -24,6 +25,7 @@ class OtherFragmentViewModel(val logoutRepository: LogoutRepository) : ViewModel
     }
 
     fun llTermAndConditionsOnClicked() {
+
         commonTaskPerformer.performAction(TermAndCond::class.java)
 
     }
@@ -43,6 +45,9 @@ class OtherFragmentViewModel(val logoutRepository: LogoutRepository) : ViewModel
 
     fun rlProfileOnClicked() {
         commonTaskPerformer.performAction(MyProfileActivity::class.java)
+    }
+    fun llNotificationOnClicked(){
+        commonTaskPerformer.performAction(NotificationActivity::class.java)
     }
 
     fun logoutRequest() {

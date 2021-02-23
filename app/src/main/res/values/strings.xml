@@ -134,6 +134,9 @@
     <string name="tittle">Tittle</string>
     <string name="contact_us">Contact Us</string>
     <string name="no_network_connection">No network connection</string>
+    <string name="type_your_message">Type a message...</string>
+    <string name="notifications">Notifications</string>
+    <string name="logout">Logout</string>
 
 
 </resources>

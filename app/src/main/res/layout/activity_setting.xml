@@ -100,7 +100,7 @@
                         android:layout_gravity="end"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:padding="@dimen/_10sdp"
-                        app:srcCompat="@drawable/on_toogle_icon" />
+                        app:srcCompat="@drawable/off_toggle_off" />
                 </LinearLayout>
 
 

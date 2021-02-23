@@ -35,7 +35,7 @@ data class UserDetails(
 	val token: String? = null,
 	val country_code: Any? = null,
 	val full_name: String? = null,
-	val push_alert_status: Int? = null,
+	var push_alert_status: String? = null,
 	val email_verification_token: Int? = null,
 	val dob: Any? = null,
 	val password_token: Int? = null,
