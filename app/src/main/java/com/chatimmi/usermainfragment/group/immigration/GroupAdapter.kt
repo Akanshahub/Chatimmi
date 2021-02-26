@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.chatimmi.R
 import com.chatimmi.app.pref.Session
 import com.chatimmi.databinding.SingleItemGrouplistBinding
 import com.chatimmi.usermainfragment.group.immigration.GroupListResponse.Data
@@ -157,35 +158,34 @@ abstract class GroupAdapter(val layout: Int, private var groupListItem: ArrayLis
                // holder.binding.ivShowCount.visibility = View.GONE
                 holder.binding.rll.visibility = View.VISIBLE
                 Log.d("mnknknnknk", "showOverlapImages: ${getList?.avatar}")
-                Glide.with(holder.binding.ivOne.context).load(getList?.avatar).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivOne)
+                Glide.with(holder.binding.ivOne.context).load(getList?.avatar).error(R.drawable.user_placeholder_img).placeholder(R.drawable.user_placeholder_img).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivOne)
             } else if (i == 1) {
                 holder.binding.people.visibility = View.VISIBLE
                 holder.binding.ivOne.visibility = View.VISIBLE
                 holder.binding.ivTwo.visibility = View.VISIBLE
                 holder.binding.ivThree.visibility = View.GONE
-             //   holder.binding.ivShowCount.visibility = View.GONE
+               holder.binding.ivShowCount.visibility = View.GONE
                 holder.binding.rll.visibility = View.VISIBLE
-                Glide.with(holder.binding.ivTwo.context).load(getList?.avatar).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivTwo)
+                Glide.with(holder.binding.ivTwo.context).load(getList?.avatar).error(R.drawable.user_placeholder_img).placeholder(R.drawable.user_placeholder_img).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivTwo)
             } else if (i == 2) {
                 holder.binding.people.visibility = View.VISIBLE
                 holder.binding.ivOne.visibility = View.VISIBLE
                 holder.binding.ivTwo.visibility = View.VISIBLE
                 holder.binding.ivThree.visibility = View.VISIBLE
                 holder.binding.rll.visibility = View.VISIBLE
-              //  holder.binding.ivShowCount.visibility = View.GONE
-                Glide.with(holder.binding.ivThree.context).load(getList?.avatar).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivThree)
-            } else if (i > 3) {
+                holder.binding.ivShowCount.visibility = View.GONE
+                Glide.with(holder.binding.ivThree.context).load(getList?.avatar).error(R.drawable.user_placeholder_img).placeholder(R.drawable.user_placeholder_img).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivThree)
+            } else if (i >=3) {
                 holder.binding.people.visibility = View.VISIBLE
                 holder.binding.ivOne.visibility = View.VISIBLE
                 holder.binding.ivTwo.visibility = View.VISIBLE
                 holder.binding.ivThree.visibility = View.VISIBLE
                 holder.binding.tvImgCount.visibility = View.VISIBLE
                 holder.binding.ivShowCount.visibility = View.VISIBLE
-
                 holder.binding.rll.visibility = View.VISIBLE
-                Glide.with(holder.binding.ivOne.context).load(getList?.avatar).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivOne)
+               /* Glide.with(holder.binding.ivOne.context).load(getList?.avatar).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivOne)
                 Glide.with(holder.binding.ivTwo.context).load(getList?.avatar).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivTwo)
-                Glide.with(holder.binding.ivThree.context).load(getList?.avatar).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivThree)
+                Glide.with(holder.binding.ivThree.context).load(getList?.avatar).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivThree)*/
 
                 holder.binding.tvImgCount.text = "" + "+${list.size - 3}"
             }

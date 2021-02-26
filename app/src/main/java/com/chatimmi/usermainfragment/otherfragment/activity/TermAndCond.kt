@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebSettings
 import android.webkit.WebView
@@ -17,7 +18,7 @@ import com.chatimmi.databinding.ActivityTermAndCondBinding
 @Suppress("DEPRECATION")
 class TermAndCond : BaseActivitykt() {
     private var binding: ActivityTermAndCondBinding? = null
-
+    var url = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_term_and_cond)
@@ -26,9 +27,15 @@ class TermAndCond : BaseActivitykt() {
             val decor = window.decorView
             decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
+        val bundle = intent.extras
+        if (bundle != null) {
+            url = bundle.getString("termAndCond", "")
+            Log.d("tag", "termAndCond: $url")
+        }
 
         initialSetup()
     }
+
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun initialSetup() {
@@ -36,23 +43,23 @@ class TermAndCond : BaseActivitykt() {
             onBackPressed()
         }
 
-        binding!!. webViewLayout.settings.loadsImagesAutomatically = true
-        binding!!. webViewLayout.settings.javaScriptEnabled = true
-        binding!!. webViewLayout.settings.domStorageEnabled = true
-        binding!!. webViewLayout.webViewClient = MyBrowser()
+        binding!!.webViewLayout.settings.loadsImagesAutomatically = true
+        binding!!.webViewLayout.settings.javaScriptEnabled = true
+        binding!!.webViewLayout.settings.domStorageEnabled = true
+        binding!!.webViewLayout.webViewClient = MyBrowser()
         //webViewLayout.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
 
-        binding!!. webViewLayout.visibility = View.VISIBLE
-        binding!!. webViewLayout.settings.builtInZoomControls = true
-        binding!!. webViewLayout.settings.setSupportZoom(true)
-        binding!!. webViewLayout.settings.defaultZoom = WebSettings.ZoomDensity.FAR
-        binding!!. webViewLayout.settings.javaScriptCanOpenWindowsAutomatically = true
-        binding!!. webViewLayout.settings.allowFileAccess = true
-        binding!!. webViewLayout.settings.loadWithOverviewMode = true
-        binding!!.  webViewLayout.settings.useWideViewPort = true
-        binding!!. webViewLayout.settings.pluginState = WebSettings.PluginState.ON
-        binding!!. webViewLayout.settings.allowContentAccess = true
-        binding!!.webViewLayout.loadUrl("https://www.termsfeed.com/terms-conditions-generator/")
+        binding!!.webViewLayout.visibility = View.VISIBLE
+        binding!!.webViewLayout.settings.builtInZoomControls = true
+        binding!!.webViewLayout.settings.setSupportZoom(true)
+        binding!!.webViewLayout.settings.defaultZoom = WebSettings.ZoomDensity.FAR
+        binding!!.webViewLayout.settings.javaScriptCanOpenWindowsAutomatically = true
+        binding!!.webViewLayout.settings.allowFileAccess = true
+        binding!!.webViewLayout.settings.loadWithOverviewMode = true
+        binding!!.webViewLayout.settings.useWideViewPort = true
+        binding!!.webViewLayout.settings.pluginState = WebSettings.PluginState.ON
+        binding!!.webViewLayout.settings.allowContentAccess = true
+        binding!!.webViewLayout.loadUrl(url)
     }
 
     private inner class MyBrowser : WebViewClient() {

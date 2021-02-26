@@ -112,35 +112,42 @@
                       android:layout_marginBottom="@dimen/_10sdp"
                       />-->
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
+                android:id="@+id/rll"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/people"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_20sdp">
+                android:layout_marginTop="@dimen/_10sdp"
+                android:visibility="gone">
 
                 <com.chatimmi.custom.CircleImageView
+                    android:id="@+id/ivOne"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:visibility="gone"
+                    android:src="@drawable/user_placeholder_img"
                     app:civ_border_color="@color/white"
-                    app:civ_border_width="@dimen/_1sdp"
-                    app:srcCompat="@drawable/image2" />
+                    app:civ_border_width="@dimen/_1sdp" />
 
                 <com.chatimmi.custom.CircleImageView
+                    android:id="@+id/ivTwo"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
+                    android:visibility="gone"
+                    android:src="@drawable/user_placeholder_img"
                     app:civ_border_color="@color/white"
-                    app:civ_border_width="@dimen/_1sdp"
-                    app:srcCompat="@drawable/image1" />
+                    app:civ_border_width="@dimen/_1sdp" />
 
                 <com.chatimmi.custom.CircleImageView
+                    android:id="@+id/ivThree"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="40dp"
+                    android:visibility="gone"
+                    android:src="@drawable/user_placeholder_img"
                     app:civ_border_color="@color/white"
-                    app:civ_border_width="@dimen/_1sdp"
-                    app:srcCompat="@drawable/image3" />
+                    app:civ_border_width="@dimen/_1sdp" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -148,20 +155,36 @@
                     android:layout_marginStart="60dp">
 
                     <com.chatimmi.custom.CircleImageView
+                        android:id="@+id/ivShowCount"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:visibility="gone"
                         app:civ_border_color="@color/white"
                         app:civ_border_width="@dimen/_1sdp"
                         app:srcCompat="@color/warm_grey_four" />
 
+                    <!-- <TextView
+                         android:id="@+id/count"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_centerInParent="true"
+                         android:layout_marginTop="@dimen/_10sdp"
+                         android:text="+"
+                         android:textAlignment="center"
+                         android:textColor="@color/white"
+                         android:visibility="visible" />-->
+
                     <TextView
+                        android:id="@+id/tvImgCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="+3"
-                        android:textColor="@color/white" />
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp"
+                        android:visibility="gone" />
                 </RelativeLayout>
-
             </RelativeLayout>
 
             <!--

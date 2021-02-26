@@ -137,6 +137,9 @@
     <string name="type_your_message">Type a message...</string>
     <string name="notifications">Notifications</string>
     <string name="logout">Logout</string>
+    <string name="feedback_sent">Feedback sent successfully</string>
+    <string name="you_have_set_your_password">You have set your password, your session is expired. Please login again</string>
+    <string name="you_have_changed_your_password">You have changed your password, your session is expired. Please login again</string>
 
 
 </resources>

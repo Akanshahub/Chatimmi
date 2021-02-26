@@ -20,6 +20,7 @@ import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentOtherBinding
+import com.chatimmi.model.ContentTermsConditionModel
 import com.chatimmi.model.LogoutResponse
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.repository.LogoutRepository
@@ -83,6 +84,31 @@ class OtherFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.LogoutCall
                 }
             }
         })
+        logoutRepository.contentResponseObserver().observe(activity, androidx.lifecycle.Observer {
+            it?.let {
+                when (it) {
+                    is UIStateManager.Success<*> -> {
+                        val getData = it.data as ContentTermsConditionModel
+                       viewModal.termAndCond=getData.data!!.termsUrl!!
+                        viewModal.privacyPolicy=getData.data!!.privacyUrl!!
+                    }
+
+                    is UIStateManager.Error -> {
+                        activity.toastMessage(it.msg, context)
+                    }
+                    is UIStateManager.Loading -> {
+
+                        if (it.shouldShowLoading) {
+                            activity.showLoader()
+                        } else {
+                            activity.hideLoader()
+                        }
+                    }
+                    else -> {
+                    }
+                }
+            }
+        })
         Glide.with(activity).load(session.getUserData()!!.data!!.user_details.avatar).into(binding.image)
         binding.text.text = session.getUserData()!!.data!!.user_details.full_name
         binding.tvEmail.text = session.getUserData()!!.data!!.user_details.email
@@ -91,8 +117,13 @@ class OtherFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.LogoutCall
 
     }
 
-    override fun <T> performAction(clazz: Class<T>) {
-        Intent(requireContext(), clazz).apply {
+
+    override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
+
+        Intent(requireContext(), clazz,).apply {
+            if(isRequried){
+            this.putExtras(bundle!!)
+            }
             startActivity(this)
         }
     }

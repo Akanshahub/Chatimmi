@@ -194,8 +194,14 @@ class ImmigrationDetailsActivity : BaseActivitykt() , CommonTaskPerformer,ApiCal
 
     }
 
-    override fun <T> performAction(clazz: Class<T>) {
+    override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
 
+        Intent(this, clazz,).apply {
+            if(isRequried){
+                this.putExtras(bundle!!)
+            }
+            startActivity(this)
+        }
     }
 
     override fun showMsg(msg: String) {

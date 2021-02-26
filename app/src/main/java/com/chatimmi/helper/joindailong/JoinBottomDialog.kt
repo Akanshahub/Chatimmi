@@ -18,7 +18,6 @@ import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseBottomDialog
 import com.chatimmi.databinding.ActivityJoinBottomDailongBinding
 import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
-import com.chatimmi.usermainfragment.group.immigration.details.ImmigrationDetailsActivity
 
 class JoinBottomDialog(val group: GroupListResponse.Data.Group,val listner: onItemCkick) : BaseBottomDialog(),CommonTaskPerformer {
     private val TAG = "JoinBottomDialog"
@@ -94,8 +93,12 @@ class JoinBottomDialog(val group: GroupListResponse.Data.Group,val listner: onIt
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
     }
 
-    override fun <T> performAction(clazz: Class<T>) {
-        Intent(requireContext(), clazz).apply {
+    override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
+
+        Intent(requireContext(), clazz,).apply {
+            if(isRequried){
+                this.putExtras(bundle!!)
+            }
             startActivity(this)
         }
     }

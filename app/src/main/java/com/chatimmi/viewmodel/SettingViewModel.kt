@@ -14,11 +14,11 @@ class SettingViewModel(val logoutRepository: LogoutRepository) : ViewModel() {
     }
 
     fun llEditProfileOnClicked() {
-        commonTaskPerformer.performAction(EditProfileActivity::class.java)
+        commonTaskPerformer.performAction(EditProfileActivity::class.java,null,false)
     }
 
     fun llChangePasswordClicked() {
-        commonTaskPerformer.performAction(ChangePasswordActivity::class.java)
+        commonTaskPerformer.performAction(ChangePasswordActivity::class.java,null,false)
     }
     fun logoutOnClicked() {
         commonTaskPerformer.launchAction()

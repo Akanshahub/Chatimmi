@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.base.BaseActivitykt
+import com.chatimmi.model.ContentTermsConditionModel
 import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.LogoutResponse
 import com.chatimmi.model.UserDetialResponse
@@ -24,17 +25,23 @@ import java.io.IOException
 class LogoutRepository(var context: BaseActivitykt, var logoutCallBack: ApiCallback.LogoutCallback,var notificationSwitchCallBack: ApiCallback.NotificationSwitchCallBack) {
     var session=com.chatimmi.app.pref.Session(context)
 
+    fun getLogOutResponseData() = logoutResponseObserver as LiveData<UIStateManager>
     private val logoutResponseObserver by lazy {
         MutableLiveData<UIStateManager>()
     }
 
-    fun getLogOutResponseData() = logoutResponseObserver as LiveData<UIStateManager>
 
+    fun ResponseObserver() = ResponseObserver as LiveData<UIStateManager>
     private val ResponseObserver by lazy {
         MutableLiveData<UIStateManager>()
     }
 
-    fun ResponseObserver() = ResponseObserver as LiveData<UIStateManager>
+    fun contentResponseObserver() = contentResponseObserver as LiveData<UIStateManager>
+    private val contentResponseObserver by lazy {
+        MutableLiveData<UIStateManager>()
+    }
+
+
     fun callLogoutApi() {
         logoutResponseObserver.value = UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
@@ -46,6 +53,7 @@ class LogoutRepository(var context: BaseActivitykt, var logoutCallBack: ApiCallb
                     logoutResponseObserver.value = UIStateManager.Loading(false)
                     session.setIsUserLoggedIn("logout")
                     val intent = Intent(context, SignInActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     context.navigateTo(intent, true)
                     logoutResponseObserver.value = UIStateManager.Success(response.body())
 
@@ -99,6 +107,36 @@ class LogoutRepository(var context: BaseActivitykt, var logoutCallBack: ApiCallb
                     }
                     else {
                         notificationSwitchCallBack.onError(context.getString(R.string.something_went_wrong))
+                    }
+                }
+            })
+        }
+
+           fun callContentApi() {
+               val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
+            val callApi = api.callContentTermsConditionApi()
+            callApi.enqueue(object : Callback<ContentTermsConditionModel> {
+                @RequiresApi(Build.VERSION_CODES.KITKAT)
+                override fun onResponse(call: Call<ContentTermsConditionModel>, response: Response<ContentTermsConditionModel>) {
+
+                    if(response.isSuccessful) {
+                        contentResponseObserver.value = UIStateManager.Success(response.body())
+
+                    }
+                    else
+                    {
+
+                        val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
+                      //  notificationSwitchCallBack.onError(gson.message.toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<ContentTermsConditionModel>, t: Throwable) {
+                    if(t is IOException) {
+                        //notificationSwitchCallBack.onError(context.getString(R.string.no_network_connection))
+                    }
+                    else {
+                       // notificationSwitchCallBack.onError(context.getString(R.string.something_went_wrong))
                     }
                 }
             })

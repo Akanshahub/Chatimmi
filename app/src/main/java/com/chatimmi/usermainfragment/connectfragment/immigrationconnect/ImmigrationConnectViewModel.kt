@@ -23,11 +23,11 @@ class ImmigrationConnectViewModel(val repo: ImmigrationConnectRepositary) : View
             }
 
             override fun onChatCallBack() {
-                commonTaskPerformer.performAction(ChatActivity::class.java)
+                commonTaskPerformer.performAction(ChatActivity::class.java,null,false)
             }
 
             override fun onCardCallBack(item: ConsultantListResponce.Data.Consultant) {
-                commonTaskPerformer.performAction(ConnectDetailsActivity::class.java)
+                commonTaskPerformer.performAction(ConnectDetailsActivity::class.java,null,false)
             }
         }
     }

@@ -185,7 +185,7 @@ class ChangePasswordActivity : BaseActivitykt(),ApiCallback.ChangePasswordCallBa
     fun alertDailog() {
         val mAlertDialog = AlertDialog.Builder(this)
         mAlertDialog.setTitle("Alert") //set alertdialog title
-        mAlertDialog.setMessage("You have changed your password, your session is expired. Please login again") //set alertdialog message
+        mAlertDialog.setMessage(getString(R.string.you_have_changed_your_password)) //set alertdialog message
         mAlertDialog.setPositiveButton("Okay") { dialog, id ->
 
             viewModel.logoutRequest()
@@ -198,7 +198,7 @@ class ChangePasswordActivity : BaseActivitykt(),ApiCallback.ChangePasswordCallBa
     fun alertDailogSetPassword() {
         val mAlertDialog = AlertDialog.Builder(this)
         mAlertDialog.setTitle("Alert") //set alertdialog title
-        mAlertDialog.setMessage("You have set your password, your session is expired. Please login again") //set alertdialog message
+        mAlertDialog.setMessage(getString(R.string.you_have_set_your_password)) //set alertdialog message
         mAlertDialog.setPositiveButton("Okay") { dialog, id ->
            // session.setIsUserLoggedIn("logout")
             viewModel.logoutRequest()

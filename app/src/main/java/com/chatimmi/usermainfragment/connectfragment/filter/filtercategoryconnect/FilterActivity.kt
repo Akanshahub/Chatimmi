@@ -52,8 +52,12 @@ class FilterActivity : BaseActivitykt(), CommonTaskPerformer {
         binding!!.model = viewModel
     }
 
-    override fun <T> performAction(clazz: Class<T>) {
-        Intent(this, clazz).apply {
+    override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
+
+        Intent(this, clazz,).apply {
+            if(isRequried){
+                this.putExtras(bundle!!)
+            }
             startActivity(this)
         }
     }

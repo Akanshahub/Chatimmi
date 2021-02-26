@@ -32,6 +32,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.chatimmi.Chatimmi
 import com.chatimmi.R
 import com.chatimmi.app.pref.Session
+import com.chatimmi.app.utils.CommonTaskPerformer
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseActivitykt
@@ -39,11 +40,10 @@ import com.chatimmi.databinding.ActivitySignupBinding
 import com.chatimmi.fragmentchatimmi.ChatimmiActivity
 import com.chatimmi.helper.ImagePicker
 import com.chatimmi.helper.ImagePicker.PICK_IMAGE_REQUEST_CODE
+import com.chatimmi.model.ContentTermsConditionModel
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.repository.SignUpRepository
 import com.chatimmi.retrofitnetwork.ApiCallback
-import com.chatimmi.usermainfragment.otherfragment.activity.PrivacyPolicy
-import com.chatimmi.usermainfragment.otherfragment.activity.TermAndCond
 import com.chatimmi.viewmodel.SignUpViewModalFactory
 import com.chatimmi.viewmodel.SignUpViewModel
 import com.yalantis.ucrop.UCrop
@@ -54,7 +54,7 @@ import java.io.IOException
 import java.util.*
 
 
-class SignupActivitykt : BaseActivitykt(),ApiCallback.SignUpCallback {
+class SignupActivitykt : BaseActivitykt(),ApiCallback.SignUpCallback, CommonTaskPerformer {
 var signUpViewModel: SignUpViewModel? = null
     private var binding: ActivitySignupBinding? = null
     private var bitmap: Bitmap? = null
@@ -72,6 +72,7 @@ var signUpViewModel: SignUpViewModel? = null
         signUpViewModel = ViewModelProviders.of(this, factory).get(SignUpViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
         binding?.lifecycleOwner = this
+        signUpViewModel!!.init(this)
         binding!!.signUpViewModel = signUpViewModel
         binding?.invalidateAll()
         session = Session(this)
@@ -123,47 +124,55 @@ var signUpViewModel: SignUpViewModel? = null
                 }
             }
         })
+        signUpRepository.contentResponseObserver().observe(this, androidx.lifecycle.Observer {
+            it?.let {
+                when (it) {
+                    is UIStateManager.Success<*> -> {
+                        val getData = it.data as ContentTermsConditionModel
+                        signUpViewModel!!.termAndCond=getData.data!!.termsUrl!!
+                        signUpViewModel!!.privacyPolicy=getData.data!!.privacyUrl!!
+                    }
+
+                    is UIStateManager.Error -> {
+                        toastMessage(it.msg, this)
+                    }
+                    is UIStateManager.Loading -> {
+
+                        if (it.shouldShowLoading) {
+                            showLoader()
+                        } else {
+                           hideLoader()
+                        }
+                    }
+                    else -> {
+                    }
+                }
+            }
+        })
         prepareSignInLink()
         initialSetup()
     }
 
     private fun initialSetup() {
 
-        binding!!.tvPrivacyPolicy.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-
-                val intent = Intent(this@SignupActivitykt, PrivacyPolicy::class.java)
-                navigateTo(intent, false)
-
-
-            }
-        })
-        binding!!.tvTerm.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-
-                val intent = Intent(this@SignupActivitykt, TermAndCond::class.java)
-                navigateTo(intent, false)
-            }
-
-        })
-        binding!!.appBar.ivBtnBack.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-
-                onBackPressed()
-
-            }
-
-        })
-        binding!!.btnSignup.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                /* if (validate()) {
+   /*     binding!!.tvPrivacyPolicy.setOnClickListener {
+            val intent = Intent(this@SignupActivitykt, PrivacyPolicy::class.java)
+            navigateTo(intent, false)
+        }
+        binding!!.tvTerm.setOnClickListener {
+            val intent = Intent(this@SignupActivitykt, TermAndCond::class.java)
+           // val bundle = Bundle()
+           // bundle.putString("termAndCond",termAndCond)
+            navigateTo(intent, false)
+        }*/
+        binding!!.appBar.ivBtnBack.setOnClickListener { onBackPressed() }
+        binding!!.btnSignup.setOnClickListener { /* if (validate()) {
                     val intent = Intent(this@SignupActivitykt, ChatimmiActivity::class.java)
                     //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                      startActivity(intent)
                    // Toast.makeText(this@SignupActivitykt, "Under Development", Toast.LENGTH_SHORT).show();
                 }*/
-            }
-        })
+        }
         binding!!.ivImages.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
 
@@ -210,7 +219,7 @@ var signUpViewModel: SignUpViewModel? = null
         )
         binding!!.tvLogin.movementMethod = LinkMovementMethod()
         binding!!.tvLogin.highlightColor = Color.TRANSPARENT
-        binding!!.tvLogin.setText(spannable)
+        binding!!.tvLogin.text = spannable
     }
 
 
@@ -220,7 +229,7 @@ var signUpViewModel: SignUpViewModel? = null
         if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
             val uri = UCrop.getOutput(data!!)
 
-            data?.let {
+            data.let {
                 Log.d("fbasjfbajsfa", "onActivityResult: ${uri}")
             }
 
@@ -230,7 +239,7 @@ var signUpViewModel: SignUpViewModel? = null
             var bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
             signUpViewModel!!.file= getImageFile(uri)
             try {
-                showImage(uri!!)
+                showImage(uri)
 
                 bitmap = getBitmapFromUri(uri)
                 avatarUri = uri
@@ -320,7 +329,7 @@ var signUpViewModel: SignUpViewModel? = null
         var file: File? = null
         return try {
             file = File(Environment.getExternalStorageDirectory().toString() + File.separator + fileNameToSave)
-            file!!.createNewFile()
+            file.createNewFile()
 
             //Convert bitmap to byte array
             val bos = ByteArrayOutputStream()
@@ -353,6 +362,31 @@ var signUpViewModel: SignUpViewModel? = null
 
     override fun onError(errorMessage: String) {
     toastMessage(errorMessage,this)
+
+    }
+
+    override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
+
+        Intent(this, clazz,).apply {
+            if(isRequried){
+                this.putExtras(bundle!!)
+            }
+            startActivity(this)
+        }
+    }
+
+    override fun showMsg(msg: String) {
+
+    }
+
+    override fun dismissDialog() {
+
+    }
+
+    override fun launchAction() {
+    }
+
+    override fun connectClick(userID: Int) {
 
     }
 }

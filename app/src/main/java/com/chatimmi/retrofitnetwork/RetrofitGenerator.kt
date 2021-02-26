@@ -10,7 +10,9 @@ open class RetrofitGenerator {
 
     companion object {
 
-         val API_BASE_URI = "http://70.54.131.186:3000/"
+         //val API_BASE_URI = "http://70.54.131.186:3000/"
+         //val API_BASE_URI = "http://chatimmi.net/"
+         val API_BASE_URI = "https://chatimmi.net:80/"
        // http://70.54.131.186:3000/
 
 

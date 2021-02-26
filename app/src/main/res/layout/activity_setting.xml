@@ -2,12 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
 
         <variable
             name="settingViewModel"
             type="com.chatimmi.viewmodel.SettingViewModel" />
     </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,14 +25,14 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
+                android:layout_height="?android:actionBarSize"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/backButton"
                     android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_45sdp"
+                    android:layout_height="56dp"
                     android:layout_gravity="center_vertical|start"
                     android:padding="@dimen/_12sdp"
                     app:srcCompat="@drawable/ic_back_arrow_ico"
@@ -60,9 +62,9 @@
                 android:id="@+id/llNotification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-
                 android:focusable="true"
                 android:orientation="vertical">
 
@@ -76,8 +78,8 @@
                     android:paddingBottom="5dp">
 
                     <ImageView
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="@dimen/_50sdp"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_52sdp"
                         android:padding="@dimen/_8sdp"
                         app:srcCompat="@drawable/notification_ico" />
 
@@ -107,14 +109,15 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginStart="@dimen/_5sdp"
                 android:id="@+id/llEditProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/llNotification"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:onClick="@{() -> settingViewModel.llEditProfileOnClicked()}"
                 android:focusable="true"
+                android:onClick="@{() -> settingViewModel.llEditProfileOnClicked()}"
                 android:orientation="vertical">
 
 
@@ -127,8 +130,8 @@
                     android:paddingBottom="5dp">
 
                     <ImageView
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="@dimen/_50sdp"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_52sdp"
                         android:padding="@dimen/_8sdp"
                         app:srcCompat="@drawable/edit_new_ico" />
 
@@ -158,14 +161,15 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginStart="@dimen/_5sdp"
                 android:id="@+id/llChangePassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/llEditProfile"
-                android:onClick="@{() -> settingViewModel.llChangePasswordClicked()}"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
+                android:onClick="@{() -> settingViewModel.llChangePasswordClicked()}"
                 android:orientation="vertical">
 
 
@@ -178,8 +182,8 @@
                     android:paddingBottom="5dp">
 
                     <ImageView
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="@dimen/_50sdp"
+                        android:layout_width="@dimen/_52sdp"
+                        android:layout_height="@dimen/_52sdp"
                         android:padding="@dimen/_8sdp"
                         app:srcCompat="@drawable/lock_ico" />
 
@@ -214,11 +218,11 @@
         <RelativeLayout
             android:layout_width="283.3dp"
             android:layout_height="50dp"
-            android:onClick="@{() -> settingViewModel.logoutOnClicked()}"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/_50sdp"
             android:background="@drawable/logout_bg_button"
+            android:onClick="@{() -> settingViewModel.logoutOnClicked()}"
             android:orientation="vertical">
 
             <LinearLayout

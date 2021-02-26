@@ -10,10 +10,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.chatimmi.R
 import com.chatimmi.app.pref.Session
 import com.chatimmi.databinding.SingleItemStudyBinding
 import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
-import com.squareup.picasso.Picasso
 
 abstract class StudyAdapter(val layout: Int, private var groupListItem: ArrayList<GroupListResponse.Data.Group>) : RecyclerView.Adapter<StudyAdapter.StudyViewHolder>() {
     lateinit var context: Context
@@ -146,7 +146,7 @@ abstract class StudyAdapter(val layout: Int, private var groupListItem: ArrayLis
                 holder.binding.ivTwo.visibility = View.GONE
                 holder.binding.ivThree.visibility = View.GONE
                 holder.binding.rll.visibility = View.VISIBLE
-                Glide.with(context).load(getList!!.avatar).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivOne)
+                Glide.with(holder.binding.ivOne.context).load(getList?.avatar).error(R.drawable.user_placeholder_img).placeholder(R.drawable.user_placeholder_img).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivOne)
 
             } else if (i == 1) {
                 holder.binding.people.visibility = View.VISIBLE
@@ -154,7 +154,7 @@ abstract class StudyAdapter(val layout: Int, private var groupListItem: ArrayLis
                 holder.binding.ivTwo.visibility = View.VISIBLE
                 holder.binding.ivThree.visibility = View.GONE
                 holder.binding.rll.visibility = View.VISIBLE
-                Glide.with(context).load(getList!!.avatar).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivTwo)
+                Glide.with(holder.binding.ivOne.context).load(getList?.avatar).error(R.drawable.user_placeholder_img).placeholder(R.drawable.user_placeholder_img).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivTwo)
 
             } else if (i == 2) {
                 holder.binding.people.visibility = View.VISIBLE
@@ -163,8 +163,8 @@ abstract class StudyAdapter(val layout: Int, private var groupListItem: ArrayLis
                 holder.binding.ivTwo.visibility = View.VISIBLE
                 holder.binding.ivThree.visibility = View.VISIBLE
                 holder.binding.rll.visibility = View.VISIBLE
-                Glide.with(context).load(getList?.avatar).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivThree)
-            } else if (i > 3) {
+                Glide.with(holder.binding.ivOne.context).load(getList?.avatar).error(R.drawable.user_placeholder_img).placeholder(R.drawable.user_placeholder_img).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivThree)
+            } else if (i >=3) {
                 holder.binding.people.visibility = View.VISIBLE
                 holder.binding.ivOne.visibility = View.VISIBLE
                 holder.binding.ivTwo.visibility = View.VISIBLE
@@ -176,9 +176,9 @@ abstract class StudyAdapter(val layout: Int, private var groupListItem: ArrayLis
                 /* Picasso.get().load(getList?.avatar).into(holder.binding.ivOne)
                  Picasso.get().load(getList?.avatar).into(holder.binding.ivTwo)
                  Picasso.get().load(getList?.avatar).into(holder.binding.ivThree)*/
-                Glide.with(context).load(getList?.avatar).into(holder.binding.ivOne)
+                /*Glide.with(context).load(getList?.avatar).into(holder.binding.ivOne)
                 Glide.with(context).load(getList?.avatar).into(holder.binding.ivTwo)
-                Glide.with(context).load(getList?.avatar).into(holder.binding.ivThree)
+                Glide.with(context).load(getList?.avatar).into(holder.binding.ivThree)*/
                 holder.binding.tvImgCount.text = ""+"+${list.size - 3}"
             }
         }

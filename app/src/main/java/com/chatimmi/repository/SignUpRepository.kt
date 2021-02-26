@@ -1,10 +1,13 @@
 package com.chatimmi.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.base.BaseActivitykt
+import com.chatimmi.model.ContentTermsConditionModel
 import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.retrofitnetwork.API
@@ -59,6 +62,39 @@ class SignUpRepository(var context: BaseActivitykt, var signUpCallback: ApiCallb
 //                }
 
 
+            }
+        })
+    }
+    fun contentResponseObserver() = contentResponseObserver as LiveData<UIStateManager>
+    private val contentResponseObserver by lazy {
+        MutableLiveData<UIStateManager>()
+    }
+    fun callContentApi() {
+        val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
+        val callApi = api.callContentTermsConditionApi()
+        callApi.enqueue(object : Callback<ContentTermsConditionModel> {
+            @RequiresApi(Build.VERSION_CODES.KITKAT)
+            override fun onResponse(call: Call<ContentTermsConditionModel>, response: Response<ContentTermsConditionModel>) {
+
+                if(response.isSuccessful) {
+                    contentResponseObserver.value = UIStateManager.Success(response.body())
+
+                }
+                else
+                {
+
+                    val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
+                    //  notificationSwitchCallBack.onError(gson.message.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<ContentTermsConditionModel>, t: Throwable) {
+                if(t is IOException) {
+                    //notificationSwitchCallBack.onError(context.getString(R.string.no_network_connection))
+                }
+                else {
+                    // notificationSwitchCallBack.onError(context.getString(R.string.something_went_wrong))
+                }
             }
         })
     }

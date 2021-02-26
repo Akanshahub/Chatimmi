@@ -1,14 +1,13 @@
 package com.chatimmi.retrofitnetwork
 
 import com.chatimmi.helper.joindailong.JoinGroupResponse
-import com.chatimmi.model.ChangePasswordResponse
-import com.chatimmi.model.LogoutResponse
-import com.chatimmi.model.ResetPasswordResponse
-import com.chatimmi.model.UserDetialResponse
+import com.chatimmi.model.*
 import com.chatimmi.usermainfragment.connectfragment.immigrationconnect.ConsultantListResponce
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterResponse
 import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
 import com.chatimmi.usermainfragment.group.immigration.details.ImmigrationDetailsResponse
+import com.chatimmi.usermainfragment.otherfragment.myProfile.GetProfileChatGroupResponse
+import com.chatimmi.usermainfragment.otherfragment.myProfile.GetProfileMyConsultantsResonse
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -139,4 +138,31 @@ interface API {
             @Part("full_name") fullName: RequestBody?,
             @Part profilePicture: MultipartBody.Part?):
             Call<UserDetialResponse>
+
+    @GET("api/v1/user/content")
+    fun callContentTermsConditionApi(
+    ): Call<ContentTermsConditionModel>
+
+    @FormUrlEncoded
+    @POST("api/v1/user/contact-us")
+    fun callContactUsApi(
+            @Field("title") title: String,
+            @Field("description") description: String,
+    ): Call<ContactUsResponse>
+
+    @GET("api/v1/user/profile?")
+    fun getProfileChatGroupApi(
+            @Query("type") type: String,
+            @Query("group_type") group_type: String,
+            @Query("offset") offset: String,
+            @Query("limit") limit: String,
+    ): Call<GetProfileChatGroupResponse>
+
+    @GET("api/v1/user/profile?")
+    fun getProfileConsultantApi(
+            @Query("type") type: String,
+            @Query("user_type") group_type: String,
+            @Query("offset") offset: String,
+            @Query("limit") limit: String,
+    ): Call<GetProfileMyConsultantsResonse>?
 }

@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.chatimmi.R
 import com.chatimmi.app.utils.CommonTaskPerformer
-import com.chatimmi.base.BaseActivity
 import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.databinding.ActivityMarketFilterBinding
 
@@ -50,8 +49,12 @@ class MarketFilterActivity : BaseActivitykt(), CommonTaskPerformer {
         binding!!.model = viewModel
     }
 
-    override fun <T> performAction(clazz: Class<T>) {
-        Intent(this, clazz).apply {
+    override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
+
+        Intent(this, clazz,).apply {
+            if(isRequried){
+                this.putExtras(bundle!!)
+            }
             startActivity(this)
         }
     }

@@ -1,5 +1,6 @@
 package com.chatimmi.usermainfragment.connectfragment.filter.filtersubcategoryconnect
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -8,10 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.chatimmi.R
 import com.chatimmi.app.utils.CommonTaskPerformer
 import com.chatimmi.base.BaseActivitykt
-import com.chatimmi.databinding.ActivityFilterBinding
 import com.chatimmi.databinding.ActivityFilterSubCategoryConnectBinding
-import com.chatimmi.usermainfragment.connectfragment.filter.filtercategoryconnect.FilterActivityViewModel
-import com.chatimmi.usermainfragment.group.filter.filtersubcategorygroup.FilterSubCategoryGroupViewModel
 
 @Suppress("DEPRECATION")
 class FiltersubcategoryconnectActivity: BaseActivitykt(), CommonTaskPerformer {
@@ -43,8 +41,14 @@ class FiltersubcategoryconnectActivity: BaseActivitykt(), CommonTaskPerformer {
         binding!!.model = viewModel
     }
 
-    override fun <T> performAction(clazz: Class<T>) {
-        TODO("Not yet implemented")
+    override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
+
+        Intent(this, clazz,).apply {
+            if(isRequried){
+                this.putExtras(bundle!!)
+            }
+            startActivity(this)
+        }
     }
 
     override fun showMsg(msg: String) {

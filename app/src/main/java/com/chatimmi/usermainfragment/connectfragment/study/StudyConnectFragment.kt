@@ -162,8 +162,12 @@ class StudyConnectFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.Con
         observe()
     }
 
-    override fun <T> performAction(clazz: Class<T>) {
-        Intent(requireContext(), clazz).apply {
+    override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
+
+        Intent(requireContext(), clazz,).apply {
+            if(isRequried){
+                this.putExtras(bundle!!)
+            }
             startActivity(this)
         }
     }

@@ -1,10 +1,7 @@
 package com.chatimmi.retrofitnetwork
 
 import com.chatimmi.helper.joindailong.JoinGroupResponse
-import com.chatimmi.model.ChangePasswordResponse
-import com.chatimmi.model.LogoutResponse
-import com.chatimmi.model.ResetPasswordResponse
-import com.chatimmi.model.UserDetialResponse
+import com.chatimmi.model.*
 import com.chatimmi.usermainfragment.connectfragment.immigrationconnect.ConsultantListResponce
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterResponse
 import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
@@ -67,6 +64,9 @@ interface ApiCallback {
         fun onSuccessLogin(joinGroupResponse: JoinGroupResponse)
     }
 
+    interface ContactUsCallBack : BaseInterface {
+        fun onSuccessLogin(contactUsResponse: ContactUsResponse)
+    }
     interface NotificationSwitchCallBack : BaseInterface {
         fun onSuccessLogin(joinGroupResponse: UserDetialResponse)
     }

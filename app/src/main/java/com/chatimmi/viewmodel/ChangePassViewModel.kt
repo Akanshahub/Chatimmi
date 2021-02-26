@@ -10,6 +10,7 @@ import java.util.regex.Pattern
 class ChangePassViewModel(private val changePasswordRepository: ChangePasswordRepository) : ViewModel() {
     var currentPass=""
     var newPass=""
+
     var confirmPass=""
     var PASSWORD_PATTERN_STRING = "^(?=.{8,})(?=.*[A-Z])(?=.*[@#\$%^&+*!=]).*\$"
 

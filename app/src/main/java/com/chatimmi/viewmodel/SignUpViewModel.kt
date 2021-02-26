@@ -2,12 +2,16 @@ package com.chatimmi.viewmodel
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Bundle
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.chatimmi.app.utils.CommonTaskPerformer
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.repository.SignUpRepository
+import com.chatimmi.usermainfragment.otherfragment.activity.PrivacyPolicy
+import com.chatimmi.usermainfragment.otherfragment.activity.TermAndCond
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -23,19 +27,36 @@ class SignUpViewModel(val signupRepository: SignUpRepository) :
     var fullName = ""
     var passwordConfirm = ""
     var userType = "1"
+    var termAndCond = ""
+    var privacyPolicy = ""
+    lateinit var commonTaskPerformer: CommonTaskPerformer
     var PASSWORD_PATTERN_STRING = "/^(?=.*\\d)(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\\s).{8,}\$/"
+    fun init(commonTaskPerformer: CommonTaskPerformer) {
+        signupRepository.callContentApi()
+        this.commonTaskPerformer = commonTaskPerformer
+    }
 
-     var profilePicture: MultipartBody.Part? =null
+    var profilePicture: MultipartBody.Part? = null
     var file: File? = null
 
-     var isSelect: Boolean = false
+    var isSelect: Boolean = false
 
     private val validationObserver by lazy {
         MutableLiveData<UIStateManager>()
     }
 
     fun getValidationData() = validationObserver as LiveData<UIStateManager>
+    fun llPrivacyPolicyOnClicked() {
+        val bundle = Bundle()
+        bundle.putString("privacyPolicy", privacyPolicy)
+        commonTaskPerformer.performAction(PrivacyPolicy::class.java, bundle, true)
+    }
 
+    fun llTermAndConditionsOnClicked() {
+        val bundle = Bundle()
+        bundle.putString("termAndCond", termAndCond)
+        commonTaskPerformer.performAction(TermAndCond::class.java, bundle, true)
+    }
 
     fun updateOnClicked() {
 
@@ -65,28 +86,22 @@ class SignUpViewModel(val signupRepository: SignUpRepository) :
 
             signupRepository.SignUpCallback(name, emaill, passwordd, usertype, cpass, profilePicture)
         }
-
+        signupRepository.callContentApi()
     }
-
-
-
-
-
-
 
 
     private fun validate(): Boolean {
 
         if (fullName.isEmpty()) {
             validationObserver.value = UIStateManager.Error("Please enter your full name")
-           // Toast.makeText(this, getString(R.string.please_enter_full_name), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this, getString(R.string.please_enter_full_name), Toast.LENGTH_SHORT).show();
             return false
         }
-      /*  if (fullName.length < 2) {
-            validationObserver.value = UIStateManager.Error("FullName must be atleast 2 characters")
-          //  Toast.makeText(this, getString(R.string.fullname_must_6_digt), Toast.LENGTH_SHORT).show();
-            return false
-        }*/
+        /*  if (fullName.length < 2) {
+              validationObserver.value = UIStateManager.Error("FullName must be atleast 2 characters")
+            //  Toast.makeText(this, getString(R.string.fullname_must_6_digt), Toast.LENGTH_SHORT).show();
+              return false
+          }*/
         if ("" == emailAddress) {
             validationObserver.value = UIStateManager.Error("Please enter your email")
 
@@ -115,7 +130,7 @@ class SignUpViewModel(val signupRepository: SignUpRepository) :
 
         if (passwordConfirm != password) {
             validationObserver.value = UIStateManager.Error("Password and confirm password does not match")
-           // Toast.makeText(this, getString(R.string.confirm_password_does_not_match), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this, getString(R.string.confirm_password_does_not_match), Toast.LENGTH_SHORT).show();
             return false
         }
         if (!isSelect) {
@@ -124,15 +139,15 @@ class SignUpViewModel(val signupRepository: SignUpRepository) :
         }
         //content://media/external/images/media/727
 
-       // file = File()
+        // file = File()
         if (file != null) {
 
             val file: File = file!!
 
             val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-            val body: MultipartBody.Part =  MultipartBody.Part.createFormData("profilePicture", file.name, reqFile)
+            val body: MultipartBody.Part = MultipartBody.Part.createFormData("profilePicture", file.name, reqFile)
 
-            profilePicture  = body
+            profilePicture = body
 
 //            = MultipartBody.Part.createFormData(
 //                    "profilePicture", file.name, file.asRequestBody("image/*".toMediaTypeOrNull()))

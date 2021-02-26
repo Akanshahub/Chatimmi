@@ -4,19 +4,20 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.databinding.DataBindingUtil
 import com.chatimmi.R
-import com.chatimmi.base.BaseActivity
+import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.databinding.ActivityPrivacyPolicyBinding
 
 @Suppress("DEPRECATION")
-class PrivacyPolicy : BaseActivity() {
+class PrivacyPolicy : BaseActivitykt() {
     private var binding: ActivityPrivacyPolicyBinding? = null
-
+    var url = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_privacy_policy)
@@ -24,7 +25,11 @@ class PrivacyPolicy : BaseActivity() {
             val decor = window.decorView
             decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
-
+        val bundle = intent.extras
+        if (bundle != null) {
+            url = bundle.getString("privacyPolicy", "")
+            Log.d("tag", "privacyPolicy: $url")
+        }
         initialSetup()
 
     }
@@ -50,7 +55,7 @@ class PrivacyPolicy : BaseActivity() {
         binding!!.  webViewLayout.settings.useWideViewPort = true
         binding!!. webViewLayout.settings.pluginState = WebSettings.PluginState.ON
         binding!!. webViewLayout.settings.allowContentAccess = true
-        binding!!.webViewLayout.loadUrl("https://www.freeprivacypolicy.com/free-privacy-policy-generator/")
+        binding!!.webViewLayout.loadUrl(url)
     }
 
     private inner class MyBrowser : WebViewClient() {

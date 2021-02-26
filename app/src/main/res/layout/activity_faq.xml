@@ -15,7 +15,6 @@
             android:id="@+id/card"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_60sdp"
-
             app:cardBackgroundColor="@color/white"
             app:cardElevation="@dimen/_5sdp">
 
@@ -49,16 +48,19 @@
         </androidx.cardview.widget.CardView>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="@string/under_development"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_17sdp" />
+        <!-- <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true"
+             android:fontFamily="@font/montserrat_medium"
+             android:text="@string/under_development"
+             android:textColor="@color/black"
+             android:textSize="@dimen/_17sdp" />-->
 
-
+        <WebView
+            android:id="@+id/webViewLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </RelativeLayout>
 
 

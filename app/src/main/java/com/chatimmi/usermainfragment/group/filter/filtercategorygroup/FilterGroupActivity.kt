@@ -1,6 +1,5 @@
 package com.chatimmi.usermainfragment.group.filter.filtercategorygroup
 
-
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -55,7 +54,6 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer, ApiCallback.Gro
         binding!!.model = viewModel
         group = ArrayList()
         session = Session(this)
-
         viewModel?.init(this)
         // setupBindings(savedInstanceState)
         binding!!.backButton.setOnClickListener {
@@ -112,20 +110,20 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer, ApiCallback.Gro
 
                             Log.d("TAG", "onCreate: $mCategory $mSubCategory")
                         }
-                            //binding!!.clearAll.performClick()
-                        if(searchResponse==SearchResponse()){
+                        //binding!!.clearAll.performClick()
+                        if (searchResponse == SearchResponse()) {
                             for (i in 0 until group.size) {
-                                    group[i].count = 0
-                                    for (element in group[i].subcategories) {
-                                        element.isselected = false
-                                    }
-                                    viewModel!!.getAdapter()!!.notifyDataSetChanged()
+                                group[i].count = 0
+                                for (element in group[i].subcategories) {
+                                    element.isselected = false
                                 }
-                                searchResponse =SearchResponse()
-                                mSubCategory = null
-                                mCategory = null
-                                binding!!.cbPrivate.isChecked = true
-                                binding!!.cbPublic.isChecked = true
+                                viewModel!!.getAdapter()!!.notifyDataSetChanged()
+                            }
+                            searchResponse = SearchResponse()
+                            mSubCategory = null
+                            mCategory = null
+                            binding!!.cbPrivate.isChecked = true
+                            binding!!.cbPublic.isChecked = true
                         }
 
                         if (mCategory != null) {
@@ -319,8 +317,12 @@ class FilterGroupActivity : BaseActivity(), CommonTaskPerformer, ApiCallback.Gro
     }
 
 
-    override fun <T> performAction(clazz: Class<T>) {
-        Intent(this, clazz).apply {
+    override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
+
+        Intent(this, clazz,).apply {
+            if(isRequried){
+                this.putExtras(bundle!!)
+            }
             startActivity(this)
         }
     }

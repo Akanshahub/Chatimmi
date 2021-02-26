@@ -17,7 +17,7 @@ fun init(commonTaskPerformer: CommonTaskPerformer){
     marketPlaceAdapter = object : MarketPlaceAdapter(R.layout.single_market_place, this){
         override fun onConnectCallBack() {
           //  commonTaskPerformer.showMsg("Under Development")
-            commonTaskPerformer.performAction(MarketPlaceDetials::class.java)
+            commonTaskPerformer.performAction(MarketPlaceDetials::class.java,null,false)
         }
     }
 }

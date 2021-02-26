@@ -1,6 +1,5 @@
 package com.chatimmi.usermainfragment.group.immigration.details
 
-import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +7,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.chatimmi.R
 import com.chatimmi.databinding.SingleItemJoinMemberBinding
-import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
-import com.squareup.picasso.Picasso
-import java.util.ArrayList
+import java.util.*
 
 
 abstract class ImmigrationDetailsAdapter(val layout: Int, private var groupMemberList: ArrayList<ImmigrationDetailsResponse.Data.GroupMember>) : RecyclerView.Adapter<ImmigrationDetailsAdapter.ViewHolder>() {
@@ -38,8 +36,8 @@ abstract class ImmigrationDetailsAdapter(val layout: Int, private var groupMembe
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val groupListItem: ImmigrationDetailsResponse.Data.GroupMember = groupMemberList[position]
         holder.binding.tvName.text = groupListItem.fullName
-        Glide.with(context).load(groupListItem.avatar).into(holder.binding.ivImages)
-
+       // Glide.with(context).load(groupListItem.avatar).into(holder.binding.ivImages)
+        Glide.with(holder.binding.ivImages.context).load(groupListItem.avatar).error(R.drawable.user_placeholder_img).placeholder(R.drawable.user_placeholder_img).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(holder.binding.ivImages)
         holder.binding.connect.setOnClickListener() {
             onConnectCallBack(groupListItem.userID!!)
         }

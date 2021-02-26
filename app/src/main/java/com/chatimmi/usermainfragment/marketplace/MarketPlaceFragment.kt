@@ -2,13 +2,12 @@ package com.chatimmi.usermainfragment.marketplace
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-
 import com.chatimmi.R
 import com.chatimmi.app.utils.CommonTaskPerformer
 import com.chatimmi.app.utils.showToast
@@ -68,9 +67,14 @@ class MarketPlaceFragment : BaseFragment(),CommonTaskPerformer {
                 }
     }
 
-    override fun <T> performAction(clazz: Class<T>) {
-        Intent(requireContext(),clazz).apply {
-            startActivity(this)}
+    override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
+
+        Intent(requireContext(), clazz,).apply {
+            if(isRequried){
+                this.putExtras(bundle!!)
+            }
+            startActivity(this)
+        }
     }
 
     override fun showMsg(msg: String) {

@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <data>
 
         <variable
-            name="otherFragmentViewModel"
-            type="com.chatimmi.viewmodel.OtherFragmentViewModel" />
+            name="contactUsViewModel"
+            type="com.chatimmi.viewmodel.ContactUsViewModel" />
     </data>
 
     <ScrollView
@@ -130,7 +131,7 @@
                             android:textColor="#505050"
                             android:textSize="@dimen/_13sdp" />
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <EditText
                             android:id="@+id/etCurrentPass"
                             style="@style/AppTheme.EditTextStyleSmall"
                             android:layout_width="match_parent"
@@ -138,13 +139,14 @@
                             android:fontFamily="@font/montserrat_semibold"
                             android:hint="@string/where_can_i_get_some"
                             android:imeOptions="actionNext"
+                            android:text="@={contactUsViewModel.tittle}"
                             android:maxLines="1"
                             android:paddingStart="@dimen/_10sdp"
                             android:paddingEnd="10dp"
                             android:textColorHint="@color/black"
                             android:textSize="@dimen/_13sdp">
 
-                        </com.google.android.material.textfield.TextInputEditText>
+                        </EditText>
 
 
                         <TextView
@@ -170,6 +172,7 @@
                             android:hint="@string/enter_description"
                             android:imeOptions="actionDone"
                             android:maxLength="250"
+                            android:text="@={contactUsViewModel.description}"
                             android:maxLines="15"
                             android:paddingStart="10dp"
                             android:paddingTop="10dp"
@@ -190,11 +193,11 @@
                         android:orientation="vertical">
 
                         <Button
-
                             android:id="@+id/btnSubmit"
                             style="@style/AppTheme.ButtonMain"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_50sdp"
+                            android:onClick="@{() -> contactUsViewModel.submitOnClicked()}"
                             android:layout_centerInParent="true"
                             android:text="@string/submit" />
                     </RelativeLayout>

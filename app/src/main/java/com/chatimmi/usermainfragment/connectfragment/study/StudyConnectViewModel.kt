@@ -30,7 +30,7 @@ class StudyConnectViewModel(val repo: ImmigrationConnectRepositary)  : ViewModel
                 }
 
                 override fun onCardCallBack(item: ConsultantListResponce.Data.Consultant) {
-                    commonTaskPerformer.performAction(ConnectDetailsActivity::class.java)
+                    commonTaskPerformer.performAction(ConnectDetailsActivity::class.java,null,false)
                 }
             }
         }
