@@ -137,13 +137,15 @@ class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer, ApiCallb
         binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, R.color.primary_100))
         binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
         binding.itemsswipetorefresh.setOnRefreshListener {
-            list.clear()
-            repo.callConsultantListApi("2")
-            viewModel!!.getAdapter()!!.notifyDataSetChanged()
+            onRefresh()
             binding.itemsswipetorefresh.isRefreshing = false
         }
     }
-
+    fun onRefresh() {
+        list.clear()
+        repo.callConsultantListApi("2")
+        viewModel!!.getAdapter()!!.notifyDataSetChanged()
+    }
     companion object {
         @JvmStatic
         fun newInstance(param1: String) =

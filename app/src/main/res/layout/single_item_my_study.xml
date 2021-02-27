@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="model"
             type="com.chatimmi.usermainfragment.otherfragment.myProfile.MyConsultantsImmigrationViewModel" />
     </data>
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_10sdp">
+
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_image"
                 android:layout_width="@dimen/_70sdp"
-                android:scaleType="centerCrop"
-                android:layout_centerVertical="true"
                 android:layout_height="@dimen/_70sdp"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
                 app:cardCornerRadius="@dimen/_10sdp">
+
                 <ImageView
                     android:id="@+id/ivImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:background="@drawable/images"
+
                     />
             </androidx.cardview.widget.CardView>
 
@@ -36,18 +40,20 @@
                 android:id="@+id/linear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerInParent="true"
-                android:layout_toRightOf="@+id/image">
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_90sdp"
+                android:layout_toRightOf="@+id/image"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black_two"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:textSize="@dimen/_13sdp"
-                    android:text="@string/liberal_arts_and_science"/>
+                    android:text="@string/liberal_arts_and_science"
+                    android:textColor="@color/black_two"
+                    android:textSize="@dimen/_13sdp" />
 
 
                 <TextView
@@ -55,19 +61,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:textSize="@dimen/_12sdp"
                     android:fontFamily="@font/montserrat_semibold"
+                    android:text="@string/immigration"
                     android:textColor="@color/water_blue"
-                    android:text="@string/immigration"/>
+                    android:textSize="@dimen/_12sdp" />
 
 
             </LinearLayout>
+
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_centerInParent="true"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:src="@drawable/chat_ico">
 
             </ImageView>

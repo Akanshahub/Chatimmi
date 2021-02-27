@@ -10,9 +10,12 @@
             type="com.chatimmi.usermainfragment.otherfragment.myProfile.MyChatGroupImmigrationViewModel" />
     </data>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,8 +74,6 @@
                 android:id="@+id/rv_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-
                 android:layout_marginEnd="0dp"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -82,4 +83,5 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    </RelativeLayout>
 </layout>

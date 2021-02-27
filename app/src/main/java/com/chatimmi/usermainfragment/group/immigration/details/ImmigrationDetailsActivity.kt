@@ -28,10 +28,10 @@ class ImmigrationDetailsActivity : BaseActivitykt() , CommonTaskPerformer,ApiCal
     var categoryName =""
     var subCategoryName= ""
     var groupId: String = ""
-    var is_group_connect=0
+    var isgroupconnect=0
     var isConnected=0
     var position=0
-    lateinit var groupMenber: ArrayList<ImmigrationDetailsResponse.Data.GroupMember>
+    lateinit var groupMember: ArrayList<ImmigrationDetailsResponse.Data.GroupMember>
 
     var group = GroupListResponse.Data.Group()
 
@@ -47,20 +47,20 @@ class ImmigrationDetailsActivity : BaseActivitykt() , CommonTaskPerformer,ApiCal
         groupId = intent.getStringExtra("groupId").toString()
         groupName = intent.getStringExtra("groupName").toString()
         categoryName = intent.getStringExtra("categoryName").toString()
-        is_group_connect = intent.getIntExtra("is_group_connect",0)
+        isgroupconnect = intent.getIntExtra("is_group_connect",0)
         subCategoryName = intent.getStringExtra("subCategoryName").toString()
         position = intent.getIntExtra("position",0)
         setupBindings()
         viewModel?.init(groupId,this)
         binding!!.studyModel = viewModel
-        groupMenber=ArrayList()
+        groupMember=ArrayList()
 
         binding?.uKImmigration?.text = subCategoryName
-        if (is_group_connect ==1) {
+        if (isgroupconnect ==1) {
             binding!!.tvRequest.visibility = View.GONE
             binding!!.joinChat.visibility = View.VISIBLE
             binding!!.joinButton.visibility = View.GONE
-        } else if (is_group_connect==2) {
+        } else if (isgroupconnect==2) {
             binding!!.tvRequest.visibility = View.VISIBLE
             binding!!.joinChat.visibility = View.GONE
             binding!!.joinButton.visibility = View.GONE
@@ -80,7 +80,7 @@ class ImmigrationDetailsActivity : BaseActivitykt() , CommonTaskPerformer,ApiCal
                     is UIStateManager.Success<*> -> {
                         val getData = it.data as ImmigrationDetailsResponse
                         Log.d("bnjnknk", "setupBindings: ${getData.data?.groupMember?.size}")
-                        groupMenber.addAll(getData.data!!.groupMember)
+                        groupMember.addAll(getData.data!!.groupMember)
                         binding?.name?.text = groupName
                         binding?.conoda?.text = categoryName
                         isConnected= getData.data!!.isGroupConnect!!
@@ -93,7 +93,7 @@ class ImmigrationDetailsActivity : BaseActivitykt() , CommonTaskPerformer,ApiCal
                         viewModel?.getAdapter()?.let {
                             binding?.rvMain?.visibility = View.VISIBLE
                             binding?.rvMain?.adapter = viewModel?.getAdapter()
-                            viewModel?.getAdapter()!!.addData(groupMenber)
+                            viewModel?.getAdapter()!!.addData(groupMember)
                             viewModel?.getAdapter()!!.notifyDataSetChanged()
 
                         }
@@ -120,9 +120,9 @@ class ImmigrationDetailsActivity : BaseActivitykt() , CommonTaskPerformer,ApiCal
             it?.let {
                 when (it) {
                     is UIStateManager.Success<*> -> {
-                        val position = groupMenber.indexOf(groupMenber.filter { it.userID!!.equals(this.userId) }[0])
-                        groupMenber[position].isConnect = 1
-                        viewModel!!.getAdapter()!!.addData(groupMenber)
+                        val position = groupMember.indexOf(groupMember.filter { it.userID!! == this.userId }[0])
+                        groupMember[position].isConnect = 1
+                        viewModel!!.getAdapter()!!.addData(groupMember)
                     }
                     is UIStateManager.Error -> {
                         showMsg(it.msg)

@@ -150,13 +150,15 @@ class StudyConnectFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.Con
         binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
 
         binding.itemsswipetorefresh.setOnRefreshListener {
-            list.clear()
-            repo.callConsultantListApi("3")
-            viewModel!!.getAdapter()!!.notifyDataSetChanged()
+           onRefresh()
             binding.itemsswipetorefresh.isRefreshing = false
         }
     }
-
+    fun onRefresh() {
+        list.clear()
+        repo.callConsultantListApi("3")
+        viewModel!!.getAdapter()!!.notifyDataSetChanged()
+    }
     private fun intiViews() {
         viewModel?.callConsultantConnectListApi()
         observe()

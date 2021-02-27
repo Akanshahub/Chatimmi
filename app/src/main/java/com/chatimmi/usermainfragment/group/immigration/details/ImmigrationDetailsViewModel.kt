@@ -34,7 +34,7 @@ class ImmigrationDetailsViewModel(val immigrationDetailsRepositary: ImmigrationD
         immigrationDetailsRepositary.callGroupDetailResponse(group)
     }
 
-    fun getAdapter(): ImmigrationDetailsAdapter? {
+    fun getAdapter(): ImmigrationDetailsAdapter {
         return adapter
     }
 

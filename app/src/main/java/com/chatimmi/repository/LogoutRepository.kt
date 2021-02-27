@@ -42,6 +42,8 @@ class LogoutRepository(var context: BaseActivitykt, var logoutCallBack: ApiCallb
     }
 
 
+
+
     fun callLogoutApi() {
         logoutResponseObserver.value = UIStateManager.Loading(true)
         val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)

@@ -198,7 +198,7 @@
                 android:text="@string/join"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_13sdp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tvRequestPending"
@@ -218,8 +218,8 @@
 
             <ImageView
                 android:id="@+id/ivChat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:layout_below="@+id/view"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -230,7 +230,7 @@
                 android:src="@drawable/chat_ico"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_13sdp"
-                android:visibility="gone" />
+                android:visibility="visible" />
         </RelativeLayout>
 
     </RelativeLayout>

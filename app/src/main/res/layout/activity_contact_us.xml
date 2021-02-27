@@ -136,14 +136,15 @@
                             style="@style/AppTheme.EditTextStyleSmall"
                             android:layout_width="match_parent"
                             android:layout_height="43dp"
-                            android:fontFamily="@font/montserrat_semibold"
-                            android:hint="@string/where_can_i_get_some"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Enter Tittle"
                             android:imeOptions="actionNext"
                             android:text="@={contactUsViewModel.tittle}"
                             android:maxLines="1"
+                            android:textColorHint="#C1C1C1"
                             android:paddingStart="@dimen/_10sdp"
                             android:paddingEnd="10dp"
-                            android:textColorHint="@color/black"
+
                             android:textSize="@dimen/_13sdp">
 
                         </EditText>

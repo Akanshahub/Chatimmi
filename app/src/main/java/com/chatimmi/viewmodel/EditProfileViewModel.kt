@@ -62,10 +62,10 @@ class EditProfileViewModel(private val editProfileRepository: EditProfileReposit
 
         if (file != null) {
 
-            val file: File = file!!
+            //val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file!!)
+            val rbody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file!!)
 
-            val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-            val body: MultipartBody.Part =  MultipartBody.Part.createFormData("profilePicture", file.name, reqFile)
+            val body: MultipartBody.Part =  MultipartBody.Part.createFormData("profilePicture", file!!.name, rbody)
 
             profilePicture  = body
 

@@ -208,7 +208,7 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer, ApiCallback.gro
                             binding.noDataAvailable.visibility = View.VISIBLE
                             viewModel?.clearList()
                         } else {
-                               viewModel?.getAdapter()?.let {
+                            viewModel?.getAdapter()?.let {
                                 binding.rvMain.visibility = View.VISIBLE
                                 binding.noDataAvailable.visibility = View.GONE
                                 binding.rvMain.adapter = viewModel?.getAdapter()
@@ -228,6 +228,10 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer, ApiCallback.gro
                         } else {
                             activity.hideLoader()
                         }
+
+                    }
+                    is UIStateManager.ErrorCode -> {
+                       activity.callLogoutApi()
 
                     }
                     else -> {
@@ -252,7 +256,7 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer, ApiCallback.gro
 
     override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
 
-        Intent(requireContext(), clazz,).apply {
+        Intent(requireContext(), clazz).apply {
             if(isRequried){
                 this.putExtras(bundle!!)
             }

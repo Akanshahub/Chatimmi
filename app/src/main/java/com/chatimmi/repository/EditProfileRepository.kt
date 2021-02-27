@@ -1,14 +1,14 @@
 package com.chatimmi.repository
 
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.base.BaseActivitykt
-import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
-import com.google.gson.Gson
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -37,8 +37,10 @@ class EditProfileRepository(var context: BaseActivitykt) {
                     editProfileResponseObserver.value = UIStateManager.Loading(false)
                     editProfileResponseObserver.value = UIStateManager.Success(response.body())
                 } else {
-                    val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
+//                    val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
                     editProfileResponseObserver.value = UIStateManager.Loading(false)
+                    Toast.makeText(context,response.message(),Toast.LENGTH_LONG).show()
+                    Log.d("sxxzlxz", "onResponse:"+response.message())
                     //editProfileResponseObserver.onError(gson.message.toString())
                     //changePasswordResponseObserver.value = UIStateManager.Error(gson.message.toString())
                 }
@@ -47,7 +49,7 @@ class EditProfileRepository(var context: BaseActivitykt) {
             override fun onFailure(call: Call<UserDetialResponse>, t: Throwable) {
 
                 editProfileResponseObserver.value = UIStateManager.Loading(false)
-               /* if (t is IOException) {
+                /* if (t is IOException) {
                     changePasswordCallBack.onError(context.getString(R.string.no_network_connection))
                 } else {
                     changePasswordCallBack.onError(context.getString(R.string.something_went_wrong))

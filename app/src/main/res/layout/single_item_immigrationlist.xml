@@ -10,6 +10,7 @@
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rlCard"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_200sdp"
         android:layout_marginBottom="-10dp"

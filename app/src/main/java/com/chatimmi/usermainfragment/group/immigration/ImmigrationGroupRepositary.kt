@@ -33,9 +33,12 @@ var session=com.chatimmi.app.pref.Session(context)
                     groupApiObserver.value = UIStateManager.Success(response.body())
                 } else {
                     groupApiObserver.value=UIStateManager.Loading(false)
-                   // groupApiObserver.value = UIStateManager.Error(response.message())
-                   // val gson = Gson().fromJson(response.errorBody()?.ob, ErrorResponse::class.java)
-                    grouplist.onError(response.message())
+                    if(response.code() == 401){
+                        groupApiObserver.value = UIStateManager.ErrorCode(response.code())
+                    }else{
+                        grouplist.onError(response.message())
+                    }
+
                 }
             }
 

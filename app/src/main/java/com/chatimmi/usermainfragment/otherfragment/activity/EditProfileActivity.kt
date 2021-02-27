@@ -56,6 +56,7 @@ class EditProfileActivity : BaseActivitykt() {
 
         val editProfileRepository = EditProfileRepository(this)
         val factory = EditProfileViewModelFactory(editProfileRepository)
+
         viewModel = ViewModelProviders.of(this, factory).get(EditProfileViewModel::class.java)
         session = Session(this)
         binding.lifecycleOwner = this
@@ -80,7 +81,6 @@ class EditProfileActivity : BaseActivitykt() {
             it?.let {
                 when (it) {
                     is UIStateManager.Success<*> -> {
-
                         val getData = it.data as UserDetialResponse
                         session.setUserData(getData)
                         toastMessage(getData.message,this)
@@ -126,6 +126,8 @@ class EditProfileActivity : BaseActivitykt() {
             }
         }
         binding.backButton.setOnClickListener {
+
+            setResult(RESULT_OK)
             onBackPressed()
         }
     }
@@ -135,17 +137,18 @@ class EditProfileActivity : BaseActivitykt() {
         if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
             val uri = UCrop.getOutput(data!!)
 
-            data?.let {
+            data.let {
                 Log.d("fbasjfbajsfa", "onActivityResult: ${uri}")
             }
 
             temPhoto = uri
-            viewModel!!.imageUri = uri!!
+            viewModel.imageUri = uri!!
 
             var bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-            viewModel!!.file = getImageFile(uri)
+
+            viewModel.file = getImageFile(uri)
             try {
-                showImage(uri!!)
+                showImage(uri)
 
                 bitmap = getBitmapFromUri(uri)
                 avatarUri = uri
@@ -175,7 +178,7 @@ class EditProfileActivity : BaseActivitykt() {
         f.createNewFile()
 
         val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50 /*ignored for PNG*/, bos)
         val bitmapdata = bos.toByteArray()
         val fos = FileOutputStream(f)
         fos.write(bitmapdata)
@@ -205,7 +208,7 @@ class EditProfileActivity : BaseActivitykt() {
         val destinationPath = str + "temp.jpg"
         val options: UCrop.Options = UCrop.Options()
         options.setHideBottomControls(true)
-        UCrop.of(sourceUri, Uri.fromFile(File(getCacheDir(), destinationPath))).withAspectRatio(4F, 3F).withOptions(options).start(this)
+        UCrop.of(sourceUri, Uri.fromFile(File(cacheDir, destinationPath))).withAspectRatio(4F, 3F).withOptions(options).start(this)
     }
 
 

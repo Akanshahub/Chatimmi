@@ -15,12 +15,25 @@ import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.chatimmi.app.pref.Constants
 import com.chatimmi.app.pref.PrefHelper
+import com.chatimmi.app.pref.Session
 import com.chatimmi.app.utils.KeyboardUtils
 import com.chatimmi.app.utils.ProgressDialog
 import com.chatimmi.app.utils.StackSet
+import com.chatimmi.app.utils.UIStateManager
+import com.chatimmi.model.ErrorResponse
+import com.chatimmi.model.LogoutResponse
+import com.chatimmi.retrofitnetwork.API
+import com.chatimmi.retrofitnetwork.RetrofitGenerator
+import com.chatimmi.views.SignInActivity
+import com.google.gson.Gson
 import io.socket.client.Socket
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Suppress("DEPRECATION")
 open class BaseActivitykt : AppCompatActivity() {
@@ -28,7 +41,7 @@ open class BaseActivitykt : AppCompatActivity() {
     private val prefHelper: PrefHelper? = null
     var mSocket: Socket? = null
 
-
+    private lateinit var session: Session
     private var progressDialog: ProgressDialog? = null
     val activity: Activity
         get() = this
@@ -42,7 +55,7 @@ open class BaseActivitykt : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         progressDialog = ProgressDialog(this)
 
-
+        session = Session(this)
         //TODO Socket chat
        /* mSocket = Chatimmi().getSocket()
          SocketCont().getmSocket(mSocket!!,this)*/
@@ -121,4 +134,47 @@ open class BaseActivitykt : AppCompatActivity() {
         }
     }
 
+    fun getLogOutResponseData() = logoutResponseObserver as LiveData<UIStateManager>
+    private val logoutResponseObserver by lazy {
+        MutableLiveData<UIStateManager>()
+    }
+
+    fun callLogoutApi() {
+        logoutResponseObserver.value = UIStateManager.Loading(true)
+        val api = RetrofitGenerator.getRetrofitObject().create(API::class.java)
+        val callApi = api.callLogoutApi()
+        callApi.enqueue(object : Callback<LogoutResponse> {
+            @RequiresApi(Build.VERSION_CODES.KITKAT)
+            override fun onResponse(call: Call<LogoutResponse>, response: Response<LogoutResponse>) {
+                if (response.isSuccessful) {
+                    logoutResponseObserver.value = UIStateManager.Loading(false)
+                    session.setIsUserLoggedIn("logout")
+                    val intent = Intent(activity, SignInActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    navigateTo(intent, true)
+                    logoutResponseObserver.value = UIStateManager.Success(response.body())
+
+                } else {
+                    val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
+                    logoutResponseObserver.value = UIStateManager.Loading(false)
+                    //logoutCallBack.onError(gson.message.toString())
+                    //logoutResponseObserver.value = UIStateManager.Error(gson.message.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<LogoutResponse>, t: Throwable) {
+
+                logoutResponseObserver.value = UIStateManager.Loading(false)
+                /*   if (t is IOException) {
+                       logoutCallBack.onError(context.getString(R.string.no_network_connection))
+                   } else {
+                       logoutCallBack.onError(context.getString(R.string.something_went_wrong))
+                   }*/
+                /*  t.localizedMessage.let {
+                    logoutResponseObserver.value = UIStateManager.Error(it)
+                }*/
+
+            }
+        })
+    }
 }

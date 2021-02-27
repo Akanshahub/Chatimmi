@@ -109,15 +109,18 @@ class OtherFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.LogoutCall
                 }
             }
         })
-        Glide.with(activity).load(session.getUserData()!!.data!!.user_details.avatar).into(binding.image)
-        binding.text.text = session.getUserData()!!.data!!.user_details.full_name
-        binding.tvEmail.text = session.getUserData()!!.data!!.user_details.email
+
 
         return binding.root
 
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        Glide.with(activity).load(session.getUserData()!!.data!!.user_details.avatar).error(R.drawable.user_placeholder_img).placeholder(R.drawable.user_placeholder_img).into(binding.image)
+        binding.text.text = session.getUserData()!!.data!!.user_details.full_name
+        binding.tvEmail.text = session.getUserData()!!.data!!.user_details.email
+    }
     override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
 
         Intent(requireContext(), clazz,).apply {

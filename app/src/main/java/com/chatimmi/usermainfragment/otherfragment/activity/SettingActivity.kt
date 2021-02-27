@@ -27,7 +27,7 @@ import com.chatimmi.viewmodel.SettingLogoutViewModelFoctory
 import com.chatimmi.viewmodel.SettingViewModel
 
 @Suppress("DEPRECATION")
-class SettingActivity : BaseActivitykt(), CommonTaskPerformer, ApiCallback.LogoutCallback,ApiCallback.NotificationSwitchCallBack {
+class SettingActivity : BaseActivitykt(), CommonTaskPerformer, ApiCallback.LogoutCallback, ApiCallback.NotificationSwitchCallBack {
     lateinit var binding: ActivitySettingBinding
     lateinit var viewModal: SettingViewModel
     lateinit var session: Session
@@ -36,7 +36,7 @@ class SettingActivity : BaseActivitykt(), CommonTaskPerformer, ApiCallback.Logou
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_setting)
-        val logoutRepository = LogoutRepository(this, this,this)
+        val logoutRepository = LogoutRepository(this, this, this)
         val factory = SettingLogoutViewModelFoctory(logoutRepository)
         viewModal = ViewModelProviders.of(this, factory).get(SettingViewModel::class.java)
         binding.settingViewModel = viewModal
@@ -130,11 +130,10 @@ class SettingActivity : BaseActivitykt(), CommonTaskPerformer, ApiCallback.Logou
     }
 
 
-
     override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
 
-        Intent(this, clazz,).apply {
-            if(isRequried){
+        Intent(this, clazz).apply {
+            if (isRequried) {
                 this.putExtras(bundle!!)
             }
             startActivity(this)

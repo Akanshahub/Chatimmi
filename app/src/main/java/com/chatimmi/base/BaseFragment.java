@@ -8,12 +8,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.chatimmi.app.utils.StackSet;
+import com.chatimmi.retrofitnetwork.API;
+import com.chatimmi.retrofitnetwork.RetrofitGenerator;
 
 
 public class BaseFragment extends Fragment {
 
     private StackSet<Fragment> stackSet = new StackSet<>();
     protected BaseActivitykt activity;
+    private API api;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -40,5 +43,8 @@ public class BaseFragment extends Fragment {
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
+    }
+    public void logout(){
+        api .callLogoutApi();
     }
 }
