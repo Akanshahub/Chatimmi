@@ -102,6 +102,10 @@ class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer, ApiCallb
                         }
 
                     }
+
+                    is UIStateManager.ErrorCode -> {
+                        activity.callLogoutApi()
+                    }
                     else -> {
 
                     }

@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.chatimmi.Chatimmi
 import com.chatimmi.R
 import com.chatimmi.app.pref.Session
 import com.chatimmi.app.utils.CommonTaskPerformer
@@ -51,7 +50,6 @@ class ImmigrationFragment : BaseFragment(), CommonTaskPerformer, ApiCallback.gro
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_immigration, container, false)
         immigrationGroupRepositary = ImmigrationGroupRepositary(activity, this)
         group = ArrayList()
-        mSocket = Chatimmi().getSocket()
 
 
         val factory = ImmigrationGroupViewFactory(immigrationGroupRepositary)

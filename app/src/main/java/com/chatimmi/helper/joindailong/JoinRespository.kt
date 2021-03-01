@@ -6,10 +6,8 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.chatimmi.app.utils.UIStateManager
-import com.chatimmi.model.ErrorResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,10 +35,21 @@ class JoinRespository(context: Context) {
                     connectGroupResponseObserver.value = UIStateManager.Loading(false)
                     connectGroupResponseObserver.value = UIStateManager.Success(response.body())
                 } else {
+                    connectGroupResponseObserver.value=UIStateManager.Loading(false)
+                    if(response.code() == 401){
+                        connectGroupResponseObserver.value = UIStateManager.ErrorCode(response.code())
+                    }else{
+                       // grouplist.onError(response.message())
+                    }
+
+                }
+
+
+               /* else {
                     val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
                     connectGroupResponseObserver.value = UIStateManager.Loading(false)
                     connectGroupResponseObserver.value = UIStateManager.Error(gson.message.toString())
-                }
+                }*/
             }
 
             override fun onFailure(call: Call<JoinGroupResponse>, t: Throwable) {

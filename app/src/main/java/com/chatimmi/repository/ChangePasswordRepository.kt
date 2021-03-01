@@ -119,11 +119,21 @@ class ChangePasswordRepository(var context: BaseActivitykt, var changePasswordCa
                     setResponseObserver.value = UIStateManager.Loading(false)
                     setResponseObserver.value = UIStateManager.Success(response.body())
                 } else {
+                    setResponseObserver.value=UIStateManager.Loading(false)
+                    if(response.code() == 401){
+                        setResponseObserver.value = UIStateManager.ErrorCode(response.code())
+                    }else{
+                        setPasswordCallback.onError(response.message())
+                    }
+
+                }
+
+            /*else {
                     val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
                     setResponseObserver.value = UIStateManager.Loading(false)
                     setPasswordCallback.onError(gson.message.toString())
                    // setResponseObserver.value = UIStateManager.Error(gson.message.toString())
-                }
+                }*/
             }
 
             override fun onFailure(call: Call<ChangePasswordResponse>, t: Throwable) {

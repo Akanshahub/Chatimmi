@@ -51,8 +51,11 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+       // socket.emit('join', {email: $("#chatUserEmail").val()});
 
-        val signInRepository = SignInRepository(this@SignInActivity,this@SignInActivity)
+
+
+        val signInRepository = SignInRepository(this@SignInActivity, this@SignInActivity)
         val factory = SignInViewModalFactory(signInRepository)
         viewModel = ViewModelProviders.of(this, factory).get(SignInViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in)
@@ -60,9 +63,9 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
         binding!!.signInViewModel = viewModel
         binding?.invalidateAll()
 
-        /* mSocket = Chatimmi().getSocket()
-         SocketCont().getmSocket(mSocket!!,this)
-*/
+
+
+
         val w = window
         w.setFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -110,7 +113,9 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
 
                         val getData = it.data as UserDetialResponse
                         session.setUserData(getData)
+
                         Chatimmi.authorization = session.getAuthToken()
+                        mSocket!!.emit("join", getData.data!!.user_details.email)
                         Log.d("fbasfbjasfa", "onCreate: $getData")
                         session.setIsUserLoggedIn("isLogin")
                         val intent = Intent(this@SignInActivity, ChatimmiActivity::class.java)
@@ -132,6 +137,11 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
                 }
             }
         })
+
+
+
+
+
         viewModel.getValidationData().observe(this, Observer {
             it?.let {
                 val msg = it as UIStateManager.Error
@@ -281,6 +291,6 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
         hideLoader()
     }
     override fun onError(errorMessage: String) {
-        toastMessage(errorMessage,this)
+        toastMessage(errorMessage, this)
     }
 }

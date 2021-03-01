@@ -68,7 +68,7 @@ class SettingActivity : BaseActivitykt(), CommonTaskPerformer, ApiCallback.Logou
                 when (it) {
                     is UIStateManager.Success<*> -> {
                         val getData = it.data as LogoutResponse
-                        SocketCont().closeConnection()
+                        SocketCont().closeConnection(SocketCont.getSocketInstance(), this)
                         Log.d("fabbb", "onCreate: $getData")
                     }
 

@@ -20,4 +20,3 @@ class HeaderInterceptor : Interceptor {
         return chain.proceed(request)
     }
 }
-//No network connection

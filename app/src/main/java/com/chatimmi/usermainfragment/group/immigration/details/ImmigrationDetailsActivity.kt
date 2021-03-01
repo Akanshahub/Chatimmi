@@ -110,6 +110,9 @@ class ImmigrationDetailsActivity : BaseActivitykt() , CommonTaskPerformer,ApiCal
                         }
 
                     }
+                    is UIStateManager.ErrorCode ->{
+                        callLogoutApi()
+                    }
                     else -> {
 
                     }

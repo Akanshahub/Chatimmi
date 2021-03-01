@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 <RelativeLayout
     android:id="@+id/card"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -22,14 +25,20 @@
         android:layout_marginTop="-15dp"
         android:layout_below="@+id/appBar">
 
+<TextView
+    android:id="@+id/tv"
+    android:layout_width="wrap_content"
+    android:text="hxzjhxhZHXjhZKXHzjhxkjh"
+    android:layout_marginTop="@dimen/_12sdp"
+    android:layout_marginStart="@dimen/_12sdp"
+    android:layout_height="wrap_content">
 
+</TextView>
 <!--        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
-
-android:layout_margin="@dimen/_10sdp"
+            android:layout_margin="@dimen/_10sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
 
     </RelativeLayout>
@@ -104,3 +113,4 @@ android:layout_margin="@dimen/_10sdp"
         android:visibility="gone" />
   </RelativeLayout>
 </RelativeLayout>
+</layout>

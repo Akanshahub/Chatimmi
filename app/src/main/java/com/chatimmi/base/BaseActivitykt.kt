@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.chatimmi.Chatimmi
 import com.chatimmi.app.pref.Constants
 import com.chatimmi.app.pref.PrefHelper
 import com.chatimmi.app.pref.Session
@@ -28,6 +29,7 @@ import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.LogoutResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
+import com.chatimmi.socketchat.SocketCont
 import com.chatimmi.views.SignInActivity
 import com.google.gson.Gson
 import io.socket.client.Socket
@@ -53,12 +55,15 @@ open class BaseActivitykt : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        progressDialog = ProgressDialog(this)
 
+        progressDialog = ProgressDialog(this)
         session = Session(this)
+
         //TODO Socket chat
-       /* mSocket = Chatimmi().getSocket()
-         SocketCont().getmSocket(mSocket!!,this)*/
+        mSocket = Chatimmi().getSocket()
+        SocketCont.getInstance().getmSocket(mSocket, this)
+
+
     }
 
     fun toastMessage(mssge: String?, context: Context?) {
@@ -148,6 +153,7 @@ open class BaseActivitykt : AppCompatActivity() {
             override fun onResponse(call: Call<LogoutResponse>, response: Response<LogoutResponse>) {
                 if (response.isSuccessful) {
                     logoutResponseObserver.value = UIStateManager.Loading(false)
+                    Toast.makeText(activity, "Session expired please login again", Toast.LENGTH_LONG).show()
                     session.setIsUserLoggedIn("logout")
                     val intent = Intent(activity, SignInActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

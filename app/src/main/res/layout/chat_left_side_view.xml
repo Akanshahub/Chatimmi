@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_days_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/_15sdp"
+
+        android:fontFamily="@font/montserrat_regular"
+        android:gravity="center"
+        android:minWidth="@dimen/_100sdp"
+        android:padding="@dimen/_5sdp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp"
+        android:visibility="gone" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/_35sdp"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ly_msg_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingRight="@dimen/_8sdp"
+            android:paddingLeft="@dimen/_8sdp"
+            android:background="@drawable/bg_bottom">
+
+            <TextView
+                android:id="@+id/other_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:paddingTop="@dimen/_5sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="center|start"
+                android:text="Yash"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_11sdp" />
+
+            <TextView
+                android:id="@+id/other_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="center|start"
+                android:paddingTop="@dimen/_6sdp"
+                android:paddingBottom="@dimen/_6sdp"
+                android:text="Hello "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ly_other_image_view"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+            <TextView
+                android:id="@+id/other_name_"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="start"
+                android:paddingLeft="@dimen/_14sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="center|start"
+                android:text="Yash"
+                android:maxLines="1"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12sdp"
+                />
+
+
+            <RelativeLayout
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                >
+
+
+          <!--      <com.github.siyamed.shapeimageview.RoundedImageView
+                    android:id="@+id/iv_other_side_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ico_user_placeholder"
+                    app:siBorderColor="@color/white"
+                    app:siBorderWidth="0.5dp"
+                    app:siRadius="@dimen/_5sdp"
+                    app:siSquare="true" />-->
+
+                <ProgressBar
+                    android:id="@+id/other_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+   <!-- <TextView
+        android:id="@+id/other_date_time_"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="25/12/2017 800 pm"
+        android:textColor="@color/colorGray"
+        android:textSize="@dimen/_8ssp" />-->
+
+</LinearLayout>

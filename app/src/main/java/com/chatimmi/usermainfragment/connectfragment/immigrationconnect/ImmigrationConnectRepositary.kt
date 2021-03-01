@@ -5,11 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
-import com.chatimmi.model.ErrorResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
-import com.google.gson.Gson
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,11 +59,21 @@ class ImmigrationConnectRepositary(var context: Context,var connectConsultentLis
                     groupApiObserver.value = UIStateManager.Loading(false)
                     groupApiObserver.value = UIStateManager.Success(response.body())
                 } else {
+                    groupApiObserver.value=UIStateManager.Loading(false)
+                    if(response.code() == 401){
+                        groupApiObserver.value = UIStateManager.ErrorCode(response.code())
+                    }else{
+                        connectConsultentList.onError(response.message())
+                    }
+
+                }
+
+            /* else {
                     groupApiObserver.value = UIStateManager.Loading(false)
                     val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
                     connectConsultentList.onError(gson.message.toString())
                     // groupApiObserver.value = UIStateManager.Error(response.message())
-                }
+                */
             }
 
             override fun onFailure(call: Call<ConsultantListResponce?>, t: Throwable) {

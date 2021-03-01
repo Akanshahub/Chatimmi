@@ -87,6 +87,9 @@ class ForgetPasswordActivity : BaseActivitykt(),ApiCallback.ResetPasswordCallbac
                         }
 
                     }
+                    is UIStateManager.ErrorCode->{
+                        callLogoutApi()
+                    }
                     else -> {
                     }
                 }

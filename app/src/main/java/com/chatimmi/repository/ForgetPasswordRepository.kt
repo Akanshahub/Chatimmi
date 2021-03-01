@@ -7,12 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.chatimmi.R
 import com.chatimmi.app.utils.UIStateManager
-import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.ResetPasswordResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.ApiCallback
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,10 +35,13 @@ class ForgetPasswordRepository(var context: Context,var resetPasswordCallback: A
                     resetPasswordResponseObserver.value = UIStateManager.Loading(false)
                     resetPasswordResponseObserver.value = UIStateManager.Success(response.body())
                 } else {
-                    val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
-                    resetPasswordResponseObserver.value = UIStateManager.Loading(false)
-                    resetPasswordCallback.onError(gson.message.toString())
-                    //resetPasswordResponseObserver.value = UIStateManager.Error(gson.message.toString())
+                    resetPasswordResponseObserver.value=UIStateManager.Loading(false)
+                    if(response.code() == 401){
+                        resetPasswordResponseObserver.value = UIStateManager.ErrorCode(response.code())
+                    }else{
+                        resetPasswordCallback.onError(response.message())
+                    }
+
                 }
             }
 

@@ -80,6 +80,9 @@ class ChangePasswordActivity : BaseActivitykt(),ApiCallback.ChangePasswordCallBa
                         }
 
                     }
+                    is UIStateManager.ErrorCode ->{
+                        callLogoutApi()
+                    }
                     else -> {
                     }
                 }

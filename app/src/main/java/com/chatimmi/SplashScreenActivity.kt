@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import com.chatimmi.app.pref.Session
-import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.fragmentchatimmi.ChatimmiActivity
 import com.chatimmi.views.SignInActivity
 
 @Suppress("DEPRECATION")
-class SplashScreenActivity : BaseActivitykt() {
+class SplashScreenActivity :  AppCompatActivity(){
 
     private val SPLASH_TIME_OUT = 2000
     private lateinit var session: Session

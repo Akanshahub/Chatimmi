@@ -64,6 +64,9 @@ class JoinBottomDialog(val group: GroupListResponse.Data.Group,val listner: onIt
                         }
 
                     }
+                    is UIStateManager.ErrorCode ->{
+                      baseActivity!!.callLogoutApi()
+                    }
                     else -> {
                     }
                 }

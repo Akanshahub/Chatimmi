@@ -42,11 +42,20 @@ class ImmigrationDetailsRepositary(var context: Context,var immigrationDetailsCa
                     groupApiObserver.value= UIStateManager.Loading(false)
                     groupApiObserver.value = UIStateManager.Success(response.body())
                 } else {
+                    groupApiObserver.value=UIStateManager.Loading(false)
+                    if(response.code() == 401){
+                        groupApiObserver.value = UIStateManager.ErrorCode(response.code())
+                    }else{
+                        immigrationDetailsCallBack.onError(response.message())
+                    }
+
+                }
+            /*else {
                     val gson = Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
                     groupApiObserver.value= UIStateManager.Loading(false)
                     immigrationDetailsCallBack.onError(gson.message.toString())
                     //groupApiObserver.value = UIStateManager.Error(response.message())
-                }
+                }*/
             }
 
             override fun onFailure(call: Call<ImmigrationDetailsResponse?>, t: Throwable) {
