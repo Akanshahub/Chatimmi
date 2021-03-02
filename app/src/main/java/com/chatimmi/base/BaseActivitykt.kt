@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.chatimmi.Chatimmi
 import com.chatimmi.app.pref.Constants
 import com.chatimmi.app.pref.PrefHelper
 import com.chatimmi.app.pref.Session
@@ -29,10 +28,8 @@ import com.chatimmi.model.ErrorResponse
 import com.chatimmi.model.LogoutResponse
 import com.chatimmi.retrofitnetwork.API
 import com.chatimmi.retrofitnetwork.RetrofitGenerator
-import com.chatimmi.socketchat.SocketCont
 import com.chatimmi.views.SignInActivity
 import com.google.gson.Gson
-import io.socket.client.Socket
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,7 +38,7 @@ import retrofit2.Response
 open class BaseActivitykt : AppCompatActivity() {
     val backStack = StackSet<Fragment>()
     private val prefHelper: PrefHelper? = null
-    var mSocket: Socket? = null
+
 
     private lateinit var session: Session
     private var progressDialog: ProgressDialog? = null
@@ -60,8 +57,8 @@ open class BaseActivitykt : AppCompatActivity() {
         session = Session(this)
 
         //TODO Socket chat
-        mSocket = Chatimmi().getSocket()
-        SocketCont.getInstance().getmSocket(mSocket, this)
+       /* mSocket = Chatimmi().getSocket()
+        SocketCont.getInstance().getmSocket(mSocket, this)*/
 
 
     }

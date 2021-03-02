@@ -22,7 +22,7 @@ import com.chatimmi.model.UserDetails
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.repository.LogoutRepository
 import com.chatimmi.retrofitnetwork.ApiCallback
-import com.chatimmi.socketchat.SocketCont
+import com.chatimmi.socketchat.SocketConstant
 import com.chatimmi.viewmodel.SettingLogoutViewModelFoctory
 import com.chatimmi.viewmodel.SettingViewModel
 
@@ -68,7 +68,7 @@ class SettingActivity : BaseActivitykt(), CommonTaskPerformer, ApiCallback.Logou
                 when (it) {
                     is UIStateManager.Success<*> -> {
                         val getData = it.data as LogoutResponse
-                        SocketCont().closeConnection(SocketCont.getSocketInstance(), this)
+                        SocketConstant().closeConnection()
                         Log.d("fabbb", "onCreate: $getData")
                     }
 

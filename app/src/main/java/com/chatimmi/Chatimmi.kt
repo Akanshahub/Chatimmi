@@ -7,19 +7,16 @@ import android.content.pm.PackageManager
 import android.util.Base64
 import android.util.Log
 import com.chatimmi.app.pref.Session
-import com.chatimmi.socketchat.SocketCont
+import com.chatimmi.socketchat.SocketConstant
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterResponse
 import io.socket.client.IO
 import io.socket.client.Socket
-import io.socket.engineio.client.transports.Polling
-import io.socket.engineio.client.transports.PollingXHR
-import io.socket.engineio.client.transports.WebSocket
 import java.net.URISyntaxException
 import java.security.MessageDigest
 
 
 class Chatimmi : Application() {
-    private var mSocket: Socket? = null
+
     var instance: Chatimmi? = null
     private lateinit var context: Context
     override fun onCreate() {
@@ -37,25 +34,27 @@ class Chatimmi : Application() {
 
     }
 
-    fun getSocket(): Socket? {
-        return if (mSocket == null) {
-            try {
-                val opts = IO.Options()
-                opts.reconnection = true
-                opts.transports = arrayOf(Polling.NAME, PollingXHR.NAME, WebSocket.NAME)
-                mSocket = IO.socket(SocketCont.CHAT_SERVER_URL, opts)
 
-            } catch (e: URISyntaxException) {
-                e.printStackTrace()
-            }
 
-            mSocket
-        } else mSocket
-    }
 
     companion object {
+        public var mSocket: Socket? = null
+        fun getSocket(): Socket? {
+            Log.d("nvkjdnkdnfk", "object: ")
+            return if (mSocket == null) {
+                try {
+                    val opts = IO.Options()
+                    opts.reconnection = true
+                    mSocket = IO.socket(SocketConstant.CHAT_SERVER_URL, opts)
+                } catch (e: URISyntaxException) {
+                    e.printStackTrace()
+                    Log.d("nvkjdnkdnfk", "URISyntaxException: "+e.message)
 
 
+                }
+                mSocket
+            } else  mSocket
+        }
         var groupFilterResponse: GroupFilterResponse? = null
         var authorization = ""
 

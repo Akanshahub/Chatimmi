@@ -18,16 +18,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.chatimmi.Chatimmi;
 import com.chatimmi.app.pref.Constants;
 import com.chatimmi.app.utils.KeyboardUtil;
 import com.chatimmi.app.utils.ProgressDialog;
 import com.chatimmi.app.utils.StackSet;
-import com.chatimmi.socketchat.SocketCont;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.net.Socket;
 
 
 public abstract class BaseActivity extends AppCompatActivity {

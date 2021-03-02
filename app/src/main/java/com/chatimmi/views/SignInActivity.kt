@@ -30,6 +30,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import io.socket.client.Socket
+import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 
@@ -48,7 +50,7 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
     private var personPhoto = ""
     private var socialType = ""
     lateinit var session: Session
-
+    var mSocket: Socket? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
        // socket.emit('join', {email: $("#chatUserEmail").val()});
@@ -115,7 +117,17 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
                         session.setUserData(getData)
 
                         Chatimmi.authorization = session.getAuthToken()
-                        mSocket!!.emit("join", getData.data!!.user_details.email)
+
+                       // mSocket!!.emit("join",.email)
+                        val jsonObject = JSONObject()
+                        try {
+                            jsonObject.put("userID",  getData.data!!.user_details.userID)
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                        mSocket = Chatimmi.getSocket()
+                        mSocket!!.emit("join", jsonObject)
+
                         Log.d("fbasfbjasfa", "onCreate: $getData")
                         session.setIsUserLoggedIn("isLogin")
                         val intent = Intent(this@SignInActivity, ChatimmiActivity::class.java)
@@ -293,4 +305,5 @@ class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, 
     override fun onError(errorMessage: String) {
         toastMessage(errorMessage, this)
     }
+
 }
