@@ -7,14 +7,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/main_bg"
-        android:minHeight="125dp"
+        android:minHeight="115dp"
 
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_25sdp">
+            android:layout_marginTop="@dimen/_20sdp">
 
             <ImageView
                 android:id="@+id/ivBtnBack"
@@ -29,9 +29,8 @@
 
             <com.chatimmi.custom.CircleImageView
                 android:id="@+id/image"
-                android:layout_width="@dimen/_38sdp"
-                android:layout_height="@dimen/_38sdp"
-                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_toEndOf="@id/ivBtnBack"
                 android:elevation="@dimen/_8sdp"
@@ -52,8 +51,19 @@
                 android:fontFamily="@font/montserrat_bold"
                 android:text="@string/create_account"
                 android:textColor="@color/title_text_color_white"
-                android:textSize="@dimen/_18sdp" />
+                android:textSize="18.3dp" />
 
+            <ImageView
+                android:id="@+id/ivDots"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/_13sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:clickable="true"
+                android:focusable="true"
+                app:srcCompat="@drawable/dots_ico"
+                app:tint="#fff" />
 
         </RelativeLayout>
     </RelativeLayout>

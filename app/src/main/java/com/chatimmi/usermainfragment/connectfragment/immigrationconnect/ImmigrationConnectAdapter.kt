@@ -47,7 +47,7 @@ abstract class ImmigrationConnectAdapter(val layout: Int, immigrationConnectView
             onConnectCallBack(list[position].userID)
         }
         holder.binding.ivChat.setOnClickListener {
-            onChatCallBack()
+            onChatCallBack(list[position])
            /* val intent = Intent(context, ChatActivity::class.java)
             intent.putExtra("dd", "ff")
             context?.startActivity(intent)*/
@@ -63,7 +63,7 @@ abstract class ImmigrationConnectAdapter(val layout: Int, immigrationConnectView
     }
 
     abstract fun onConnectCallBack(userID: Int)
-    abstract fun onChatCallBack()
+    abstract fun onChatCallBack(consultantList:ConsultantListResponce.Data.Consultant)
     abstract fun onCardCallBack(item: ConsultantListResponce.Data.Consultant)
     fun addData(consultantList: List<ConsultantListResponce.Data.Consultant>) {
         this.list.clear()

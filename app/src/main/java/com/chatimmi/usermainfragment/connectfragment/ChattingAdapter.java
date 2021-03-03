@@ -41,16 +41,17 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private int VIEW_TYPE_OTHER = 2;
 
     Context context;
-    ArrayList<Chats> chatList;
+    ArrayList<Chat.Data.MessageData> chatList;
     String myUid;
     //   GetDateStatus getDateStatus;
     boolean ishideName;
     public static final String DATE_FORMAT_12 = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_FORMAT_13 = "hh:mm a";
 
-    public ChattingAdapter(Context context, ArrayList<Chats> chatList) {
+    public ChattingAdapter(Context context, ArrayList<Chat.Data.MessageData> chatList,String myId) {
         this.context = context;
         this.chatList = chatList;
+        this.myUid = myId;
 
         // this.getDateStatus = getDateStatus;
 
@@ -59,36 +60,41 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
+        RecyclerView.ViewHolder holder = null;
 
         if (viewType == VIEW_TYPE_ME) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_right_side_view, parent, false);
-            return new MyViewHolder(view);
+            holder = new MyViewHolder(view);
         } else if (viewType == VIEW_TYPE_OTHER) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_left_side_view, parent, false);
-            return new OtherViewHolder(view);
+            holder = new OtherViewHolder(view);
         }
-
-        return new OtherViewHolder(view);
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Chats chat = chatList.get(position);
+        Chat.Data.MessageData chat = chatList.get(position);
+        Log.d("fnkanfkla", "onBindViewHolder: "+chatList.size());
 
         int pos = position - 1;
         int tempPos = (pos == -1) ? pos + 1 : pos;
 
         if (holder instanceof MyViewHolder) {
+            Log.d("fnkanfkla", "MyViewHolder: ");
             ((MyViewHolder) holder).myBindData(chat, tempPos);
         } else if (holder instanceof OtherViewHolder) {
+            Log.d("fnkanfkla", "MyViewHolder: ");
             ((OtherViewHolder) holder).otherBindData(chat, tempPos);
+        }else {
+
         }
     }
 
 
     @Override
     public int getItemViewType(int position) {
-        if (TextUtils.equals(chatList.get(position).getUid(), myUid)) {
+        if (TextUtils.equals(chatList.get(position).getSenderId(), myUid)) {
             return VIEW_TYPE_ME;
         } else {
             return VIEW_TYPE_OTHER;
@@ -128,7 +134,10 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         }
 
-        void myBindData(final Chats chat, int tempPos) {
+        void myBindData(final Chat.Data.MessageData chat, int tempPos) {
+            ly_my_image_view.setVisibility(View.GONE);
+            my_message.setVisibility(View.VISIBLE);
+            my_message.setText(chat.getMessage() );
            /* if (chat.getMessage().equals("2")) {
 
                 ly_my_image_view.setVisibility(View.VISIBLE);
@@ -204,7 +213,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             PhotoView photoView = openDialog.findViewById(R.id.photo_view);
             if (!image_url.equals("")) {
                 Glide.with(context).load(image_url).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(photoView);
-            }
+            }chatList
             openDialog.show();
 
         }*/
@@ -253,12 +262,15 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             tv_days_status = itemView.findViewById(R.id.tv_days_status);
             other_progress = itemView.findViewById(R.id.other_progress);
-            other_name = itemView.findViewById(R.id.other_name);
+
             other_name_ = itemView.findViewById(R.id.other_name_);
         }
 
-        public void otherBindData(final Chats chat, int tempPos) {
-
+        public void otherBindData(final Chat.Data.MessageData chat, int tempPos) {
+            ly_other_image_view.setVisibility(View.GONE);
+            other_message.setVisibility(View.VISIBLE);
+            ly_msg_view.setVisibility(View.VISIBLE);
+            other_message.setText(chat.getMessage());
             //  if (chat.image == 1) {
 /*            if (chat.message_type.equals("2")) {
                 ly_other_image_view.setVisibility(View.VISIBLE);
@@ -356,5 +368,11 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return currentDay;
             }
         }*/
+    }
+
+    public void refreshList(ArrayList<Chat.Data.MessageData> list){
+        if(chatList.size()>0) chatList.clear();
+        this.chatList = list;
+        notifyDataSetChanged();
     }
 }

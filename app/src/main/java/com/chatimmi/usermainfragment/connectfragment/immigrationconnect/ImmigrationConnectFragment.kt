@@ -19,6 +19,7 @@ import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentImmigrationconnect2Binding
 import com.chatimmi.retrofitnetwork.ApiCallback
+import com.chatimmi.usermainfragment.connectfragment.chat.ChatActivity
 import com.chatimmi.usermainfragment.connectfragment.filter.filtercategoryconnect.FilterActivity
 
 // TODO: Rename parameter arguments, choose names that match
@@ -137,7 +138,23 @@ class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer, ApiCallb
                 }
             }
         })
+        viewModel?.getAdapterCardObserver()?.observeForever {
+            it?.let {
+                it.let {
 
+                    val intent = Intent(context, ChatActivity::class.java)
+                    intent.putExtra("groupName", it.fullName)
+                    intent.putExtra("categoryName", it.categoryName)
+                    intent.putExtra("subCategoryName", it.subCategoryName)
+                    intent.putExtra("userId", it.userID)
+                    intent.putExtra("avatar", it.avatar)
+                    intent.putExtra("emailId", it.email)
+                    //intent.putExtra("position", group.indexOf(it))
+                    startActivity(intent)
+                }
+
+            }
+        }
         binding.itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, R.color.primary_100))
         binding.itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
         binding.itemsswipetorefresh.setOnRefreshListener {

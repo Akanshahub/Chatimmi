@@ -80,7 +80,7 @@ public class SocketConstant {
 
             context.runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast.makeText(context, "Connected", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, "Connected", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -93,7 +93,8 @@ public class SocketConstant {
             Log.d("nvkjdnkdnfk", "onDisconnect: ");
             context.runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast.makeText(context, R.string.disconnect, Toast.LENGTH_LONG).show();                }
+                    //Toast.makeText(context, R.string.disconnect, Toast.LENGTH_LONG).show();                }
+                }
             });
 
         }
@@ -104,7 +105,7 @@ public class SocketConstant {
         public void call(Object... args) {
             context.runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast.makeText(context, "Reconnect", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, "Reconnect", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -117,7 +118,7 @@ public class SocketConstant {
             Log.d("nvkjdnkdnfk", "onConnectError: ");
             context.runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast.makeText(context,  R.string.error_connect, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context,  R.string.error_connect, Toast.LENGTH_LONG).show();
                 }
             });
         }

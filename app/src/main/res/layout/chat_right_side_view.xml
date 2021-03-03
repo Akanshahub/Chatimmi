@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/_5sdp"
     android:layout_marginBottom="@dimen/_10sdp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <TextView
@@ -13,14 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
 
-        android:gravity="center"
-        android:padding="@dimen/_5sdp"
         android:layout_margin="@dimen/_15sdp"
+        android:gravity="center"
         android:minWidth="@dimen/_100sdp"
+        android:padding="@dimen/_5sdp"
 
         android:text=""
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,13 +32,13 @@
 
             <TextView
                 android:id="@+id/my_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="99dp"
+                android:layout_height="33.7dp"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_35sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:background="@color/gray_200"
+                android:background="@drawable/rounded_primary_right_chat_border"
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="center|start"
                 android:paddingStart="@dimen/_8sdp"
@@ -47,6 +46,7 @@
                 android:paddingEnd="@dimen/_8sdp"
                 android:paddingBottom="@dimen/_6sdp"
                 android:text="Hello"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="11dp" />
 
@@ -63,24 +63,24 @@
             android:layout_marginBottom="@dimen/_5sdp"
             android:visibility="gone">
 
-<!--
-            <com.chatimmi.custom.CircleImageView
-                android:id="@+id/iv_my_side_img"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/user_placeholder_img"
-                app:siRadius="@dimen/_5sdp"
-                app:siBorderWidth="1dp"
-                app:siBorderColor="@color/white"
-                app:siSquare="true"
-                />-->
+            <!--
+                        <com.chatimmi.custom.CircleImageView
+                            android:id="@+id/iv_my_side_img"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/user_placeholder_img"
+                            app:siRadius="@dimen/_5sdp"
+                            app:siBorderWidth="1dp"
+                            app:siBorderColor="@color/white"
+                            app:siSquare="true"
+                            />-->
 
             <ProgressBar
                 android:id="@+id/my_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -89,9 +89,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_gravity="end"
+        android:layout_marginTop="@dimen/_10sdp"
         android:gravity="end"
+        android:orientation="horizontal"
         android:weightSum="2">
 
         <ImageView
@@ -99,8 +100,8 @@
             android:layout_width="@dimen/_14sdp"
             android:layout_height="@dimen/_14sdp"
 
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_gravity="end" />
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/_5sdp" />
 
 
         <TextView
@@ -108,13 +109,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:gravity="end|top"
             android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:fontFamily="@font/montserrat_regular"
+            android:gravity="end|top"
             android:text="25/12/2017 800 pm"
             android:textColor="@color/black"
-            android:textSize="@dimen/_8sdp"
-            android:layout_marginEnd="@dimen/_8sdp" />
+            android:textSize="@dimen/_8sdp" />
 
     </LinearLayout>
 

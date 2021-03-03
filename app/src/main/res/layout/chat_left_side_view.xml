@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/_10sdp"
     android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginBottom="@dimen/_10sdp"
     android:orientation="vertical">
 
     <TextView
@@ -25,43 +25,35 @@
 
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/_35sdp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_35sdp"
         android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/ly_msg_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingRight="@dimen/_8sdp"
             android:paddingLeft="@dimen/_8sdp"
-            android:background="@drawable/bg_bottom">
+            android:paddingRight="@dimen/_8sdp">
 
-            <TextView
-                android:id="@+id/other_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:paddingTop="@dimen/_5sdp"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="center|start"
-                android:text="Yash"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_11sdp" />
 
             <TextView
                 android:id="@+id/other_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="99dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="start"
+                android:background="@drawable/bg_left"
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="center|start"
-                android:paddingTop="@dimen/_6sdp"
-                android:paddingBottom="@dimen/_6sdp"
-                android:text="Hello "
+                android:paddingStart="@dimen/_8sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingEnd="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:text="Hello cxzzxzASdeewdrfxedxdx "
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_11sdp" />
 
@@ -81,31 +73,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_gravity="start"
-                android:paddingLeft="@dimen/_14sdp"
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="center|start"
-                android:text="Yash"
                 android:maxLines="1"
+                android:paddingLeft="@dimen/_14sdp"
+                android:text="Yash"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_12sdp"
-                />
+                android:textSize="@dimen/_12sdp" />
 
 
             <RelativeLayout
                 android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_80sdp"
-                >
+                android:layout_height="@dimen/_80sdp">
 
 
-          <!--      <com.github.siyamed.shapeimageview.RoundedImageView
-                    android:id="@+id/iv_other_side_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ico_user_placeholder"
-                    app:siBorderColor="@color/white"
-                    app:siBorderWidth="0.5dp"
-                    app:siRadius="@dimen/_5sdp"
-                    app:siSquare="true" />-->
+                <!--      <com.github.siyamed.shapeimageview.RoundedImageView
+                          android:id="@+id/iv_other_side_img"
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:src="@drawable/ico_user_placeholder"
+                          app:siBorderColor="@color/white"
+                          app:siBorderWidth="0.5dp"
+                          app:siRadius="@dimen/_5sdp"
+                          app:siSquare="true" />-->
 
                 <ProgressBar
                     android:id="@+id/other_progress"
@@ -119,16 +109,16 @@
 
     </RelativeLayout>
 
-   <!-- <TextView
-        android:id="@+id/other_date_time_"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_50sdp"
-        android:layout_marginTop="@dimen/_2sdp"
-        android:fontFamily="@font/poppins_regular"
-        android:text="25/12/2017 800 pm"
-        android:textColor="@color/colorGray"
-        android:textSize="@dimen/_8ssp" />-->
+    <!-- <TextView
+         android:id="@+id/other_date_time_"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginStart="@dimen/_8sdp"
+         android:layout_marginEnd="@dimen/_50sdp"
+         android:layout_marginTop="@dimen/_2sdp"
+         android:fontFamily="@font/poppins_regular"
+         android:text="25/12/2017 800 pm"
+         android:textColor="@color/colorGray"
+         android:textSize="@dimen/_8ssp" />-->
 
 </LinearLayout>

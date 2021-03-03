@@ -8,10 +8,10 @@ import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
 import com.chatimmi.usermainfragment.group.immigration.details.ImmigrationDetailsResponse
 import com.chatimmi.usermainfragment.otherfragment.myProfile.GetProfileChatGroupResponse
 import com.chatimmi.usermainfragment.otherfragment.myProfile.GetProfileMyConsultantsResonse
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -165,4 +165,11 @@ interface API {
             @Query("offset") offset: String,
             @Query("limit") limit: String,
     ): Call<GetProfileMyConsultantsResonse>?
+
+    @GET("api/v1/user/messages?")
+    fun getMessageApi(
+            @Query("user_id") user_id: String,
+            ): Call<JsonElement>?
+
+    
 }
