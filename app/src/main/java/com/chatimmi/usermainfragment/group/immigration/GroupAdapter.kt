@@ -36,7 +36,12 @@ abstract class GroupAdapter(val layout: Int, private var groupListItem: ArrayLis
     }
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        val groupListItem: Data.Group = groupListItem[position]
+        var groupListItem: Data.Group = groupListItem[position]
+        if(position==itemCount-1){
+            holder.binding.views.visibility=View.VISIBLE
+        }else{
+            holder.binding.views.visibility=View.GONE
+        }
 
         Log.d("bnjnknk", "position --- : $position")
         holder.binding.tvName.text = groupListItem.groupName
@@ -113,7 +118,7 @@ abstract class GroupAdapter(val layout: Int, private var groupListItem: ArrayLis
         var charText = charText
         charText = charText.toLowerCase()
         groupListItem.clear()
-        if (charText.length == 0) {
+        if (charText.isEmpty()) {
             Log.v("charText", "" + charText)
             tempGroupListItem.let { groupListItem.addAll(it) }
             searchingResult(false)

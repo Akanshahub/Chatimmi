@@ -24,7 +24,24 @@
             android:layout_below="@+id/appBar"
             android:layout_marginTop="-15dp"
             android:background="@drawable/card">
+            <TextView
+                android:id="@+id/tv_days_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
 
+                android:backgroundTint="@color/gray_200"
+                android:fontFamily="@font/montserrat_medium"
+                android:gravity="center"
+                android:maxLines="1"
+                android:minWidth="@dimen/_100sdp"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:textSize="9dp"
+                android:visibility="gone"
+                />
             <!--<TextView
                 android:id="@+id/tv"
                 android:layout_width="wrap_content"

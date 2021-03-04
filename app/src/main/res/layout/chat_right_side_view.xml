@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RelativeLayout
+       <!-- <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -45,14 +45,95 @@
                 android:paddingTop="@dimen/_6sdp"
                 android:paddingEnd="@dimen/_8sdp"
                 android:paddingBottom="@dimen/_6sdp"
-                android:text="Hello"
+                android:text="Hello dcfdsfffffffddvdfv"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="11dp" />
 
+        </RelativeLayout>-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ly_msg_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_8sdp">
+
+
+                <TextView
+                    android:id="@+id/my_message"
+                    android:layout_width="99dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:background="@drawable/rounded_primary_right_chat_border"                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="center|start"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:text="Hello cxzzxzASdeewdrfxedxdx rhbrgfbvdvfcscxercrcecxqqxccs "
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11sdp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly_other_image_view"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+
+                <TextView
+                    android:id="@+id/other_name_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="start"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="center|start"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/_14sdp"
+                    android:text="Yash"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_12sdp" />
+
+
+                <RelativeLayout
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp">
+
+
+                    <!--      <com.github.siyamed.shapeimageview.RoundedImageView
+                              android:id="@+id/iv_other_side_img"
+                              android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:src="@drawable/ico_user_placeholder"
+                              app:siBorderColor="@color/white"
+                              app:siBorderWidth="0.5dp"
+                              app:siRadius="@dimen/_5sdp"
+                              app:siSquare="true" />-->
+
+                    <ProgressBar
+                        android:id="@+id/other_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
         </RelativeLayout>
-
-
         <RelativeLayout
             android:id="@+id/ly_my_image_view"
             android:layout_width="@dimen/_80sdp"

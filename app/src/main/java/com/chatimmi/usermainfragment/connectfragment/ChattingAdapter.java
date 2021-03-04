@@ -138,6 +138,21 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ly_my_image_view.setVisibility(View.GONE);
             my_message.setVisibility(View.VISIBLE);
             my_message.setText(chat.getMessage() );
+
+            if (!chat.getCreatedOn().equals(chatList.get(tempPos).getCreatedOn())) {
+                tv_days_status.setText(chat.getCreatedOn());
+                tv_days_status.setVisibility(View.VISIBLE);
+            } else {
+                tv_days_status.setVisibility(View.GONE);
+            }
+            SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
+            try {
+                // String date = sd.format(new Date((Long) chat.timestamp));
+                my_date_time_.setText(formatDateFromDateString(DATE_FORMAT_12, DATE_FORMAT_13, chat.getCreatedOn()));
+            } catch (Exception e) {
+                Log.e("Exception", e.getMessage());
+
+            }
            /* if (chat.getMessage().equals("2")) {
 
                 ly_my_image_view.setVisibility(View.VISIBLE);

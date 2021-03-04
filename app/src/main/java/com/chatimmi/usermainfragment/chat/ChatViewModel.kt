@@ -18,7 +18,7 @@ class ChatViewModel  : ViewModel(){
             }
         }
     }
-    fun getAdapter(): ChatAdapter? {
+    fun getAdapter(): ChatAdapter {
         return adapter
     }
 }

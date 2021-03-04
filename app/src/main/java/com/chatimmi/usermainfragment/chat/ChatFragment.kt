@@ -1,13 +1,12 @@
 package com.chatimmi.usermainfragment.chat
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-
 import com.chatimmi.R
 import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentChatBinding
@@ -31,19 +30,21 @@ class ChatFragment : BaseFragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat,container,false)
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false)
         setupBindings(savedInstanceState)
 
-      /*  viewModel?.getAdapterClickObserver()?.observeForever {
-            it?.let {
-                if(it){
-                    JoinBottomDialog.newInstance().show(childFragmentManager)
-                }
-            }
-        }*/
+        /*  viewModel?.getAdapterClickObserver()?.observeForever {
+              it?.let {
+                  if(it){
+                      JoinBottomDialog.newInstance().show(childFragmentManager)
+                  }
+              }
+          }*/
+
         return binding.root
     }
+
     private fun setupBindings(savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(this)[ChatViewModel::class.java]
         if (savedInstanceState == null) {
@@ -52,7 +53,8 @@ class ChatFragment : BaseFragment() {
 
         binding.chatModel = viewModel
     }
-    companion object{
+
+    companion object {
         @JvmStatic
         fun newInstance(param1: String) =
                 StudyFragment().apply {

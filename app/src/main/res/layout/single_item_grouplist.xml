@@ -8,7 +8,11 @@
             type="com.chatimmi.usermainfragment.group.immigration.GroupViewModel" />
     </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   <RelativeLayout
+       xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="wrap_content"
+       android:layout_height="match_parent">
+    <RelativeLayout
         android:id="@+id/rlCard"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_200sdp"
@@ -234,4 +238,13 @@
         </RelativeLayout>
 
     </RelativeLayout>
+       <View
+           android:id="@+id/views"
+           android:layout_width="match_parent"
+           android:layout_height="@dimen/_200sdp"
+           android:layout_below="@+id/rlCard"
+           android:background="@color/transparent"
+           android:layerType="software"
+           android:visibility="gone" />
+   </RelativeLayout>
 </layout>

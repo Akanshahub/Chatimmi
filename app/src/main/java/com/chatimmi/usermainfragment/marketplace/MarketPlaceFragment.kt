@@ -29,11 +29,15 @@ private const val ARG_PARAM2 = "param2"
 class MarketPlaceFragment : BaseFragment(),CommonTaskPerformer {
     private var marketPlaceViewModel:MarketPlaceViewModel?=null
     lateinit var binding: FragmentMarketPlaceBinding
+
+
+
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         setHasOptionsMenu(true)
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_market_place,container,false)
         binding.notification.setOnClickListener {
@@ -49,6 +53,7 @@ class MarketPlaceFragment : BaseFragment(),CommonTaskPerformer {
             getActivity()?.startActivity(intent)
         }
    setUpBinding(savedInstanceState)
+
         return binding.root
     }
     fun setUpBinding(savedInstanceState: Bundle?) {

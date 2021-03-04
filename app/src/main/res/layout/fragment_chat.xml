@@ -32,8 +32,7 @@
         android:layout_marginStart="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_below="@+id/chat"
-        android:background="@drawable/bg_serach"
-        >
+        android:background="@drawable/bg_serach">
         <RelativeLayout
             android:layout_width="match_parent"
             android:paddingStart="@dimen/_10sdp"
@@ -68,7 +67,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="0dp"
