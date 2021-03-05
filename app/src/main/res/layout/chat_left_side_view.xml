@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginEnd="30dp"
     android:layout_marginBottom="@dimen/_10sdp"
     android:orientation="vertical">
 
@@ -11,48 +12,42 @@
         android:id="@+id/tv_days_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/_15sdp"
 
-        android:fontFamily="@font/montserrat_regular"
+        android:layout_margin="@dimen/_15sdp"
         android:gravity="center"
         android:minWidth="@dimen/_100sdp"
         android:padding="@dimen/_5sdp"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_12sdp"
+        android:text=""
         android:visibility="gone" />
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_35sdp"
+
         android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/ly_msg_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/_8sdp"
-            android:paddingRight="@dimen/_8sdp">
+            android:orientation="vertical">
 
 
             <TextView
                 android:id="@+id/other_message"
-                android:layout_width="99dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 android:background="@drawable/bg_left"
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="center|start"
-                android:paddingStart="@dimen/_8sdp"
-                android:paddingTop="@dimen/_8sdp"
-                android:paddingEnd="@dimen/_8sdp"
-                android:paddingBottom="@dimen/_8sdp"
-                android:text="Hello cxzzxzASdeewdrfxedxdx "
+                android:paddingStart="@dimen/_30sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_30sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="Hello"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_11sdp" />
@@ -62,53 +57,71 @@
 
         <LinearLayout
             android:id="@+id/ly_other_image_view"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="wrap_content"
+            android:layout_width="133.3dp"
+            android:layout_height="133.3dp"
             android:orientation="vertical"
             android:visibility="gone">
 
 
-            <TextView
-                android:id="@+id/other_name_"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_gravity="start"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="center|start"
-                android:maxLines="1"
-                android:paddingLeft="@dimen/_14sdp"
-                android:text="Yash"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_12sdp" />
 
 
-            <RelativeLayout
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_80sdp">
 
 
-                <!--      <com.github.siyamed.shapeimageview.RoundedImageView
-                          android:id="@+id/iv_other_side_img"
-                          android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:src="@drawable/ico_user_placeholder"
-                          app:siBorderColor="@color/white"
-                          app:siBorderWidth="0.5dp"
-                          app:siRadius="@dimen/_5sdp"
-                          app:siSquare="true" />-->
 
-                <ProgressBar
-                    android:id="@+id/other_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true" />
+                <com.chatimmi.helper.RoundRectCornerImageView
+                    android:id="@+id/iv_Other_image_chat"
+                    android:layout_width="133.3dp"
+                    android:layout_height="133.3dp"
+                    android:layout_gravity="start"
+                    android:background="@drawable/chat_image_bg"
+                    android:padding="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user_img"
+                    android:visibility="visible"
+                    />
 
-            </RelativeLayout>
+
+
+
 
         </LinearLayout>
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:gravity="start"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <ImageView
+            android:id="@+id/iv_msg_tick"
+            android:layout_width="@dimen/_14sdp"
+            android:layout_height="@dimen/_14sdp"
+            android:layout_gravity="end"
+            android:visibility="gone"
+            android:src="@drawable/ic_inactive_tick_ico"
+            android:layout_marginEnd="@dimen/_5sdp" />
+
+
+        <TextView
+            android:id="@+id/other_date_time_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:fontFamily="@font/montserrat_regular"
+            android:gravity="end|top"
+            android:text="25/12/2017 800 pm"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_8sdp" />
+
+    </LinearLayout>
     <!-- <TextView
          android:id="@+id/other_date_time_"
          android:layout_width="match_parent"

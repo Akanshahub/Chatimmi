@@ -24,6 +24,7 @@
             android:layout_below="@+id/appBar"
             android:layout_marginTop="-15dp"
             android:background="@drawable/card">
+
             <TextView
                 android:id="@+id/tv_days_status"
                 android:layout_width="wrap_content"
@@ -40,8 +41,7 @@
                 android:padding="@dimen/_5sdp"
                 android:textColor="@color/black"
                 android:textSize="9dp"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
             <!--<TextView
                 android:id="@+id/tv"
                 android:layout_width="wrap_content"
@@ -51,12 +51,12 @@
                 android:layout_height="wrap_content">
 
             </TextView>-->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViews"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_10sdp"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </RelativeLayout>
 
@@ -75,37 +75,69 @@
                 android:background="@color/transparent"
                 android:padding="@dimen/_10sdp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_send_message"
+                <!--                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/et_send_message"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginTop="@dimen/_1sdp"
+                                    android:layout_marginEnd="@dimen/_15sdp"
+                                    android:layout_marginBottom="@dimen/_10sdp"
+                                    android:layout_toStartOf="@+id/iv_sendMessageImage"
+                                    android:background="@drawable/type_message_bg"
+                                    android:drawableEnd="@drawable/ic_image"
+                                    android:fontFamily="@font/montserrat_medium"
+                                    android:hint="@string/type_your_message"
+                                    android:maxLines="1"
+                                    android:padding="@dimen/_18sdp"
+                                    android:singleLine="true"
+                                    android:text=""
+                                    android:textColor="#a5a5a5"
+                                    android:textSize="@dimen/_10sdp"
+                                    tools:ignore="SpUsage" />-->
+
+                <LinearLayout
+                    android:id="@+id/relative"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="@dimen/_1sdp"
-                    android:layout_marginEnd="@dimen/_15sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
                     android:layout_toStartOf="@+id/iv_sendMessageImage"
                     android:background="@drawable/type_message_bg"
-                    android:drawableEnd="@drawable/ic_image"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/type_your_message"
-                    android:maxLines="1"
-                    android:padding="@dimen/_18sdp"
-                    android:singleLine="true"
-                    android:text=""
-                    android:textColor="#a5a5a5"
-                    android:textSize="@dimen/_10sdp"
-                    tools:ignore="SpUsage" />
+                    android:paddingStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:weightSum="3">
 
-                <!--      <ImageView
-                          android:id="@+id/iv_searchIcon_chat"
-                          android:layout_width="@dimen/_35sdp"
-                          android:layout_height="@dimen/_40sdp"
-                          android:layout_centerVertical="true"
-                          android:layout_marginStart="@dimen/_15sdp"
-                          android:layout_marginEnd="@dimen/_10sdp"
-                          android:layout_toStartOf="@+id/iv_sendMessageImage"
-                          android:padding="@dimen/_5sdp"
-                          android:src="@drawable/ico_chat_img" />-->
+
+                    <EditText
+                        android:id="@+id/et_send_message"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_weight="3"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:hint="@string/type_your_message"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:text=""
+                        android:textColor="@color/black"
+
+                        android:textSize="@dimen/_12sdp" />
+
+                    <ImageView
+                        android:id="@+id/iv_searchIcon_chat"
+                        android:layout_width="@dimen/_27sdp"
+                        android:layout_height="@dimen/_27sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_image" />
+
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/iv_sendMessageImage"
@@ -115,19 +147,19 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/chatico" />
 
-
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tvBlockText"
-                android:layout_width="match_parent"
-                android:layout_height="76dp"
-                android:background="#ececec"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_10sdp"
-                android:visibility="gone" />
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvBlockText"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:background="#ececec"
+            android:fontFamily="@font/montserrat_regular"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp"
+            android:visibility="gone" />
     </RelativeLayout>
-</layout>
+
+    </layout>

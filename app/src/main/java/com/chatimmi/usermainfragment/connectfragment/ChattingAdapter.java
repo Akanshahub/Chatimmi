@@ -21,7 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.chatimmi.R;
+import com.chatimmi.helper.GetDateStatus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,13 +52,16 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     String myUid;
     //   GetDateStatus getDateStatus;
     boolean ishideName;
+    GetDateStatus getDateStatus;
     public static final String DATE_FORMAT_12 = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_FORMAT_13 = "hh:mm a";
 
-    public ChattingAdapter(Context context, ArrayList<Chat.Data.MessageData> chatList,String myId) {
+    public ChattingAdapter(Context context, ArrayList<Chat.Data.MessageData> chatList,String myId,GetDateStatus getDateStatus,boolean ishideName) {
         this.context = context;
         this.chatList = chatList;
         this.myUid = myId;
+        this.getDateStatus = getDateStatus;
+        this.ishideName = ishideName;
 
         // this.getDateStatus = getDateStatus;
 
@@ -118,7 +128,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView my_message, my_date_time_;
         RelativeLayout ly_my_image_view;
-        ImageView iv_my_side_img, iv_msg_tick;
+        ImageView iv_My_image_chat, iv_msg_tick;
         TextView tv_days_status;
         ProgressBar my_progress;
 
@@ -126,6 +136,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             my_message = itemView.findViewById(R.id.my_message);
             ly_my_image_view = itemView.findViewById(R.id.ly_my_image_view);
+            iv_My_image_chat = itemView.findViewById(R.id.iv_My_image_chat);
 
             my_date_time_ = itemView.findViewById(R.id.my_date_time_);
             tv_days_status = itemView.findViewById(R.id.tv_days_status);
@@ -152,6 +163,33 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } catch (Exception e) {
                 Log.e("Exception", e.getMessage());
 
+            }
+            if(chat.isImage()==1){
+                ly_my_image_view.setVisibility(View.VISIBLE);
+                my_message.setVisibility(View.GONE);
+                Glide.with(context).load(chat.getMessage()).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        my_progress.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        my_progress.setVisibility(View.GONE);
+                        return false;
+                    }
+                }).apply(new RequestOptions().placeholder(R.drawable.user_placeholder_img)).into(iv_My_image_chat);
+
+            }else{
+                ly_my_image_view.setVisibility(View.GONE);
+                my_message.setVisibility(View.VISIBLE);
+                my_message.setText(chat.getMessage() );
+            }
+            if(chat.isTickRead()==1){
+                iv_msg_tick.setImageResource(R.drawable.ic_active_tick_ico);
+            }else {
+                iv_msg_tick.setImageResource(R.drawable.ic_inactive_tick_ico);
             }
            /* if (chat.getMessage().equals("2")) {
 
@@ -264,7 +302,8 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public class OtherViewHolder extends RecyclerView.ViewHolder {
         TextView other_message, other_date_time_;
         LinearLayout ly_other_image_view, ly_msg_view;
-        ImageView iv_other_side_img;
+        ImageView iv_other_side_img,iv_msg_tick;
+        TextView my_message, my_date_time_;
         TextView tv_days_status, other_name, other_name_;
         ProgressBar other_progress;
 
@@ -272,20 +311,71 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             other_message = itemView.findViewById(R.id.other_message);
             ly_other_image_view = itemView.findViewById(R.id.ly_other_image_view);
+            iv_other_side_img = itemView.findViewById(R.id.iv_Other_image_chat);
             ly_msg_view = itemView.findViewById(R.id.ly_msg_view);
-
-
+            my_message=itemView.findViewById(R.id.my_date_time_);
+            other_date_time_=itemView.findViewById(R.id.other_date_time_);
             tv_days_status = itemView.findViewById(R.id.tv_days_status);
-            other_progress = itemView.findViewById(R.id.other_progress);
+            iv_msg_tick = itemView.findViewById(R.id.iv_msg_tick);
+           // other_progress = itemView.findViewById(R.id.other_progress);
 
-            other_name_ = itemView.findViewById(R.id.other_name_);
+          //  other_name_ = itemView.findViewById(R.id.other_name_);
         }
 
         public void otherBindData(final Chat.Data.MessageData chat, int tempPos) {
-            ly_other_image_view.setVisibility(View.GONE);
-            other_message.setVisibility(View.VISIBLE);
-            ly_msg_view.setVisibility(View.VISIBLE);
-            other_message.setText(chat.getMessage());
+/*
+            if(chat.isTickRead()==1){
+                iv_msg_tick.setVisibility(View.VISIBLE);
+                iv_msg_tick.setImageResource(R.drawable.ic_active_tick_ico);
+            }else {
+                iv_msg_tick.setVisibility(View.VISIBLE);
+                iv_msg_tick.setImageResource(R.drawable.ic_inactive_tick_ico);
+            }*/
+            if(chat.isImage()==1){
+
+                    ly_other_image_view.setVisibility(View.VISIBLE);
+                    iv_other_side_img.setVisibility(View.VISIBLE);
+                    other_message.setVisibility(View.GONE);
+                    ly_msg_view.setVisibility(View.VISIBLE);
+               // Log.d("jkjkjkjkjkj", "xcx" "+chat.getImageUrl());
+                //Glide.with(context).load(chat.getMessage()).error(R.drawable.user_placeholder_img).placeholder(R.drawable.user_placeholder_img).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(iv_other_side_img);
+                Glide.with(context).load(chat.getMessage()).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                       // other_progress.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                       // other_progress.setVisibility(View.GONE);
+                        return false;
+                    }
+                }).apply(new RequestOptions().placeholder(R.drawable.user_placeholder_img)).into(iv_other_side_img);
+            }else {
+                ly_other_image_view.setVisibility(View.GONE);
+                other_message.setVisibility(View.VISIBLE);
+                ly_msg_view.setVisibility(View.VISIBLE);
+                other_message.setText(chat.getMessage());
+            }
+
+
+            if (!chat.getCreatedOn().equals(chatList.get(tempPos).getCreatedOn())) {
+                tv_days_status.setText(chat.getCreatedOn());
+                tv_days_status.setVisibility(View.VISIBLE);
+            } else {
+                tv_days_status.setVisibility(View.GONE);
+            }
+            SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
+            try {
+                //String date = sd.format(new Date((Long) chat.timestamp));
+                //other_date_time_.setText(date);
+                other_date_time_.setText(formatDateFromDateString(DATE_FORMAT_12 , DATE_FORMAT_13,chat.getCreatedOn()));
+
+
+            } catch (Exception ignored) {
+                Log.e("Exception",ignored.getMessage());
+            }
             //  if (chat.image == 1) {
 /*            if (chat.message_type.equals("2")) {
                 ly_other_image_view.setVisibility(View.VISIBLE);

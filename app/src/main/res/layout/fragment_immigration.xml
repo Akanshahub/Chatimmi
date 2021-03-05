@@ -75,7 +75,7 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/itemsswipetorefresh"
             android:layout_width="wrap_content"
-            android:layout_marginBottom="100dp"
+
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl_serach"
             android:layout_alignParentEnd="true">

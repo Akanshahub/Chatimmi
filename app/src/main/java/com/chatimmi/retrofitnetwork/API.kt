@@ -2,6 +2,7 @@ package com.chatimmi.retrofitnetwork
 
 import com.chatimmi.helper.joindailong.JoinGroupResponse
 import com.chatimmi.model.*
+import com.chatimmi.usermainfragment.connectfragment.chat.UploadImage
 import com.chatimmi.usermainfragment.connectfragment.immigrationconnect.ConsultantListResponce
 import com.chatimmi.usermainfragment.group.filter.filtercategorygroup.GroupFilterResponse
 import com.chatimmi.usermainfragment.group.immigration.GroupListResponse
@@ -171,5 +172,11 @@ interface API {
             @Query("user_id") user_id: String,
             ): Call<JsonElement>?
 
-    
+
+    @POST("api/v1/user/upload_chat_image")
+    @Multipart
+    fun callUploadChatImageApi(
+            @Part("flag") flag: RequestBody?,
+            @Part file_name: MultipartBody.Part?
+    ): Call<UploadImage>
 }

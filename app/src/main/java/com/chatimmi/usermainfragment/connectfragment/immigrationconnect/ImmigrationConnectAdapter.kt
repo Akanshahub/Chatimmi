@@ -36,6 +36,12 @@ abstract class ImmigrationConnectAdapter(val layout: Int, immigrationConnectView
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        if (position==list.size-1){
+            holder.binding.views.visibility=View.VISIBLE
+        }else{
+            holder.binding.views.visibility=View.GONE
+        }
         Glide.with(holder.binding.image.context).load(list[position].avatar).into(holder.binding.image)
         holder.binding.trnsport.text = list[position].fullName
         holder.binding.price.text = list[position].categoryName

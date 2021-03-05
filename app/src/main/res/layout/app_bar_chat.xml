@@ -138,7 +138,7 @@
                         android:id="@+id/tvTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginStart="@dimen/_7sdp"
                         android:fontFamily="@font/montserrat_bold"
                         android:gravity="center_vertical"
                         android:text="@string/create_account"

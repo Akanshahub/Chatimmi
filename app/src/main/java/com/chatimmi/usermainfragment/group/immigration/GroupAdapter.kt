@@ -14,6 +14,7 @@ import com.chatimmi.R
 import com.chatimmi.app.pref.Session
 import com.chatimmi.databinding.SingleItemGrouplistBinding
 
+
 import com.chatimmi.usermainfragment.group.immigration.GroupListResponse.Data
 import java.util.*
 
@@ -36,13 +37,13 @@ abstract class GroupAdapter(val layout: Int, private var groupListItem: ArrayLis
     }
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        var groupListItem: Data.Group = groupListItem[position]
-        if(position==itemCount-1){
+        if(position==groupListItem.size-1){
             holder.binding.views.visibility=View.VISIBLE
         }else{
             holder.binding.views.visibility=View.GONE
         }
 
+        val groupListItem: Data.Group = groupListItem[position]
         Log.d("bnjnknk", "position --- : $position")
         holder.binding.tvName.text = groupListItem.groupName
         holder.binding.rl.text = groupListItem.categoryName
