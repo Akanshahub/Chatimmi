@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,9 +34,13 @@ import com.chatimmi.helper.GetDateStatus;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
+
+import uk.co.senab.photoview.PhotoView;
 
 /**
  * Created by Anil on 13/6/18.
@@ -91,11 +96,18 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         int tempPos = (pos == -1) ? pos + 1 : pos;
 
         if (holder instanceof MyViewHolder) {
-            Log.d("fnkanfkla", "MyViewHolder: ");
-            ((MyViewHolder) holder).myBindData(chat, tempPos);
+
+            try {
+                Log.d("fnkanfkla", "try: ");
+                ((MyViewHolder) holder).myBindData(chat, tempPos,position);
+            } catch (ParseException e) {
+                Log.d("fnkanfkla", "MyViewHolder: }"+e.getMessage());
+                e.printStackTrace();
+            }
         } else if (holder instanceof OtherViewHolder) {
-            Log.d("fnkanfkla", "MyViewHolder: ");
-            ((OtherViewHolder) holder).otherBindData(chat, tempPos);
+
+           // Log.d("fnkanfkla", "MyViewHolder: ");
+            ((OtherViewHolder) holder).otherBindData(chat, tempPos,position);
         }else {
 
         }
@@ -126,6 +138,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+
         TextView my_message, my_date_time_;
         RelativeLayout ly_my_image_view;
         ImageView iv_My_image_chat, iv_msg_tick;
@@ -145,11 +158,12 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         }
 
-        void myBindData(final Chat.Data.MessageData chat, int tempPos) {
+        void myBindData(final Chat.Data.MessageData chat, int tempPos,int pos) throws ParseException {
             ly_my_image_view.setVisibility(View.GONE);
             my_message.setVisibility(View.VISIBLE);
             my_message.setText(chat.getMessage() );
-
+            getDateStatus.currentDateStatus(chat.getCreatedOn());
+            Log.d("xzxzx", "myBindData: "+chat.getCreatedOn());
             if (!chat.getCreatedOn().equals(chatList.get(tempPos).getCreatedOn())) {
                 tv_days_status.setText(chat.getCreatedOn());
                 tv_days_status.setVisibility(View.VISIBLE);
@@ -179,18 +193,67 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         my_progress.setVisibility(View.GONE);
                         return false;
                     }
-                }).apply(new RequestOptions().placeholder(R.drawable.user_placeholder_img)).into(iv_My_image_chat);
+                }).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(iv_My_image_chat);
 
             }else{
                 ly_my_image_view.setVisibility(View.GONE);
                 my_message.setVisibility(View.VISIBLE);
                 my_message.setText(chat.getMessage() );
             }
-            if(chat.isTickRead()==1){
+
+            Log.d("djikwjdkwjd", "isTickRead "+chat.getIsread());
+            if(1 == chat.getIsread()){
                 iv_msg_tick.setImageResource(R.drawable.ic_active_tick_ico);
             }else {
                 iv_msg_tick.setImageResource(R.drawable.ic_inactive_tick_ico);
             }
+            iv_My_image_chat.setOnClickListener(view -> full_screen_photo_dialog(chat.getMessage()));
+
+            if (pos != 0) {
+
+                String dateString = chat.getCreatedOn();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = sdf.parse(dateString);
+
+                long startDate = date.getTime();
+                if (!getDateBanner(chat.getCreatedOn()).equals(getDateBanner(chatList.get(tempPos).getCreatedOn()))) {
+                    if (DateUtils.isToday(startDate) ){
+                        tv_days_status.setText("Today");
+                        tv_days_status.setVisibility(View.VISIBLE);
+                    } else {
+                        if (isYesterday(startDate)) {
+                            tv_days_status.setText("Yesterday");
+                            tv_days_status.setVisibility(View.VISIBLE);
+                        } else {
+                            tv_days_status.setText(getDateBanner(chat.getCreatedOn()));
+                            tv_days_status.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                } else {
+                    tv_days_status.setVisibility(View.GONE);
+                }
+            } else {
+                String dateString = chat.getCreatedOn();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = sdf.parse(dateString);
+
+                long startDate = date.getTime();
+
+                if (DateUtils.isToday(startDate)) {
+                    Log.d("xzxzx", "myBindData: "+chat.getCreatedOn());
+                    tv_days_status.setText("Today");
+                } else {
+                    if (isYesterday(startDate)) {
+                        tv_days_status.setText("Yesterday");
+                    } else {
+                        tv_days_status.setText(getDateBanner(chat.getCreatedOn()));
+                    }
+                }
+                tv_days_status.setVisibility(View.VISIBLE);
+
+            }
+
            /* if (chat.getMessage().equals("2")) {
 
                 ly_my_image_view.setVisibility(View.VISIBLE);
@@ -255,7 +318,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
 
-/*        public void full_screen_photo_dialog(String image_url) {
+        public void full_screen_photo_dialog(String image_url) {
             final Dialog openDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
             openDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             openDialog.getWindow().getAttributes().windowAnimations = R.style.PauseDialogAnimation;
@@ -266,10 +329,10 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             PhotoView photoView = openDialog.findViewById(R.id.photo_view);
             if (!image_url.equals("")) {
                 Glide.with(context).load(image_url).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(photoView);
-            }chatList
+            }
             openDialog.show();
 
-        }*/
+        }
 
 
     public String formatDateFromDateString(String inputDateFormat, String outputDateFormat,
@@ -286,16 +349,38 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
+    public static String getDateBanner(String timeStamp) {
+        String banner_date = "";
+        SimpleDateFormat sim = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.US);
+        try {
+            String date_str = sim.format(new Date(timeStamp)).trim();
+            banner_date = date_str;
+            return banner_date;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return banner_date;
+        }
+    }
 
+    public final boolean isYesterday(long date) {
+        Calendar now = Calendar.getInstance();
+        Calendar cdate = Calendar.getInstance();
+        cdate.setTimeInMillis(date);
+        now.add(Calendar.DATE, -1);
+        return now.get(Calendar.YEAR) == cdate.get(Calendar.YEAR) && now.get(Calendar.MONTH) == cdate.get(Calendar.MONTH) && now.get(Calendar.DATE) == cdate.get(Calendar.DATE);
+    }
     /**
      * @param time        in milliseconds (Timestamp)
      * @param mDateFormat SimpleDateFormat
      * @return
+     *
      */
-    public static String getDateTimeFromTimeStamp(Long time, String mDateFormat) {
+
+    public static String getDateTimeFromTimeStamp(String time, String mDateFormat) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(mDateFormat);
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date dateTime = new Date(time);
+        boolean isToday=DateUtils.isToday(dateTime.getTime());
         return dateFormat.format(dateTime);
     }
 
@@ -322,7 +407,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
           //  other_name_ = itemView.findViewById(R.id.other_name_);
         }
 
-        public void otherBindData(final Chat.Data.MessageData chat, int tempPos) {
+        public void otherBindData(final Chat.Data.MessageData chat, int tempPos,int pos) {
 /*
             if(chat.isTickRead()==1){
                 iv_msg_tick.setVisibility(View.VISIBLE);
@@ -359,13 +444,66 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 other_message.setText(chat.getMessage());
             }
 
+           // getDateStatus.currentDateStatus(chat.getCreatedOn());
+/*            if (pos != 0) {
 
-            if (!chat.getCreatedOn().equals(chatList.get(tempPos).getCreatedOn())) {
-                tv_days_status.setText(chat.getCreatedOn());
-                tv_days_status.setVisibility(View.VISIBLE);
+                String dateString = chat.getCreatedOn();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = null;
+                try {
+                    date = sdf.parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                assert date != null;
+                long startDate = date.getTime();
+                if (!getDateBanner(chat.getCreatedOn()).equals(getDateBanner(chatList.get(tempPos).getCreatedOn()))) {
+                    if (DateUtils.isToday(startDate) ){
+                        tv_days_status.setText("Today");
+                        tv_days_status.setVisibility(View.VISIBLE);
+                    } else {
+                        if (isYesterday(startDate)) {
+                            tv_days_status.setText("Yesterday");
+                            tv_days_status.setVisibility(View.VISIBLE);
+                        } else {
+                            tv_days_status.setText(getDateBanner(chat.getCreatedOn()));
+                            tv_days_status.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                } else {
+                    tv_days_status.setVisibility(View.GONE);
+                }
             } else {
-                tv_days_status.setVisibility(View.GONE);
-            }
+                String dateString = chat.getCreatedOn();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = null;
+
+                try {
+                    date = sdf.parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+                long startDate = date.getTime();
+
+                if (DateUtils.isToday(startDate)) {
+                    Log.d("xzxzx", "myBindData: "+chat.getCreatedOn());
+                    tv_days_status.setText("Today");
+                } else {
+                    if (isYesterday(startDate)) {
+                        tv_days_status.setText("Yesterday");
+                    } else {
+                        tv_days_status.setText(getDateBanner(chat.getCreatedOn()));
+                    }
+                }
+                tv_days_status.setVisibility(View.VISIBLE);
+
+            }*/
+
+
             SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
             try {
                 //String date = sd.format(new Date((Long) chat.timestamp));
@@ -480,4 +618,21 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.chatList = list;
         notifyDataSetChanged();
     }
+
+    private String getLocalDayStatus(String currentDay) {
+        if (currentDay.equalsIgnoreCase("Today")) {
+            return "Today";
+        } else if (currentDay.equalsIgnoreCase("Yesterday")) {
+            return "yesterday";
+        } else if (currentDay.contains("Today at")) {
+            return currentDay.replace("Today at","today_at");
+        } else if (currentDay.contains("Yesterday at")) {
+            return currentDay.replace("Yesterday at", "yesterday_at");
+        } else if (currentDay.contains("at")) {
+            return currentDay.replace("at", "At");
+        } else {
+            return currentDay;
+        }
+    }
+
 }
