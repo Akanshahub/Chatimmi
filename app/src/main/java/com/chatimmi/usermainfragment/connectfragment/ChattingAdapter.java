@@ -30,6 +30,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.chatimmi.R;
 import com.chatimmi.helper.GetDateStatus;
+import com.chatimmi.usermainfragment.connectfragment.chat.ChatActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -49,27 +50,58 @@ import uk.co.senab.photoview.PhotoView;
 public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private int VIEW_TYPE_ME = 1;
-    private int VIEW_TYPE_OTHER = 2;
-
+    public static final String DATE_FORMAT_12 = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_FORMAT_13 = "hh:mm a";
     Context context;
     ArrayList<Chat.Data.MessageData> chatList;
     String myUid;
+    int isToday;
+    int isYesterday;
+    String mPreviousTime="";
+    ChatActivity chatActivity;
+
     //   GetDateStatus getDateStatus;
     boolean ishideName;
     GetDateStatus getDateStatus;
-    public static final String DATE_FORMAT_12 = "yyyy-MM-dd HH:mm:ss";
-    public static final String DATE_FORMAT_13 = "hh:mm a";
+    private int VIEW_TYPE_ME = 1;
+    private int VIEW_TYPE_OTHER = 2;
 
-    public ChattingAdapter(Context context, ArrayList<Chat.Data.MessageData> chatList,String myId,GetDateStatus getDateStatus,boolean ishideName) {
+    public ChattingAdapter(Context context, ArrayList<Chat.Data.MessageData> chatList, String myId, GetDateStatus getDateStatus, boolean ishideName, ChatActivity chatActivity) {
         this.context = context;
         this.chatList = chatList;
         this.myUid = myId;
         this.getDateStatus = getDateStatus;
         this.ishideName = ishideName;
+        this.chatActivity = chatActivity;
 
         // this.getDateStatus = getDateStatus;
 
+    }
+
+    public static String getDateBanner(String timeStamp) {
+        String banner_date = "";
+        SimpleDateFormat sim = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        try {
+            banner_date = sim.format(new Date(timeStamp)).trim();
+            return banner_date;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return banner_date;
+        }
+    }
+
+    /**
+     * @param time        in milliseconds (Timestamp)
+     * @param mDateFormat SimpleDateFormat
+     * @return
+     */
+
+    public static String getDateTimeFromTimeStamp(String time, String mDateFormat) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(mDateFormat);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date dateTime = new Date(time);
+        boolean isToday = DateUtils.isToday(dateTime.getTime());
+        return dateFormat.format(dateTime);
     }
 
     @Override
@@ -90,29 +122,29 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Chat.Data.MessageData chat = chatList.get(position);
-        Log.d("fnkanfkla", "onBindViewHolder: "+chatList.size());
+        Log.d("fnkanfkla", "onBindViewHolder: " + chatList.size());
 
         int pos = position - 1;
         int tempPos = (pos == -1) ? pos + 1 : pos;
+
 
         if (holder instanceof MyViewHolder) {
 
             try {
                 Log.d("fnkanfkla", "try: ");
-                ((MyViewHolder) holder).myBindData(chat, tempPos,position);
+                ((MyViewHolder) holder).myBindData(chat, tempPos, position);
             } catch (ParseException e) {
-                Log.d("fnkanfkla", "MyViewHolder: }"+e.getMessage());
+                Log.d("fnkanfkla", "MyViewHolder: }" + e.getMessage());
                 e.printStackTrace();
             }
         } else if (holder instanceof OtherViewHolder) {
 
-           // Log.d("fnkanfkla", "MyViewHolder: ");
-            ((OtherViewHolder) holder).otherBindData(chat, tempPos,position);
-        }else {
+            // Log.d("fnkanfkla", "MyViewHolder: ");
+            ((OtherViewHolder) holder).otherBindData(chat, tempPos, position);
+        } else {
 
         }
     }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -136,6 +168,65 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ishideName = b;
     }
 
+    public void full_screen_photo_dialog(String image_url) {
+        final Dialog openDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        openDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        openDialog.getWindow().getAttributes().windowAnimations = R.style.PauseDialogAnimation;
+        openDialog.setContentView(R.layout.full_image_view_dialog);
+        ImageView iv_back = openDialog.findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(view -> openDialog.dismiss());
+
+        PhotoView photoView = openDialog.findViewById(R.id.photo_view);
+        if (!image_url.equals("")) {
+            Glide.with(context).load(image_url).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(photoView);
+        }
+        openDialog.show();
+
+    }
+
+    public String formatDateFromDateString(String inputDateFormat, String outputDateFormat,
+                                           String inputDate) throws ParseException {
+
+        SimpleDateFormat formatter = new SimpleDateFormat(inputDateFormat, Locale.ENGLISH);
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date value = formatter.parse(inputDate);
+
+        SimpleDateFormat sd = new SimpleDateFormat(outputDateFormat, Locale.getDefault());
+        sd.setTimeZone(TimeZone.getDefault());
+        String time = sd.format(value);
+        return time;
+
+    }
+
+    public final boolean isYesterday(long date) {
+        Calendar now = Calendar.getInstance();
+        Calendar cdate = Calendar.getInstance();
+        cdate.setTimeInMillis(date);
+        now.add(Calendar.DATE, -1);
+        return now.get(Calendar.YEAR) == cdate.get(Calendar.YEAR) && now.get(Calendar.MONTH) == cdate.get(Calendar.MONTH) && now.get(Calendar.DATE) == cdate.get(Calendar.DATE);
+    }
+
+    public void refreshList(ArrayList<Chat.Data.MessageData> list) {
+        if (chatList.size() > 0) chatList.clear();
+        this.chatList = list;
+        notifyDataSetChanged();
+    }
+
+    private String getLocalDayStatus(String currentDay) {
+        if (currentDay.equalsIgnoreCase("Today")) {
+            return "Today";
+        } else if (currentDay.equalsIgnoreCase("Yesterday")) {
+            return "yesterday";
+        } else if (currentDay.contains("Today at")) {
+            return currentDay.replace("Today at", "today_at");
+        } else if (currentDay.contains("Yesterday at")) {
+            return currentDay.replace("Yesterday at", "yesterday_at");
+        } else if (currentDay.contains("at")) {
+            return currentDay.replace("at", "At");
+        } else {
+            return currentDay;
+        }
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -158,18 +249,23 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         }
 
-        void myBindData(final Chat.Data.MessageData chat, int tempPos,int pos) throws ParseException {
+        void myBindData(final Chat.Data.MessageData chat, int tempPos, int pos) throws ParseException {
             ly_my_image_view.setVisibility(View.GONE);
             my_message.setVisibility(View.VISIBLE);
-            my_message.setText(chat.getMessage() );
-            getDateStatus.currentDateStatus(chat.getCreatedOn());
-            Log.d("xzxzx", "myBindData: "+chat.getCreatedOn());
-            if (!chat.getCreatedOn().equals(chatList.get(tempPos).getCreatedOn())) {
-                tv_days_status.setText(chat.getCreatedOn());
-                tv_days_status.setVisibility(View.VISIBLE);
-            } else {
+            my_message.setText(chat.getMessage());
+
+           // String time = chatList.get(tempPos).getCreatedOn();
+            if (mPreviousTime.equals(chat.getCreatedOn())) {
                 tv_days_status.setVisibility(View.GONE);
+
+            } else {
+                mPreviousTime = chat.getCreatedOn();
+                chatActivity.getYesterdayDate(Objects.requireNonNull(chat.getCreatedOn()), tv_days_status);
+                tv_days_status.setVisibility(View.VISIBLE);
             }
+
+
+
             SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
             try {
                 // String date = sd.format(new Date((Long) chat.timestamp));
@@ -178,7 +274,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 Log.e("Exception", e.getMessage());
 
             }
-            if(chat.isImage()==1){
+            if (chat.isImage() == 1) {
                 ly_my_image_view.setVisibility(View.VISIBLE);
                 my_message.setVisibility(View.GONE);
                 Glide.with(context).load(chat.getMessage()).listener(new RequestListener<Drawable>() {
@@ -195,199 +291,31 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 }).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(iv_My_image_chat);
 
-            }else{
+            } else {
                 ly_my_image_view.setVisibility(View.GONE);
                 my_message.setVisibility(View.VISIBLE);
-                my_message.setText(chat.getMessage() );
+                my_message.setText(chat.getMessage());
             }
 
-            Log.d("djikwjdkwjd", "isTickRead "+chat.getIsread());
-            if(1 == chat.getIsread()){
+            Log.d("djikwjdkwjd", "isTickRead " + chat.getIsread());
+            if (1 == chat.getIsread()) {
                 iv_msg_tick.setImageResource(R.drawable.ic_active_tick_ico);
-            }else {
+            } else {
                 iv_msg_tick.setImageResource(R.drawable.ic_inactive_tick_ico);
             }
             iv_My_image_chat.setOnClickListener(view -> full_screen_photo_dialog(chat.getMessage()));
 
-            if (pos != 0) {
 
-                String dateString = chat.getCreatedOn();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date date = sdf.parse(dateString);
-
-                long startDate = date.getTime();
-                if (!getDateBanner(chat.getCreatedOn()).equals(getDateBanner(chatList.get(tempPos).getCreatedOn()))) {
-                    if (DateUtils.isToday(startDate) ){
-                        tv_days_status.setText("Today");
-                        tv_days_status.setVisibility(View.VISIBLE);
-                    } else {
-                        if (isYesterday(startDate)) {
-                            tv_days_status.setText("Yesterday");
-                            tv_days_status.setVisibility(View.VISIBLE);
-                        } else {
-                            tv_days_status.setText(getDateBanner(chat.getCreatedOn()));
-                            tv_days_status.setVisibility(View.VISIBLE);
-                        }
-                    }
-
-                } else {
-                    tv_days_status.setVisibility(View.GONE);
-                }
-            } else {
-                String dateString = chat.getCreatedOn();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date date = sdf.parse(dateString);
-
-                long startDate = date.getTime();
-
-                if (DateUtils.isToday(startDate)) {
-                    Log.d("xzxzx", "myBindData: "+chat.getCreatedOn());
-                    tv_days_status.setText("Today");
-                } else {
-                    if (isYesterday(startDate)) {
-                        tv_days_status.setText("Yesterday");
-                    } else {
-                        tv_days_status.setText(getDateBanner(chat.getCreatedOn()));
-                    }
-                }
-                tv_days_status.setVisibility(View.VISIBLE);
-
-            }
-
-           /* if (chat.getMessage().equals("2")) {
-
-                ly_my_image_view.setVisibility(View.VISIBLE);
-                my_message.setVisibility(View.GONE);
-
-                my_progress.setVisibility(View.VISIBLE);
-
-                Glide.with(context).load(chat.imageUrl).listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        my_progress.setVisibility(View.GONE);
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        my_progress.setVisibility(View.GONE);
-                        return false;
-                    }
-                }).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(iv_my_side_img);
-
-
-            } else {
-                ly_my_image_view.setVisibility(View.GONE);
-                my_message.setVisibility(View.VISIBLE);
-                my_message.setText(chat.message);*/
-            }
-
-    /*        SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
-            try {
-                // String date = sd.format(new Date((Long) chat.timestamp));
-                my_date_time_.setText(formatDateFromDateString(DATE_FORMAT_12, DATE_FORMAT_13, chat.createdTime));
-            } catch (Exception e) {
-                Log.e("Exception", e.getMessage());
-
-            }*/
-
-            /*if (chat.isMsgReadTick == 1) {
-                iv_msg_tick.setImageResource(R.drawable.ico_msg_received);
-            } else*/
-/*            if (chat.isMsgReadTick == 2) {
-                iv_msg_tick.setImageResource(R.drawable.ico_msg_read);
-            } else {
-                iv_msg_tick.setImageResource(R.drawable.ico_msg_sent);
-            }
-
-            iv_my_side_img.setOnClickListener(view -> full_screen_photo_dialog(chat.imageUrl));
-            getDateStatus.currentDateStatus(chat.timestamp);
-
-
-            if (!chat.banner_date.equals(chatList.get(tempPos).banner_date)) {
-                tv_days_status.setText(chat.banner_date);
-                tv_days_status.setVisibility(View.VISIBLE);
-            } else {
-                tv_days_status.setVisibility(View.GONE);
-            }
-
-            if (!ishideName) {
-                iv_msg_tick.setVisibility(View.GONE);
-            }*/
 
         }
 
 
-        public void full_screen_photo_dialog(String image_url) {
-            final Dialog openDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-            openDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            openDialog.getWindow().getAttributes().windowAnimations = R.style.PauseDialogAnimation;
-            openDialog.setContentView(R.layout.full_image_view_dialog);
-            ImageView iv_back = openDialog.findViewById(R.id.iv_back);
-            iv_back.setOnClickListener(view -> openDialog.dismiss());
-
-            PhotoView photoView = openDialog.findViewById(R.id.photo_view);
-            if (!image_url.equals("")) {
-                Glide.with(context).load(image_url).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(photoView);
-            }
-            openDialog.show();
-
-        }
-
-
-    public String formatDateFromDateString(String inputDateFormat, String outputDateFormat,
-                                           String inputDate) throws ParseException {
-
-        SimpleDateFormat formatter = new SimpleDateFormat(inputDateFormat, Locale.ENGLISH);
-        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date value = formatter.parse(inputDate);
-
-        SimpleDateFormat sd = new SimpleDateFormat(outputDateFormat, Locale.getDefault());
-        sd.setTimeZone(TimeZone.getDefault());
-        String time = sd.format(value);
-        return time;
-
-    }
-
-    public static String getDateBanner(String timeStamp) {
-        String banner_date = "";
-        SimpleDateFormat sim = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.US);
-        try {
-            String date_str = sim.format(new Date(timeStamp)).trim();
-            banner_date = date_str;
-            return banner_date;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return banner_date;
-        }
-    }
-
-    public final boolean isYesterday(long date) {
-        Calendar now = Calendar.getInstance();
-        Calendar cdate = Calendar.getInstance();
-        cdate.setTimeInMillis(date);
-        now.add(Calendar.DATE, -1);
-        return now.get(Calendar.YEAR) == cdate.get(Calendar.YEAR) && now.get(Calendar.MONTH) == cdate.get(Calendar.MONTH) && now.get(Calendar.DATE) == cdate.get(Calendar.DATE);
-    }
-    /**
-     * @param time        in milliseconds (Timestamp)
-     * @param mDateFormat SimpleDateFormat
-     * @return
-     *
-     */
-
-    public static String getDateTimeFromTimeStamp(String time, String mDateFormat) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(mDateFormat);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date dateTime = new Date(time);
-        boolean isToday=DateUtils.isToday(dateTime.getTime());
-        return dateFormat.format(dateTime);
     }
 
     public class OtherViewHolder extends RecyclerView.ViewHolder {
         TextView other_message, other_date_time_;
         LinearLayout ly_other_image_view, ly_msg_view;
-        ImageView iv_other_side_img,iv_msg_tick;
+        ImageView iv_other_side_img, iv_msg_tick;
         TextView my_message, my_date_time_;
         TextView tv_days_status, other_name, other_name_;
         ProgressBar other_progress;
@@ -398,183 +326,54 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ly_other_image_view = itemView.findViewById(R.id.ly_other_image_view);
             iv_other_side_img = itemView.findViewById(R.id.iv_Other_image_chat);
             ly_msg_view = itemView.findViewById(R.id.ly_msg_view);
-            my_message=itemView.findViewById(R.id.my_date_time_);
-            other_date_time_=itemView.findViewById(R.id.other_date_time_);
+            my_message = itemView.findViewById(R.id.my_date_time_);
+            other_date_time_ = itemView.findViewById(R.id.other_date_time_);
             tv_days_status = itemView.findViewById(R.id.tv_days_status);
             iv_msg_tick = itemView.findViewById(R.id.iv_msg_tick);
-           // other_progress = itemView.findViewById(R.id.other_progress);
+            // other_progress = itemView.findViewById(R.id.other_progress);
 
-          //  other_name_ = itemView.findViewById(R.id.other_name_);
+            //  other_name_ = itemView.findViewById(R.id.other_name_);
         }
 
-        public void otherBindData(final Chat.Data.MessageData chat, int tempPos,int pos) {
-/*
-            if(chat.isTickRead()==1){
-                iv_msg_tick.setVisibility(View.VISIBLE);
-                iv_msg_tick.setImageResource(R.drawable.ic_active_tick_ico);
-            }else {
-                iv_msg_tick.setVisibility(View.VISIBLE);
-                iv_msg_tick.setImageResource(R.drawable.ic_inactive_tick_ico);
-            }*/
-            if(chat.isImage()==1){
+        public void otherBindData(final Chat.Data.MessageData chat, int tempPos, int pos) {
 
-                    ly_other_image_view.setVisibility(View.VISIBLE);
-                    iv_other_side_img.setVisibility(View.VISIBLE);
-                    other_message.setVisibility(View.GONE);
-                    ly_msg_view.setVisibility(View.VISIBLE);
-               // Log.d("jkjkjkjkjkj", "xcx" "+chat.getImageUrl());
-                //Glide.with(context).load(chat.getMessage()).error(R.drawable.user_placeholder_img).placeholder(R.drawable.user_placeholder_img).dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(iv_other_side_img);
+            if (chat.isImage() == 1) {
+
+                ly_other_image_view.setVisibility(View.VISIBLE);
+                iv_other_side_img.setVisibility(View.VISIBLE);
+                other_message.setVisibility(View.GONE);
+                ly_msg_view.setVisibility(View.VISIBLE);
+
                 Glide.with(context).load(chat.getMessage()).listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                       // other_progress.setVisibility(View.GONE);
+
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                       // other_progress.setVisibility(View.GONE);
                         return false;
                     }
                 }).apply(new RequestOptions().placeholder(R.drawable.user_placeholder_img)).into(iv_other_side_img);
-            }else {
+            } else {
                 ly_other_image_view.setVisibility(View.GONE);
                 other_message.setVisibility(View.VISIBLE);
                 ly_msg_view.setVisibility(View.VISIBLE);
                 other_message.setText(chat.getMessage());
             }
 
-           // getDateStatus.currentDateStatus(chat.getCreatedOn());
-/*            if (pos != 0) {
-
-                String dateString = chat.getCreatedOn();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date date = null;
-                try {
-                    date = sdf.parse(dateString);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                assert date != null;
-                long startDate = date.getTime();
-                if (!getDateBanner(chat.getCreatedOn()).equals(getDateBanner(chatList.get(tempPos).getCreatedOn()))) {
-                    if (DateUtils.isToday(startDate) ){
-                        tv_days_status.setText("Today");
-                        tv_days_status.setVisibility(View.VISIBLE);
-                    } else {
-                        if (isYesterday(startDate)) {
-                            tv_days_status.setText("Yesterday");
-                            tv_days_status.setVisibility(View.VISIBLE);
-                        } else {
-                            tv_days_status.setText(getDateBanner(chat.getCreatedOn()));
-                            tv_days_status.setVisibility(View.VISIBLE);
-                        }
-                    }
-
-                } else {
-                    tv_days_status.setVisibility(View.GONE);
-                }
-            } else {
-                String dateString = chat.getCreatedOn();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date date = null;
-
-                try {
-                    date = sdf.parse(dateString);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-
-                long startDate = date.getTime();
-
-                if (DateUtils.isToday(startDate)) {
-                    Log.d("xzxzx", "myBindData: "+chat.getCreatedOn());
-                    tv_days_status.setText("Today");
-                } else {
-                    if (isYesterday(startDate)) {
-                        tv_days_status.setText("Yesterday");
-                    } else {
-                        tv_days_status.setText(getDateBanner(chat.getCreatedOn()));
-                    }
-                }
-                tv_days_status.setVisibility(View.VISIBLE);
-
-            }*/
-
 
             SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
             try {
-                //String date = sd.format(new Date((Long) chat.timestamp));
-                //other_date_time_.setText(date);
-                other_date_time_.setText(formatDateFromDateString(DATE_FORMAT_12 , DATE_FORMAT_13,chat.getCreatedOn()));
+                other_date_time_.setText(formatDateFromDateString(DATE_FORMAT_12, DATE_FORMAT_13, chat.getCreatedOn()));
 
 
             } catch (Exception ignored) {
-                Log.e("Exception",ignored.getMessage());
-            }
-            //  if (chat.image == 1) {
-/*            if (chat.message_type.equals("2")) {
-                ly_other_image_view.setVisibility(View.VISIBLE);
-                other_message.setVisibility(View.GONE);
-                ly_msg_view.setVisibility(View.GONE);
-
-                other_progress.setVisibility(View.VISIBLE);
-                Glide.with(context).load(chat.imageUrl).listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        other_progress.setVisibility(View.GONE);
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        other_progress.setVisibility(View.GONE);
-                        return false;
-                    }
-                }).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(iv_other_side_img);
-
-            } else {
-                ly_other_image_view.setVisibility(View.GONE);
-                other_message.setVisibility(View.VISIBLE);
-                ly_msg_view.setVisibility(View.VISIBLE);
-                other_message.setText(chat.message);
-            }
-
-            SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
-            try {
-                //String date = sd.format(new Date((Long) chat.timestamp));
-                //other_date_time_.setText(date);
-                other_date_time_.setText(formatDateFromDateString(DATE_FORMAT_12 , DATE_FORMAT_13,chat.createdTime));
-
-
-            } catch (Exception ignored) {
-                Log.e("Exception",ignored.getMessage());
+                Log.e("Exception", ignored.getMessage());
             }
 
 
-            iv_other_side_img.setOnClickListener(view -> full_screen_photo_dialog(chat.imageUrl));
-
-            getDateStatus.currentDateStatus(chat.timestamp);
-
-            if (!chat.banner_date.equals(chatList.get(tempPos).banner_date)) {
-                String sDaysStatus = getLocalDayStatus(chat.banner_date);
-                tv_days_status.setText(sDaysStatus);
-                tv_days_status.setVisibility(View.VISIBLE);
-            } else {
-                tv_days_status.setVisibility(View.GONE);
-            }
-
-            if(ishideName){
-                other_name.setVisibility(View.GONE);
-                other_name_.setVisibility(View.GONE);
-            }else {
-                other_name.setVisibility(View.VISIBLE);
-                other_name_.setVisibility(View.VISIBLE);
-                other_name.setText(chat.name+"");
-                other_name_.setText(chat.name+"");
-            }
         }
 
         public void full_screen_photo_dialog(String image_url) {
@@ -591,48 +390,8 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             }
             openDialog.show();
-        }*/
+
         }
 
-
-
-  /*      private String getLocalDayStatus(String currentDay) {
-            if (currentDay.equalsIgnoreCase("Today")) {
-                return context.getString(R.string.today);
-            } else if (currentDay.equalsIgnoreCase("Yesterday")) {
-                return context.getString(R.string.yesterday);
-            } else if (currentDay.contains("Today at")) {
-                return currentDay.replace("Today at", context.getString(R.string.today_at));
-            } else if (currentDay.contains("Yesterday at")) {
-                return currentDay.replace("Yesterday at", context.getString(R.string.yesterday_at));
-            } else if (currentDay.contains("at")) {
-                return currentDay.replace("at", context.getString(R.string.at));
-            } else {
-                return currentDay;
-            }
-        }*/
     }
-
-    public void refreshList(ArrayList<Chat.Data.MessageData> list){
-        if(chatList.size()>0) chatList.clear();
-        this.chatList = list;
-        notifyDataSetChanged();
-    }
-
-    private String getLocalDayStatus(String currentDay) {
-        if (currentDay.equalsIgnoreCase("Today")) {
-            return "Today";
-        } else if (currentDay.equalsIgnoreCase("Yesterday")) {
-            return "yesterday";
-        } else if (currentDay.contains("Today at")) {
-            return currentDay.replace("Today at","today_at");
-        } else if (currentDay.contains("Yesterday at")) {
-            return currentDay.replace("Yesterday at", "yesterday_at");
-        } else if (currentDay.contains("at")) {
-            return currentDay.replace("at", "At");
-        } else {
-            return currentDay;
-        }
-    }
-
 }
