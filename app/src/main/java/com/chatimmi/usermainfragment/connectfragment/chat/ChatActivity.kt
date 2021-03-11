@@ -2,7 +2,6 @@ package com.chatimmi.usermainfragment.connectfragment.chat
 
 import android.Manifest
 import android.content.ContentResolver
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -18,11 +17,9 @@ import android.util.Log
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.webkit.MimeTypeMap
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.Nullable
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,7 +54,11 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
+
 
 class ChatActivity : BaseActivitykt() {
 
@@ -67,13 +68,15 @@ class ChatActivity : BaseActivitykt() {
     private var chat1: Chats? = null
     private var chattingAdapter: ChattingAdapter? = null
     lateinit var session: Session
-    var groupName = ""
-    private var userId = 0
+    var oppUserName = ""
+    private var oppUserId = 0
     var categoryName = ""
     var subCategoryName = ""
     var avatar: String = ""
     var emailId: String = ""
     var myUserId = ""
+    var BlockStatus = "";
+
     var userType = "1"
     var file: File? = null
     private val mPostsPerPage = 20
@@ -82,6 +85,7 @@ class ChatActivity : BaseActivitykt() {
     private var mLastVisibleItemPosition = 0
     private var isTyping = 1
     private var handler: Handler? = null
+    private var previousDay = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,25 +97,23 @@ class ChatActivity : BaseActivitykt() {
         //chatList = ArrayList<Chat.Data.MessageData>()
 
 
-        groupName = intent.getStringExtra("groupName").toString()
+        oppUserName = intent.getStringExtra("groupName").toString()
         categoryName = intent.getStringExtra("categoryName").toString()
         subCategoryName = intent.getStringExtra("subCategoryName").toString()
-        userId = intent.getIntExtra("userId", 0)
+        oppUserId = intent.getIntExtra("userId", 0)
         avatar = intent.getStringExtra("avatar").toString()
         emailId = intent.getStringExtra("emailId").toString()
         myUserId = session.getUserData()!!.data!!.user_details.userID.toString()
-        binding!!.appBar.tvTitle.text = groupName
+        binding!!.appBar.tvTitle.text = oppUserName
         Glide.with(binding!!.appBar.image.context).load(avatar).into(binding!!.appBar.image)
         binding!!.ivSendMessageImage.setOnClickListener() {
 
 
-            if (binding!!.etSendMessage.getText().toString().isNotEmpty()) {
+            if (binding!!.etSendMessage.text.toString().trim().isNotEmpty()) {
                 sendSocketMessage()
-            }else{
-                toastMessage("Please Enter Message",this)
+            } else {
+                toastMessage("Please Enter Message", this)
             }
-           // sendSocketMessage()
-
         }
         binding!!.ivSearchIconChat.setOnClickListener() {
             // toastMessage("Sdscdxz",this)
@@ -136,7 +138,7 @@ class ChatActivity : BaseActivitykt() {
             e.printStackTrace()
         }
         handler = Handler()
-        callMessageApi(userId.toString())
+        callMessageApi(oppUserId.toString())
 
         val linearLayoutManager = LinearLayoutManager(this)
         binding!!.recyclerViews.layoutManager = linearLayoutManager
@@ -153,7 +155,19 @@ class ChatActivity : BaseActivitykt() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (linearLayoutManager.findFirstVisibleItemPosition() != -1) {
-                    binding!!.tvDaysStatus.text = chatList!![linearLayoutManager.findFirstVisibleItemPosition()]!!.createdOn
+
+                    val dateString: String = chatList!![linearLayoutManager.findFirstVisibleItemPosition()]!!.createdOn!!
+                    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+                    var date: Date? = null
+                    try {
+                        //val sdf_ = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+                        date = sdf.parse(dateString)
+                        val check: String = sdf.format(date!!)
+
+                    } catch (e: ParseException) {
+                        e.printStackTrace()
+                    }
+                    getYesterdayDate(chatList!![linearLayoutManager.findFirstVisibleItemPosition()]!!.createdOn!!, binding!!.tvDaysStatus)
                     binding!!.tvDaysStatus.visibility = View.VISIBLE
                 }
                 mTotalItemCount = linearLayoutManager.itemCount
@@ -172,34 +186,7 @@ class ChatActivity : BaseActivitykt() {
         }
         mSocket = Chatimmi.getSocket()!!
         mSocket.emit("join", jsonObject)
-        mSocket.on("read", Emitter.Listener { args ->
 
-            val data = args[0] as JSONObject
-            try {
-
-                runOnUiThread {
-                    val readBy = data.getString("read_by")
-                    val readTo = data.getString("read_to")
-                    if (readTo == userId.toString() && readBy == myUserId) {
-                        val isRead = data.getString("is_read")
-
-                        for (i in 0 until chatList!!.size) {
-                            if (isRead == 1.toString()) {
-                                chatList!![i]!!.isTickRead=1
-                            }else{
-                                chatList!![i]!!.isTickRead=0
-                            }
-                        }
-                        chattingAdapter!!.notifyDataSetChanged()
-                    }
-
-                }
-
-            } catch (e: Exception) {
-
-            }
-
-        })
         mSocket.on("new_msg", Emitter.Listener { args ->
             val data = args[0] as JSONObject
             val chat = Chat.Data.MessageData()
@@ -210,10 +197,13 @@ class ChatActivity : BaseActivitykt() {
             chatList!!.add(chat)
             chattingAdapter!!.setMyId(myUserId)
             runOnUiThread {
+
                 chattingAdapter!!.notifyDataSetChanged()
+                binding!!.recyclerViews.scrollToPosition(chatList!!.size - 1)
 
             }
         })
+
         binding!!.appBar.ivBtnBack.setOnClickListener() {
             onBackPressed()
 
@@ -231,31 +221,32 @@ class ChatActivity : BaseActivitykt() {
             chattingAdapter!!.setMyId(myUserId)
             runOnUiThread {
                 chattingAdapter!!.notifyDataSetChanged()
+                binding!!.recyclerViews.scrollToPosition(chatList!!.size - 1)
             }
 
 
         })
+
+
+        //updateUicc()
         isTyping()
-        getIstypingUser()
-        clearIsTyping()
+        getTypingStatus()
         readUndreadMessage()
+        //getIstypingUser()
+        clearIsTyping()
+
+
         /* chat1= Chats()
        myUserId =chat1!!.uid*/
     }
 
-    private fun scrollToBottom() {
-        runOnUiThread {
-            //chattingAdapter!!.notifyDataSetChanged()
-            binding!!.recyclerViews.scrollToPosition(chatList!!.size - 1)
-        }
-    }
 
     private fun sendSocketMessage() {
         val jsonObject = JSONObject()
         try {
             jsonObject.put("message", binding!!.etSendMessage.text.toString().trim { it <= ' ' })
             jsonObject.put("email", emailId)
-            jsonObject.put("frontUserID", userId)
+            jsonObject.put("frontUserID", oppUserId)
             jsonObject.put("userID", session.getUserData()!!.data!!.user_details.userID)
             jsonObject.put("is_image", "0")
             jsonObject.put("userType", "1")
@@ -267,9 +258,19 @@ class ChatActivity : BaseActivitykt() {
         binding!!.etSendMessage.setText("")
     }
 
-    private fun sendSocketImageMessage() {
-
+    private fun deleteChat() {
+        val jsonObject = JSONObject()
+        try {
+            jsonObject.put("frontUserID", oppUserId)
+            jsonObject.put("userID", session.getUserData()!!.data!!.user_details.userID)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        mSocket = Chatimmi.getSocket()!!
+        mSocket.emit("delete_chat", jsonObject)
+        callMessageApi(oppUserId.toString())
     }
+
 
     fun callMessageApi(userId: String) {
 
@@ -278,27 +279,68 @@ class ChatActivity : BaseActivitykt() {
         callApi!!.enqueue(object : Callback<JsonElement> {
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
+                    chatList = ArrayList()
+
                     val gson = Gson().fromJson<Chat>(response.body().toString(), Chat::class.java)
                     Log.d("haxhskm", "onResponse: ${response.body()}")
-                    chatList = gson.data?.messageData
+                    BlockStatus = gson.data!!.isBlock.toString()
 
-                    //chatList?.reverse()
-                    chattingAdapter = ChattingAdapter(this@ChatActivity, chatList, myUserId, { timestamp -> }, true)
+
+                    for (getData in gson.data?.messageData!!) {
+                        val day = getYesterdayDateV2(getData?.createdOn!!)
+                        getData.shouldVisibleShowDateView = getYesterdayDateV2(getData.createdOn!!) != previousDay
+
+                        getData.dayName = day
+                        previousDay = day
+                        chatList?.add(getData)
+                    }
+                    // chatList = gson.data?.messageData
+                    chattingAdapter = ChattingAdapter(this@ChatActivity, chatList, myUserId, { timestamp -> }, true, this@ChatActivity)
                     binding!!.recyclerViews.adapter = chattingAdapter
+                    Log.d("fnkasnfkas", "onResponse: SIZE ${chatList?.size}")
+
                     scrollToBottom()
+                    mSocket.on("read", Emitter.Listener { args ->
+
+                        val data = args[0] as JSONObject
+                        try {
+                            val readBy = data.getString("read_by")
+                            val readTo = data.getString("read_to")
+                            if (readBy == oppUserId.toString() && readTo == myUserId) {
+                                val isRead = data.getInt("is_read")
+                                for (i in 0 until chatList!!.size) {
+                                    if (isRead == 1) {
+                                        chatList!![i]!!.isread = 1
+                                    }
+                                }
+                                runOnUiThread {
+                                    chattingAdapter!!.notifyDataSetChanged()
+
+                                }
+                            }
+
+
+                        } catch (e: Exception) {
+                            Log.d("hjghuhhjh", "Exception:====== ${e.message}")
+                        }
+
+                    })
 
 
                 } else {
                     Log.d("haxhskm", "onResponse: ${response.errorBody()}")
 
                 }
-
+                onForBlockUnBlockOpponent()
+                updateUi()
             }
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
 
             }
         })
+
+
     }
 
     val flag = RequestBody.create(
@@ -306,6 +348,13 @@ class ChatActivity : BaseActivitykt() {
             userType
     )
 
+    private fun scrollToBottom() {
+        runOnUiThread {
+            //chattingAdapter!!.notifyDataSetChanged()
+            binding!!.recyclerViews.scrollToPosition(chatList!!.size - 1)
+
+        }
+    }
 
     fun callUploadChatImageApi(confirm_password: RequestBody, profilePicture: MultipartBody.Part?) {
 
@@ -320,7 +369,7 @@ class ChatActivity : BaseActivitykt() {
                     try {
                         jsonObject.put("message", response.body()!!.data!!.avatar)
                         jsonObject.put("email", emailId)
-                        jsonObject.put("frontUserID", userId)
+                        jsonObject.put("frontUserID", oppUserId)
                         jsonObject.put("userID", session.getUserData()!!.data!!.user_details.userID)
                         jsonObject.put("is_image", "1")
                         jsonObject.put("userType", "1")
@@ -353,7 +402,7 @@ class ChatActivity : BaseActivitykt() {
 
         val jsonObject = JSONObject()
         try {
-            jsonObject.put("read_to", userId)
+            jsonObject.put("read_to", oppUserId)
             jsonObject.put("read_by", session.getUserData()!!.data!!.user_details.userID)
             jsonObject.put("is_read", 1)
         } catch (e: JSONException) {
@@ -375,6 +424,7 @@ class ChatActivity : BaseActivitykt() {
                 val typing = JSONObject()
                 try {
                     typing.put("userID", myUserId)
+                    typing.put("frontUserID", oppUserId)
                     typing.put("is_typing", 1)
                     mSocket.emit("typing", typing)
                 } catch (e: JSONException) {
@@ -425,6 +475,7 @@ class ChatActivity : BaseActivitykt() {
         try {
 
             typing.put("userID", myUserId)
+            typing.put("frontUserID", oppUserId)
             typing.put("is_typing", 0)
             mSocket.emit("typing", typing)
 
@@ -433,31 +484,34 @@ class ChatActivity : BaseActivitykt() {
         }
     }
 
-    private fun getIstypingUser() {
-        mSocket.on("typing") { args ->
+    fun getTypingStatus() {
+        Chatimmi.mSocket!!.on("typing") { args ->
             Log.e("typing", args[0].toString())
             val data = args[0] as JSONObject
             try {
+                activity.runOnUiThread {
+                    val myUserID = data.getString("frontUserID")
+                    val oppUserIds = data.getString("userID")
 
-                runOnUiThread {
-                    val userID = data.getString("userID")
 
-                    if (userID == userId.toString()) {
+                    if (oppUserIds == oppUserId.toString() && myUserID == myUserId) {
                         val typingStatus = data.getInt("is_typing")
                         if (typingStatus == 1) {
                             binding!!.appBar.tvShowTyping.visibility = View.VISIBLE
-                            binding!!.appBar.tvShowTyping.text = "typing"
+                            binding!!.appBar.tvShowTyping.text = "typing..."
                         } else {
                             binding!!.appBar.tvShowTyping.visibility = View.GONE
                         }
-
                     }
+
+
                 }
             } catch (e: Exception) {
 
             }
         }
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -490,7 +544,7 @@ class ChatActivity : BaseActivitykt() {
 
 
             try {
-                showImage(uri!!)
+                showImage(uri)
 
                 bitmap = getBitmapFromUri(uri)
                 //avatarUri = uri
@@ -567,67 +621,155 @@ class ChatActivity : BaseActivitykt() {
         return mimeType
     }
 
-    private fun selectImage(context: Context) {
-        val options = arrayOf<CharSequence>("Take Photo", "Choose from Gallery", "Cancel")
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle("Choose your profile picture")
-        builder.setItems(options) { dialog, item ->
-            if (options[item] == "Take Photo") {
-                val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(takePicture, 0)
-            } else if (options[item] == "Choose from Gallery") {
-                val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                startActivityForResult(pickPhoto, 1)
-            } else if (options[item] == "Cancel") {
-                dialog.dismiss()
-            }
-        }
-        builder.show()
-    }
-
     private fun openMenuDialogBox() {
         val view: View = layoutInflater.inflate(R.layout.alert_menu_dialog_box, null)
+
         val dialog = BottomSheetDialog(this, R.style.CustomBottomSheetDialogTheme)
         dialog.setContentView(view)
-        val ll_blockUser = dialog.findViewById<LinearLayout>(R.id.ll_blockUser)
-        val ll_deleteChat = dialog.findViewById<LinearLayout>(R.id.ll_deleteChat)
+        val ll_blockUser = dialog.findViewById<RelativeLayout>(R.id.ll_blockUser)
+        val ll_deleteChat = dialog.findViewById<RelativeLayout>(R.id.ll_deleteChat)
+        val ll_muteChat = dialog.findViewById<RelativeLayout>(R.id.ll_mute)
         val tv_cancel = dialog.findViewById<TextView>(R.id.tv_cancel)
         val tv_blockUser = dialog.findViewById<TextView>(R.id.tv_blockUser)
-/*        if (blockedId == "both") {
-            tv_blockUser!!.text = "Unblock User"
-        } else if (blockedId == "") {
-            tv_blockUser!!.text = "Block User"
-        } else if (blockedId == venue_owner_id) {
-            tv_blockUser!!.text = "Block User"
-        } else if (blockedId == UserId) {
-            tv_blockUser!!.text = "Unblock User"
-        }*/
-        ll_blockUser!!.setOnClickListener { view1: View? ->
-            // blockChatDialog()
-            dialog.dismiss()
-        }
-/*        ll_deleteChat!!.setOnClickListener { view1: View? ->
-            //    deleteChatDialog();
-            val customAlertDialog: CustomAlertDialog = object : CustomAlertDialog(this@TableChatActivity) {
-                fun leftButtonClick() {
-                    mDatabase.child(Constant.PROD).child("chat_room").child(id).child("delete").child(UserId).child("timeStamp").setValue(timeStamp)
-                    map.clear()
-                    // tv_days_status.setVisibility(View.GONE);
-                    chatMsgList.clear()
-                    tableChatAdapter.notifyDataSetChanged()
-                    this.dismiss()
-                }
 
-                fun rightButtonClick() {
-                    this.dismiss()
-                }
-            }*/
-        /*      customAlertDialog.setMessage("Are you sure you want to delete all messages?")
-              customAlertDialog.show()
-              //Toast.makeText(this, "Delete", Toast.LENGTH_LONG).show();
-              dialog.dismiss()
-          }*/
+        if (BlockStatus == "0") {
+            tv_blockUser!!.text = "Block"
+        } else if (BlockStatus == "1") {
+            tv_blockUser!!.text = "UnBlock"
+        } else if (BlockStatus == "2") {
+            tv_blockUser!!.text = "Block"
+        } else if (BlockStatus == "3") {
+            tv_blockUser!!.text = "UnBlock"
+        }
+        ll_blockUser!!.setOnClickListener { view1: View? ->
+            //blockUnBlockOpponent()
+            alertBlockUnBlockDailog()
+            callMessageApi(oppUserId.toString())
+            dialog.dismiss()
+            // blockChatDialog()
+            // dialog.dismiss()
+        }
+        ll_deleteChat!!.setOnClickListener { view1: View? ->
+            alertDailog()
+            deleteChat()
+            dialog.dismiss()
+
+
+        }
+
         tv_cancel!!.setOnClickListener { view1: View? -> dialog.dismiss() }
         dialog.show()
+    }
+
+    fun alertDailog() {
+        val mAlertDialog = android.app.AlertDialog.Builder(this)
+
+        mAlertDialog.setTitle("Alert") //set alertdialog title
+        mAlertDialog.setMessage("Are you sure you want delete chat")
+        //set alertdialog message
+        mAlertDialog.setPositiveButton("Yes") { dialog, id ->
+            deleteChat()
+            chatList!!.clear()
+            chattingAdapter!!.notifyDataSetChanged()
+            dialog.dismiss()
+        }
+        mAlertDialog.setNegativeButton("No") { dialog, id ->
+            dialog.dismiss()
+        }
+        mAlertDialog.show()
+    }
+
+    fun alertBlockUnBlockDailog() {
+        val mAlertDialog = android.app.AlertDialog.Builder(this)
+        mAlertDialog.setTitle("Alert") //set alertdialog title
+
+        if (BlockStatus == "0") {
+            mAlertDialog.setMessage("Do you want to block?")
+        } else if (BlockStatus == "1") {
+            mAlertDialog.setMessage("Do you want to unblock?")
+        } else if (BlockStatus == "2") {
+            mAlertDialog.setMessage("Do you want to block?")
+        } else if (BlockStatus == "3") {
+            mAlertDialog.setMessage("Do you want to unblock?")
+        }
+        mAlertDialog.setPositiveButton("Yes") { dialog, id ->
+            blockUnBlockOpponent()
+        }
+        mAlertDialog.setNegativeButton("No") { dialog, id ->
+            dialog.dismiss()
+        }
+        mAlertDialog.show()
+    }
+
+    fun blockUnBlockOpponent() {
+        val jsonObject = JSONObject()
+        var isBlock = ""
+        try {
+            if (BlockStatus == "0") {
+                isBlock = "1"
+            } else if (BlockStatus == "1") {
+                isBlock = "0"
+            } else if (BlockStatus == "2") {
+                isBlock = "3"
+            } else if (BlockStatus == "3") {
+                isBlock = "2"
+            }
+            jsonObject.put("frontUserID", oppUserId)
+            jsonObject.put("block_flag", isBlock)
+            jsonObject.put("userID", session.getUserData()!!.data!!.user_details.userID)
+
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        Log.d("jusiduuisd", "onResponse: ${jsonObject}")
+        mSocket = Chatimmi.getSocket()!!
+        mSocket.emit("block_user", jsonObject)
+
+    }
+
+
+    fun onForBlockUnBlockOpponent() {
+        Chatimmi.mSocket!!.on("block_user") { args ->
+            Log.e("block_user", args[0].toString())
+            val data = args[0] as JSONObject
+            try {
+                activity.runOnUiThread {
+                    val myUserID = data.getString("userID")
+                    val oppUserIds = data.getString("frontUserID")
+                    if (oppUserIds == oppUserId.toString() && myUserID == myUserId) {
+                        BlockStatus = data.getString("is_block")
+                        updateUi()
+                    } else if (oppUserIds ==  myUserId && myUserID == oppUserId.toString()) {
+                        BlockStatus = data.getString("is_block")
+                        updateUi()
+                    }
+                }
+
+
+            } catch (e: Exception) {
+
+            }
+        }
+
+
+    }
+
+    fun updateUi() {
+        if (BlockStatus == "0") {
+            binding!!.rlFooterSendMessage.visibility = View.VISIBLE
+            binding!!.tvBlockText.visibility = View.GONE
+        } else if (BlockStatus == "1") {
+            binding!!.rlFooterSendMessage.visibility = View.GONE
+            binding!!.tvBlockText.visibility = View.VISIBLE
+            binding!!.tvBlockText.text = "You have blocked $oppUserName. Can't send any message"
+        } else if (BlockStatus == "2") {
+            binding!!.rlFooterSendMessage.visibility = View.GONE
+            binding!!.tvBlockText.visibility = View.VISIBLE
+            binding!!.tvBlockText.text = "You are blocked by $oppUserName. Can't send any message"
+        } else if (BlockStatus == "3") {
+            binding!!.rlFooterSendMessage.visibility = View.GONE
+            binding!!.tvBlockText.visibility = View.VISIBLE
+            binding!!.tvBlockText.text = "You have blocked each other. Can't send any message"
+        }
     }
 }
