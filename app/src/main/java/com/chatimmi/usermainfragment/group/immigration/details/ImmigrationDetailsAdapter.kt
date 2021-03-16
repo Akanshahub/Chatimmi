@@ -16,7 +16,6 @@ import java.util.*
 abstract class ImmigrationDetailsAdapter(val layout: Int, private var groupMemberList: ArrayList<ImmigrationDetailsResponse.Data.GroupMember>) : RecyclerView.Adapter<ImmigrationDetailsAdapter.ViewHolder>() {
 
     lateinit var context: Context
-    private var viewModel: ImmigrationDetailsViewModel? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

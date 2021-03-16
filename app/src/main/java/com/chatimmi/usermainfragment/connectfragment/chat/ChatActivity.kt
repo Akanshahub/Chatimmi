@@ -91,13 +91,9 @@ class ChatActivity : BaseActivitykt() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chat)
         session = Session(this)
-        // chatNode = gettingNotes();
-        //chatList = ArrayList<Cheat.Data.MessageData>()
 
 
         oppUserName = intent.getStringExtra("groupName").toString()
-  /*      categoryName = intent.getStringExtra("categoryName").toString()
-        subCategoryName = intent.getStringExtra("subCategoryName").toString()*/
         oppUserId = intent.getIntExtra("userId", 0)
         avatar = intent.getStringExtra("avatar").toString()
         emailId = intent.getStringExtra("emailId").toString()
@@ -114,8 +110,7 @@ class ChatActivity : BaseActivitykt() {
             }
         }
         binding!!.ivSearchIconChat.setOnClickListener() {
-            // toastMessage("Sdscdxz",this)
-            // selectImage(this)
+
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ContextCompat.checkSelfPermission(this@ChatActivity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -144,7 +139,7 @@ class ChatActivity : BaseActivitykt() {
         binding!!.recyclerViews.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                // ly_popup_menu.setVisibility(View.GONE)
+
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     binding!!.tvDaysStatus.visibility = View.GONE
                 }
@@ -162,7 +157,7 @@ class ChatActivity : BaseActivitykt() {
 
                     }
 
-/*                    val dateString: String = chatList!![linearLayoutManager.findFirstVisibleItemPosition()]!!.createdOn!!
+/*                   val dateString: String = chatList!![linearLayoutManager.findFirstVisibleItemPosition()]!!.createdOn!!
                     Log.d("Dlpsdpos", "onScrolled: " + chatList!![linearLayoutManager.findFirstVisibleItemPosition()]!!.createdOn!!)
                     getYesterdayDate(dateString, binding!!.tvDaysStatus)
                     binding!!.tvDaysStatus.visibility = View.VISIBLE*/
@@ -379,8 +374,7 @@ class ChatActivity : BaseActivitykt() {
                     mSocket.emit("new_message", jsonObject)
 
 
-                    toastMessage(response.message(), this@ChatActivity)
-                    // Log.d("haxhskm", "onResponse: ${response()}")
+
 
                 } else {
                     toastMessage(response.message(), this@ChatActivity)
@@ -595,7 +589,6 @@ class ChatActivity : BaseActivitykt() {
         return image
     }
 
-
     private fun openCropActivity(sourceUri: Uri) {
         val time: Long = System.currentTimeMillis()
         val str = "" + time
@@ -604,7 +597,6 @@ class ChatActivity : BaseActivitykt() {
         options.setHideBottomControls(true)
         UCrop.of(sourceUri, Uri.fromFile(File(cacheDir, destinationPath))).withAspectRatio(4F, 3F).withOptions(options).start(this)
     }
-
 
     private fun getMimeType(uri: Uri?): String? {
         var mimeType: String? = null
@@ -723,7 +715,6 @@ class ChatActivity : BaseActivitykt() {
         mSocket.emit("block_user", jsonObject)
 
     }
-
 
     fun onForBlockUnBlockOpponent() {
         Chatimmi.mSocket!!.on("block_user") { args ->

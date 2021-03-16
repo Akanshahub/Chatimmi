@@ -24,11 +24,12 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:src="@drawable/image3" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_toRightOf="@+id/ivImages"
+            android:layout_centerInParent="true"
             android:orientation="vertical">
 
             <TextView
@@ -47,10 +48,11 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="Consultant"
+                android:layout_below="@+id/tvName"
                 android:visibility="gone"
                 android:textColor="@color/browen_grey"
                 android:textSize="@dimen/_15sdp" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/ivChat"

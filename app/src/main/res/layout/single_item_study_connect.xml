@@ -1,100 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-   >
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="model"
             type="com.chatimmi.usermainfragment.activity.notification.NotificationViewModel" />
     </data>
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp">
+
         <androidx.cardview.widget.CardView
+            android:id="@+id/card"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_120sdp"
             android:layout_margin="@dimen/_15sdp"
             app:cardCornerRadius="@dimen/_10sdp">
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginStart="@dimen/_150sdp"
-                android:layout_marginTop="@dimen/_10sdp">
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/carnegie"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold"
                     android:text="@string/carnegie"
                     android:textColor="@color/black_two"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:textSize="@dimen/_13sdp"/>
+                    android:textSize="@dimen/_13sdp" />
+
                 <TextView
                     android:id="@+id/uk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/uK_immigration"
-                    android:textColor="@color/water_blue"
                     android:layout_below="@+id/carnegie"
                     android:fontFamily="@font/montserrat_bold"
+                    android:text="@string/uK_immigration"
+                    android:textColor="@color/water_blue"
                     android:textSize="@dimen/_13sdp"
 
                     />
 
-                <ImageView
-                    android:layout_marginTop="@dimen/_20sdp"
+                <RelativeLayout
                     android:id="@+id/ivChat"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_below="@+id/uk"
+                    android:visibility="gone"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:background="@drawable/bg_circle">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_icon" />
+
+                </RelativeLayout>
+
+<!--                <ImageView
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/uk"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_20sdp"
                     android:gravity="center"
                     android:src="@drawable/chat_ico"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_13sdp"
-                    android:visibility="gone" />
+
+
+                    android:visibility="visible" />-->
+
                 <RelativeLayout
                     android:id="@+id/connect"
                     android:layout_width="@dimen/_90sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_below="@+id/uk"
                     android:layout_alignParentEnd="true"
-                    android:background="@drawable/bg_join"
-                    android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_25sdp"
-                    android:elevation="@dimen/_2sdp">
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/bg_join"
+                    android:elevation="@dimen/_2sdp"
+                    android:visibility="visible">
+
                     <TextView
                         android:id="@+id/join"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textColor="@color/white"
-                        android:gravity="center"
-                        android:textSize="@dimen/_12sdp"
                         android:layout_marginStart="@dimen/_18sdp"
                         android:fontFamily="@font/montserrat_semibold"
+                        android:gravity="center"
                         android:text="@string/connect_button"
-                        />
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
                     <ImageView
                         android:id="@+id/add_image"
                         android:layout_width="@dimen/_13sdp"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_add_ico"
-                        android:layout_marginStart="@dimen/_10sdp"
                         android:layout_alignParentStart="true"
-                        />
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:src="@drawable/ic_add_ico" />
                 </RelativeLayout>
 
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/card_image"
-            android:layout_height="115.7dp"
             android:layout_width="108.7dp"
+            android:layout_height="115.7dp"
             android:layout_marginStart="@dimen/_30sdp"
             android:scaleType="centerCrop"
             app:cardCornerRadius="@dimen/_10sdp">
@@ -103,8 +134,16 @@
                 android:id="@+id/ivImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
         </androidx.cardview.widget.CardView>
 
+        <View
+            android:id="@+id/views"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_below="@+id/card"
+            android:background="@color/transparent"
+            android:layerType="software"
+            android:visibility="gone" />
     </RelativeLayout>
 </layout>

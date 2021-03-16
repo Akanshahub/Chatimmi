@@ -1,6 +1,5 @@
-package com.chatimmi.usermainfragment.connectfragment.immigrationconnect
+ package com.chatimmi.usermainfragment.connectfragment.immigrationconnect
 
-import android.R
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
@@ -19,14 +18,7 @@ abstract class ImmigrationConnectAdapter(val layout: Int, immigrationConnectView
         return ImmigrationConnectAdapter.ViewHolder(binding)
     }
 
-    private fun setImageResources(): ArrayList<Any>? {
-        val imageLists: ArrayList<Any> = ArrayList()
-        imageLists.add(R.color.black)
-        imageLists.add(R.color.darker_gray)
-        imageLists.add(R.color.holo_green_dark)
-        imageLists.add(R.color.holo_blue_bright)
-        return imageLists
-    }
+
 
     override fun getItemCount() = list.size
 
@@ -54,9 +46,6 @@ abstract class ImmigrationConnectAdapter(val layout: Int, immigrationConnectView
         }
         holder.binding.ivChat.setOnClickListener {
             onChatCallBack(list[position])
-           /* val intent = Intent(context, ChatActivity::class.java)
-            intent.putExtra("dd", "ff")
-            context?.startActivity(intent)*/
         }
 
         if (list[position].isConnect == 0) {

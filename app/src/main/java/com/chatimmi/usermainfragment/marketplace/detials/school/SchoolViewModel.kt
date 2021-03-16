@@ -5,8 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chatimmi.R
 import com.chatimmi.app.utils.CommonTaskPerformer
-import com.chatimmi.usermainfragment.group.immigration.details.ImmigrationDetailsActivity
-import com.chatimmi.usermainfragment.group.study.StudyAdapter
+
 
 class SchoolViewModel:ViewModel() {
     private lateinit var adapter: SchoolAdapter

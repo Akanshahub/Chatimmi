@@ -8,12 +8,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.chatimmi.Chatimmi
-import com.chatimmi.R
+
 import com.chatimmi.app.pref.Session
 import com.chatimmi.app.utils.UIStateManager
 import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseActivitykt
 import com.chatimmi.databinding.ActivitySignInBinding
+
 import com.chatimmi.fragmentchatimmi.ChatimmiActivity
 import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.repository.CheckSocialSignUpRepository
@@ -34,6 +35,8 @@ import io.socket.client.Socket
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
+import com.chatimmi.R
+
 
 @Suppress("DEPRECATION")
 class SignInActivity : BaseActivitykt(), ApiCallback.CheckSocialSignupCallback, ApiCallback.SocialSignupCallback,ApiCallback.LoginCallback {

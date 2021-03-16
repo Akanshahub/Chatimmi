@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.chatimmi.databinding.SingleItemSchoolBinding
 import com.chatimmi.databinding.SingleItemStudyBinding
-import com.chatimmi.usermainfragment.group.study.StudyAdapter
+
 import com.chatimmi.usermainfragment.group.study.StudyViewModel
 
 class SchoolAdapter (val layout: Int, schoolViewModel: SchoolViewModel) : RecyclerView.Adapter<SchoolAdapter.ViewHolder>() {

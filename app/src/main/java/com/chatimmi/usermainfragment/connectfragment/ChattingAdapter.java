@@ -43,9 +43,7 @@ import java.util.TimeZone;
 
 import uk.co.senab.photoview.PhotoView;
 
-/**
- * Created by Anil on 13/6/18.
- **/
+
 
 public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -55,12 +53,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     Context context;
     ArrayList<Chat.Data.MessageData> chatList;
     String myUid;
-    int isToday;
-    int isYesterday;
-    String mPreviousTime = "";
     ChatActivity chatActivity;
-
-    //   GetDateStatus getDateStatus;
     boolean ishideName;
     GetDateStatus getDateStatus;
     private int VIEW_TYPE_ME = 1;
@@ -77,21 +70,6 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         // this.getDateStatus = getDateStatus;
 
     }
-
-    /**
-     * @param time        in milliseconds (Timestamp)
-     * @param mDateFormat SimpleDateFormat
-     * @return
-     */
-
-    public static String getDateTimeFromTimeStamp(String time, String mDateFormat) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(mDateFormat);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date dateTime = new Date(time);
-        boolean isToday = DateUtils.isToday(dateTime.getTime());
-        return dateFormat.format(dateTime);
-    }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -177,36 +155,6 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         String time = sd.format(value);
         return time;
 
-    }
-
-    public final boolean isYesterday(long date) {
-        Calendar now = Calendar.getInstance();
-        Calendar cdate = Calendar.getInstance();
-        cdate.setTimeInMillis(date);
-        now.add(Calendar.DATE, -1);
-        return now.get(Calendar.YEAR) == cdate.get(Calendar.YEAR) && now.get(Calendar.MONTH) == cdate.get(Calendar.MONTH) && now.get(Calendar.DATE) == cdate.get(Calendar.DATE);
-    }
-
-    public void refreshList(ArrayList<Chat.Data.MessageData> list) {
-        if (chatList.size() > 0) chatList.clear();
-        this.chatList = list;
-        notifyDataSetChanged();
-    }
-
-    private String getLocalDayStatus(String currentDay) {
-        if (currentDay.equalsIgnoreCase("Today")) {
-            return "Today";
-        } else if (currentDay.equalsIgnoreCase("Yesterday")) {
-            return "yesterday";
-        } else if (currentDay.contains("Today at")) {
-            return currentDay.replace("Today at", "today_at");
-        } else if (currentDay.contains("Yesterday at")) {
-            return currentDay.replace("Yesterday at", "yesterday_at");
-        } else if (currentDay.contains("at")) {
-            return currentDay.replace("at", "At");
-        } else {
-            return currentDay;
-        }
     }
 
 
@@ -355,7 +303,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 //                    chatActivity.getYesterdayDate(chat.getCreatedOn(),tv_days_statuss);
 //                    tv_days_statuss.setVisibility(View.VISIBLE);
 //                }
-
+                ly_other_image_view.setOnClickListener(view -> full_screen_photo_dialog(chat.getMessage()));
                 tv_days_statuss.setText(chat.getDayName());
                 if(chat.getShouldVisibleShowDateView()){
                     tv_days_statuss.setVisibility(View.VISIBLE);
@@ -399,8 +347,8 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 other_date_time_.setText(formatDateFromDateString(DATE_FORMAT_12, DATE_FORMAT_13, chat.getCreatedOn()));
 
 
-            } catch (Exception ignored) {
-                Log.e("Exception", ignored.getMessage());
+            } catch (Exception e) {
+                Log.e("Exception", e.getMessage());
             }
 
 

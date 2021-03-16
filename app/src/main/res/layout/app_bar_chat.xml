@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/main_bg"
+        android:background="@drawable/splash_main_bg"
         android:minHeight="115dp"
 
         android:orientation="vertical">

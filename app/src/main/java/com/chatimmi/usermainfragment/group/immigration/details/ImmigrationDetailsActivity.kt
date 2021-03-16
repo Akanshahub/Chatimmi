@@ -89,14 +89,22 @@ class ImmigrationDetailsActivity : BaseActivitykt() , CommonTaskPerformer,ApiCal
                         } else {
                             binding!!.lock.visibility = View.VISIBLE
                         }
+                        if(groupMember.size==0){
+                            binding?.rvMain?.visibility = View.GONE
+                            binding?.tvNoDataFound!!.visibility = View.VISIBLE
 
-                        viewModel?.getAdapter()?.let {
-                            binding?.rvMain?.visibility = View.VISIBLE
-                            binding?.rvMain?.adapter = viewModel?.getAdapter()
-                            viewModel?.getAdapter()!!.addData(groupMember)
-                            viewModel?.getAdapter()!!.notifyDataSetChanged()
+                        }else{
+                            viewModel?.getAdapter()?.let {
+                                binding?.rvMain?.visibility = View.VISIBLE
+                                binding?.tvNoDataFound!!.visibility = View.GONE
+                                binding?.rvMain?.adapter = viewModel?.getAdapter()
+                                viewModel?.getAdapter()!!.addData(groupMember)
+                                viewModel?.getAdapter()!!.notifyDataSetChanged()
 
+                            }
                         }
+
+
                     }
                     is UIStateManager.Error -> {
                         toastMessage(it.msg, this)

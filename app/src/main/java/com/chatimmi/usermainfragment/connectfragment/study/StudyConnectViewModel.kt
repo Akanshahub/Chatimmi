@@ -34,7 +34,7 @@ class StudyConnectViewModel(val repo: ImmigrationConnectRepositary)  : ViewModel
                 }
             }
         }
-        fun getAdapter(): StudyConnectAdapter? {
+        fun getAdapter(): StudyConnectAdapter {
             return adapter
         }
 

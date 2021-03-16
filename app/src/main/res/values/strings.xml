@@ -141,6 +141,13 @@
     <string name="you_have_set_your_password">You have set your password, your session is expired. Please login again</string>
     <string name="you_have_changed_your_password">You have changed your password, your session is expired. Please login again</string>
 
+    //Nikita Ma'am
+    <string name="select_your_role_to_login_and_sign_up_your_account">Select your role to login and sign up your account</string>
+    <string name="welcome_to_quickityfix">Welcome to QuickityFix</string>
+    <string name="continue_small">Continue</string>
+    <string name="user_text">User</string>
+    <string name="provider_text">Provider</string>
+
 
 </resources>
 

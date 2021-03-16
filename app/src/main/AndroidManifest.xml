@@ -224,6 +224,10 @@ package="com.chatimmi">
         tools:ignore="LockedOrientationActivity">
 
     </activity>
+
+    <activity android:name="com.chatimmi.views.DummyActivity">
+
+    </activity>
     <activity
         android:name="com.chatimmi.usermainfragment.connectfragment.filter.filtersubcategoryconnect.FiltersubcategoryconnectActivity"
         android:screenOrientation="portrait"
@@ -233,5 +237,12 @@ package="com.chatimmi">
     </activity>
 </application>
 </manifest>
+
+
+
+
+
+
+
 
 

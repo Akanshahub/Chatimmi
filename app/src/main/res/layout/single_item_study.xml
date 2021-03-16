@@ -195,6 +195,7 @@
                 android:fontFamily="@font/montserrat_semibold"
                 android:gravity="center"
                 android:text="@string/join"
+                android:visibility="visible"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
 
@@ -214,8 +215,26 @@
                 android:textSize="12.7sp"
                 android:visibility="gone" />
 
-            <ImageView
+            <RelativeLayout
                 android:id="@+id/ivChat"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/view"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:background="@drawable/bg_circle">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_icon" />
+
+            </RelativeLayout>
+<!--            <ImageView
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/view"
@@ -229,7 +248,7 @@
                 android:textColor="@color/white"
 
                 android:textSize="@dimen/_13sdp"
-                android:visibility="gone" />
+                android:visibility="gone" />-->
         </RelativeLayout>
 
     </RelativeLayout>

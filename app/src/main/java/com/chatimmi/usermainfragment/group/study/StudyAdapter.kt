@@ -37,7 +37,7 @@ abstract class StudyAdapter(val layout: Int, private var groupListItem: ArrayLis
 
     override fun onBindViewHolder(holder: StudyViewHolder, position: Int) {
         val groupListItem: GroupListResponse.Data.Group = groupListItem[position]
-        Log.d("bnjnknk", "position --- : ${position}")
+        Log.d("bnjnknk", "position --- : $position")
         holder.binding.tvName.text = groupListItem.groupName
         holder.binding.rl.text = groupListItem.categoryName
 

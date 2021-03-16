@@ -88,14 +88,15 @@ class StudyConnectFragment : BaseFragment(), CommonTaskPerformer,ApiCallback.Con
                     is UIStateManager.Success<*> -> {
                         val getData = it.data as ConsultantListResponce
                         list.addAll(getData.data.consultantList)
-                        if (getData.data.consultantList.size == 0) {
-                            /* binding.rvMain.visibility = View.GONE
+                        if (getData.data.consultantList.isEmpty()) {
+                             binding.rvMain.visibility = View.GONE
                              binding.noDataAvailable.visibility = View.VISIBLE
-                             viewModel?.clearList()*/
+                             //viewModel?.clearList()
                         } else {
                             viewModel?.getAdapter()?.let {
                                 binding.rvMain.visibility = View.VISIBLE
                                 binding.rvMain.adapter = viewModel?.getAdapter()
+                                binding.noDataAvailable.visibility = View.GONE
                                 viewModel?.getAdapter()!!.addData(list)
                                 viewModel?.getAdapter()!!.notifyDataSetChanged()
                             }

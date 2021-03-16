@@ -3,6 +3,7 @@ package com.chatimmi
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import com.chatimmi.fragmentchatimmi.ChatimmiActivity
 import com.chatimmi.socketchat.SocketConstant
 import com.chatimmi.views.SignInActivity
 import io.socket.client.Socket
+
 
 @Suppress("DEPRECATION")
 class SplashScreenActivity :  AppCompatActivity(){
@@ -29,10 +31,10 @@ class SplashScreenActivity :  AppCompatActivity(){
         w.setFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             Log.d("kkk", "login: ${session.getIsUserLoggedIn()}")
             var sess = session.getIsUserLoggedIn()
-            if (sess.equals("isLogin")) {
+            if (sess == "isLogin") {
                 val i = Intent(this, ChatimmiActivity::class.java)
                 startActivity(i)
                 finish()

@@ -26,7 +26,6 @@ class SignInViewModel(val signupRepository: SignInRepository) :
 
     fun signInOnClick() {
         if (validate()) {
-
             signupRepository.callLoginApi(emailAddress, password, "assdds", "1")
         }
 

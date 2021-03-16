@@ -80,8 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl_serach"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="100dp">
+            android:layout_alignParentEnd="true">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_main"
@@ -94,6 +93,9 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:setAdapter="@{studyModel.getAdapter()}" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
+        <include
+            android:id="@+id/noDataAvailable"
+            layout="@layout/no_data_available"
+            android:visibility="gone" />
     </RelativeLayout>
 </layout>
