@@ -7,7 +7,6 @@
 
     <RelativeLayout
         android:id="@+id/card"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -32,15 +31,14 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
-
                 android:backgroundTint="@color/gray_200"
                 android:fontFamily="@font/montserrat_medium"
                 android:gravity="center"
                 android:maxLines="1"
                 android:minWidth="@dimen/_100sdp"
                 android:padding="@dimen/_5sdp"
-                android:textColor="@color/black"
-                android:textSize="9dp"
+
+
                 android:visibility="gone" />
             <!--<TextView
                 android:id="@+id/tv"
@@ -57,7 +55,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
+            <include
+                android:id="@+id/noDataAvailable"
+                layout="@layout/no_data_available"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -69,6 +70,7 @@
 
 
             <RelativeLayout
+                android:visibility="visible"
                 android:id="@+id/rl_footer_send_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -148,18 +150,18 @@
                     android:background="@drawable/chatico" />
 
             </RelativeLayout>
-        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tvBlockText"
-            android:layout_width="match_parent"
-            android:layout_height="76dp"
-            android:background="#ececec"
-            android:fontFamily="@font/montserrat_regular"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_10sdp"
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/tvBlockText"
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:background="@color/gray_200"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp"
+                android:visibility="gone" />
+        </RelativeLayout>
     </RelativeLayout>
 
     </layout>

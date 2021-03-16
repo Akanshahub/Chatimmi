@@ -24,14 +24,29 @@
                 android:layout_height="@dimen/_60sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:elevation="@dimen/_8sdp"
+
                 android:src="@drawable/image3"
                 app:civ_border_color="@color/white"
                 app:civ_border_overlay="true"
                 app:civ_border_width="@dimen/_2sdp"
                 tools:ignore="MissingConstraints" />
 
-            <LinearLayout
+            <View
+                android:id="@+id/ll_isOnline_user"
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:layout_above="@+id/image"
+                android:layout_alignEnd="@+id/image"
+                android:layout_alignBottom="@+id/image"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
+                android:background="@drawable/card_dot_gray"
+
+                android:backgroundTint="@color/green"
+                android:visibility="gone"
+                tools:ignore="NotSibling" />
+
+            <RelativeLayout
                 android:id="@+id/linear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,7 +56,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/trnsport"
+                    android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -50,41 +65,104 @@
                     android:textColor="@color/black_two"
                     android:textSize="@dimen/_13sdp" />
 
-
                 <TextView
-                    android:id="@+id/price"
+                    android:id="@+id/tvLastMsg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvName"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_70sdp"
+                    android:ellipsize="end"
                     android:fontFamily="@font/montserrat_regular"
-                    android:text="@string/immigration"
+                    android:maxLines="2"
+                    android:text="immigrationimmigrationimmigrationimmigrationimmigrationimmigrationimmigrationimmigrationimmigrationimmigrationimmigrationimmigrationimmigration"
+                    android:textColor="@color/browen_grey"
+                    android:textSize="@dimen/_12sdp"
+                    android:visibility="visible" />
+
+
+                <!--              <ImageView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+
+                                  android:src="@drawable/ic_camera_ico">
+
+                              </ImageView>-->
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="03:15 PM"
+
                     android:textColor="@color/browen_grey"
                     android:textSize="@dimen/_12sdp" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="@dimen/_90sdp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:elevation="@dimen/_2sdp"
-                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/join"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/_18sdp"
+                    android:id="@+id/tvCount"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_below="@+id/tvTime"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/montserrat_regular"
+                    android:layout_marginEnd="@dimen/_30sdp"
+                    android:background="@drawable/bg_circle_tike"
                     android:gravity="center"
-                    android:text="03:15 PM"
-                    android:textColor="@color/browen_grey"
-                    android:textSize="@dimen/_12sdp" />
-            </LinearLayout>
+                    android:text="1"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_9sdp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_show_typing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvTitle"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:maxLines="1"
+                    android:text="vfcgdgffdggdf"
+                    android:textColor="@color/black"
+                    android:textSize="10dp"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:id="@+id/rlImage"
+                    android:layout_width="111dp"
+                    android:layout_height="20dp"
+                    android:visibility="gone">
+
+                    <!--                   <ImageView
+                                           android:id="@+id/ivBtnBack"
+                                           android:layout_width="@dimen/_32sdp"
+                                           android:layout_height="@dimen/_32sdp"
+                                           android:layout_marginTop="@dimen/_5sdp"
+                                           android:layout_toStartOf="@+id/ivCamera"
+                                           android:clickable="true"
+                                           android:focusable="true"
+
+                                           app:srcCompat="@drawable/camera_ico"
+                                           app:tint="#fff" />-->
+
+
+                    <TextView
+                        android:id="@+id/tvCamera"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_14sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Image"
+                        android:textColor="@color/browen_grey"
+                        android:textSize="@dimen/_12sdp"
+                        android:visibility="visible" />
+
+                </RelativeLayout>
+            </RelativeLayout>
 
 
         </RelativeLayout>

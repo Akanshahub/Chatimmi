@@ -35,6 +35,7 @@ abstract class MyChatGroupImmigrationAdapter(val layout: Int, private var listIt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val groupListItem: GetProfileChatGroupResponse.Data.MyChatGroupList = listItem[position]
+        if(position==listItem.size)
         holder.binding.tvName.text = groupListItem.groupName
         holder.binding.rl.text = groupListItem.subCategoryName
 
@@ -50,7 +51,10 @@ abstract class MyChatGroupImmigrationAdapter(val layout: Int, private var listIt
 
             }
         }
-
+        holder.binding.rlCard.setOnClickListener() {
+            holder.binding.lock.isClickable=false
+            onCardCallBack(groupListItem)
+        }
     }
 
     fun addData(list: List<GetProfileChatGroupResponse.Data.MyChatGroupList>) {
@@ -125,6 +129,6 @@ abstract class MyChatGroupImmigrationAdapter(val layout: Int, private var listIt
 
         return bitmap
     }
-
+    abstract fun onCardCallBack(groupListItem: GetProfileChatGroupResponse.Data.MyChatGroupList)
     //  abstract fun onConnectCall()
 }

@@ -81,8 +81,8 @@ class MyConsultantsFragment : BaseFragment(), CommonTaskPerformer {
 
             if (binding.checkboxImmigration.isChecked) {
 
-                binding.checkboxImmigration.setTextColor(Color.parseColor("#999999"));
-                binding.checkboxStudy.setTextColor(Color.BLACK)
+                binding.checkboxStudy.setTextColor(Color.parseColor("#999999"));
+                binding.checkboxImmigration.setTextColor(Color.BLACK)
                 binding.rvImmigration.visibility = View.VISIBLE
                 binding.rvStudy.visibility = View.GONE
                 myConsultantsRepository.getResponseData().observe(activity, Observer {
@@ -93,9 +93,9 @@ class MyConsultantsFragment : BaseFragment(), CommonTaskPerformer {
                                 Log.d("bnjnknk", "setupBindings: ${getData.data!!.list.size}")
 
 
-                                    viewModel?.getAdapter()?.let {
-                            /*        binding.rvImmigration.visibility = View.VISIBLE
-                                    binding.rvStudy.visibility = View.GONE*/
+                                viewModel?.getAdapter()?.let {
+                                    binding.rvImmigration.visibility = View.VISIBLE
+                                    binding.rvStudy.visibility = View.GONE
                                     binding.rvImmigration.adapter = viewModel?.getAdapter()
                                     viewModel?.getAdapter()!!.addData(getData.data!!.list)
                                     viewModel?.getAdapter()!!.notifyDataSetChanged()
@@ -122,9 +122,11 @@ class MyConsultantsFragment : BaseFragment(), CommonTaskPerformer {
                 })
 
 
-            } else {
-                binding.checkboxStudy.setTextColor(Color.parseColor("#999999"));
-                binding.checkboxImmigration.setTextColor(Color.BLACK);
+            }
+            if (binding.checkboxStudy.isChecked) {
+
+                binding.checkboxImmigration.setTextColor(Color.parseColor("#999999"));
+                binding.checkboxStudy.setTextColor(Color.BLACK);
                 binding.rvImmigration.visibility = View.GONE
                 binding.rvStudy.visibility = View.VISIBLE
                 myConsultantsRepository.getResponseData().observe(activity, Observer {
@@ -136,8 +138,8 @@ class MyConsultantsFragment : BaseFragment(), CommonTaskPerformer {
 
 
                                 viewModel?.getAdapter1()?.let {
-                                   /* binding.rvImmigration.visibility = View.GONE
-                                    binding.rvStudy.visibility = View.VISIBLE*/
+                                    binding.rvImmigration.visibility = View.GONE
+                                    binding.rvStudy.visibility = View.VISIBLE
                                     binding.rvStudy.adapter = viewModel?.getAdapter1()
                                     viewModel?.getAdapter1()!!.addData(getData.data!!.list)
                                     viewModel?.getAdapter1()!!.notifyDataSetChanged()

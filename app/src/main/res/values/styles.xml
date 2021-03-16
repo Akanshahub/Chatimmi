@@ -18,7 +18,10 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         -->
     </style>
-
+    <style name="PauseDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_dialog</item>
+    </style>
     <style name="AppTheme.Splash" parent="AppTheme"/>
     <style name="FullscreenTheme" parent="AppTheme"/>
     <style name="AppTheme.TextViewStyleBigLittle" parent="AppTheme">

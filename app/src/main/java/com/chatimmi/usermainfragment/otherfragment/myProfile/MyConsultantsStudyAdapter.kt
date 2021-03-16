@@ -30,9 +30,9 @@ class MyConsultantsStudyAdapter(val layout: Int,private var listItem: ArrayList<
         holder.binding.tvCategory.text=groupListItem.categoryname
         Glide.with(holder.binding.ivImage.context).load(groupListItem.avatar).into(holder.binding.ivImage)
     }
-    fun addData(list: List<GetProfileMyConsultantsResonse.Data.MyConsultantsList>) {
+    fun addData(list1: List<GetProfileMyConsultantsResonse.Data.MyConsultantsList>) {
         listItem.clear()
-        listItem.addAll(list)
+        listItem.addAll(list1)
         notifyDataSetChanged()
 
     }

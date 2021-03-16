@@ -19,12 +19,15 @@ import com.chatimmi.app.utils.showToast
 import com.chatimmi.base.BaseFragment
 import com.chatimmi.databinding.FragmentMyChatGroupsBinding
 
+import com.chatimmi.usermainfragment.group.immigration.details.ImmigrationDetailsActivity
+
 
 private const val ARG_PARAM1 = "param1"
 
 class MyChatGroupsFragment : BaseFragment(), CommonTaskPerformer {
     private var viewModel: MyChatGroupImmigrationViewModel? = null
     lateinit var myChatGroupRepository: MyChatGroupRepository
+    lateinit var list: ArrayList<GetProfileChatGroupResponse.Data.MyChatGroupList>
     lateinit var binding: FragmentMyChatGroupsBinding
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -35,10 +38,27 @@ class MyChatGroupsFragment : BaseFragment(), CommonTaskPerformer {
 
         myChatGroupRepository = MyChatGroupRepository(activity)
         val factory = MyChatGroupViewModalFactory(myChatGroupRepository)
+        list=ArrayList()
         viewModel = ViewModelProviders.of(this, factory)[MyChatGroupImmigrationViewModel::class.java]
         binding.model = viewModel
         viewModel?.init(this)
         setupBindings()
+
+        viewModel!!.getAdapterClickObserver().observe(activity, Observer {
+            it?.let {
+                it.let {
+
+                    val intent = Intent(context, ImmigrationDetailsActivity::class.java)
+                    intent.putExtra("groupName", it.groupName)
+                    intent.putExtra("categoryName", it.categoryName)
+                    intent.putExtra("subCategoryName", it.subCategoryName)
+                    intent.putExtra("groupId", it.groupID.toString())
+                    intent.putExtra("is_group_connect", it.isGroupConnect)
+                    startActivityForResult(intent, 1)
+                }
+
+            }
+        })
         return binding.root
     }
 
@@ -49,14 +69,22 @@ class MyChatGroupsFragment : BaseFragment(), CommonTaskPerformer {
                 when (it) {
                     is UIStateManager.Success<*> -> {
                         val getData = it.data as GetProfileChatGroupResponse
-                        Log.d("bnjnknk", "setupBindings: ${getData.data!!.list!!.size}")
+                        Log.d("bnjnknk", "setupBindings: ${getData.data!!.list.size}")
 
+                        list.addAll(getData.data!!.list)
 
+                        if (getData.data!!.list.isEmpty()) {
+                            binding.rvMain.visibility = View.GONE
+                            //binding.noDataAvailable.visibility = View.VISIBLE
+                            //viewModel?.clearList()
+                        }else{
                         viewModel?.getAdapter()?.let {
                             binding.rvMain.visibility = View.VISIBLE
+                           // binding.noDataAvailable.visibility = View.GONE
                             binding.rvMain.adapter = viewModel?.getAdapter()
                             viewModel?.getAdapter()!!.addData(getData.data!!.list)
                             viewModel?.getAdapter()!!.notifyDataSetChanged()
+                        }
                         }
 
 

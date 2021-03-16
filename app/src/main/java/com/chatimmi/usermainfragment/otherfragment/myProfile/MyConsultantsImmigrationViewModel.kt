@@ -19,7 +19,7 @@ class MyConsultantsImmigrationViewModel(private val myConsultantsRepository: MyC
     fun init(commonTaskPerformer: CommonTaskPerformer) {
         this.commonTaskPerformer = commonTaskPerformer
         adapter = MyConsultantsImmigrationAdapter(R.layout.single_item_my_consultant,list)
-        adapter1 = MyConsultantsStudyAdapter(R.layout.single_item_my_study, list)
+        adapter1 = MyConsultantsStudyAdapter(R.layout.single_item_my_study, list1)
 
         myConsultantsRepository.callListApi("2", "2")
     }

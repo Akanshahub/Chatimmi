@@ -144,8 +144,8 @@ class ImmigrationConnectFragment : BaseFragment(), CommonTaskPerformer, ApiCallb
 
                     val intent = Intent(context, ChatActivity::class.java)
                     intent.putExtra("groupName", it.fullName)
-                    intent.putExtra("categoryName", it.categoryName)
-                    intent.putExtra("subCategoryName", it.subCategoryName)
+        /*            intent.putExtra("categoryName", it.categoryName)
+                    intent.putExtra("subCategoryName", it.subCategoryName)*/
                     intent.putExtra("userId", it.userID)
                     intent.putExtra("avatar", it.avatar)
                     intent.putExtra("emailId", it.email)

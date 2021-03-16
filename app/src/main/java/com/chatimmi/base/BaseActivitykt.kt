@@ -8,8 +8,10 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.text.format.DateUtils
 import android.view.View
 import android.view.WindowManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
@@ -33,6 +35,8 @@ import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Suppress("DEPRECATION")
 open class BaseActivitykt : AppCompatActivity() {
@@ -57,8 +61,8 @@ open class BaseActivitykt : AppCompatActivity() {
         session = Session(this)
 
         //TODO Socket chat
-       /* mSocket = Chatimmi().getSocket()
-        SocketCont.getInstance().getmSocket(mSocket, this)*/
+        /* mSocket = Chatimmi().getSocket()
+         SocketCont.getInstance().getmSocket(mSocket, this)*/
 
 
     }
@@ -179,5 +183,183 @@ open class BaseActivitykt : AppCompatActivity() {
 
             }
         })
+    }
+
+    fun getYesterdayDateV2(dateString: String): String {
+        var day = ""
+
+        val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+        df.timeZone = TimeZone.getTimeZone("UTC")
+        val date = df.parse(dateString)
+        df.timeZone = TimeZone.getDefault()
+
+        var isTodayLong = date.time
+        var tBoolean = DateUtils.isToday(isTodayLong)
+
+        val sim = SimpleDateFormat("MMMM dd, yyyy HH:mm aa", Locale.US)
+        var dayBeforeYesterday = sim.format(date)
+        val sim1 = SimpleDateFormat("MMMM dd, yyyy", Locale.US)
+        var dayBeforeYesterdayString = sim1.format(date)
+
+        val sdf = SimpleDateFormat("HH:mm aa", Locale.US)
+        val currentDateandTime = sdf.format(date)
+
+        val sdf1 = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+        val currentDateandTime1 = sdf1.format(date)
+
+        val date11 = sdf.parse(currentDateandTime)
+        val calender = Calendar.getInstance()
+        calender.time = date11
+
+        if (tBoolean) {
+            if (currentDateandTime.substring(currentDateandTime.length - 2).startsWith("A")) {
+                // AM
+                val d1 = get12HourFormatV2(date, " AM")
+                day = "$d1 "
+            } else {
+                // PM
+                val d2 = get12HourFormatV2(date, " PM")
+                day = "$d2 "
+            }
+        } else {
+            if (currentDateandTime1.equals(getYesterdayDateString())) {
+                if (currentDateandTime.substring(currentDateandTime.length - 2).startsWith("A")) {
+                    // AM
+                    val time1 = SimpleDateFormat("HH:mm")
+                    val strTime1 = time1.format(date)
+                    val _12HourSDF = SimpleDateFormat("hh:mm")
+                    val _24HourDt = time1.parse(strTime1)
+                    day = "Yesterday "
+                } else {
+                    // PM
+                    val time1 = SimpleDateFormat("HH:mm")
+                    val strTime1 = time1.format(date)
+                    val _12HourSDF = SimpleDateFormat("hh:mm")
+                    val _24HourDt = time1.parse(strTime1)
+                    day = "Yesterday "
+                }
+            } else {
+                if (dayBeforeYesterday.substring(dayBeforeYesterday.length - 2).startsWith("A")) {
+                    // AM
+                    val time1 = SimpleDateFormat("HH:mm")
+                    val strTime1 = time1.format(date)
+                    val _12HourSDF = SimpleDateFormat("hh:mm")
+                    val _24HourDt = time1.parse(strTime1)
+                    day = dayBeforeYesterdayString.toUpperCase()
+                } else {
+                    // PM
+                    val time1 = SimpleDateFormat("HH:mm")
+                    val strTime1 = time1.format(date)
+                    val _12HourSDF = SimpleDateFormat("hh:mm")
+                    val _24HourDt = time1.parse(strTime1)
+                    day = dayBeforeYesterdayString.toUpperCase()
+                }
+                //textView.text = dayBeforeYesterday
+            }
+        }
+        return day
+    }
+
+    fun getYesterdayDate(dateString: String, textView: TextView) {
+
+        val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+        df.timeZone = TimeZone.getTimeZone("UTC")
+        val date = df.parse(dateString)
+        df.timeZone = TimeZone.getDefault()
+
+        var isTodayLong = date.time
+        var tBoolean = DateUtils.isToday(isTodayLong)
+
+        val sim = SimpleDateFormat("MMMM dd, yyyy HH:mm aa", Locale.US)
+        var dayBeforeYesterday = sim.format(date)
+        val sim1 = SimpleDateFormat("MMMM dd, yyyy", Locale.US)
+        var dayBeforeYesterdayString = sim1.format(date)
+
+        val sdf = SimpleDateFormat("HH:mm aa", Locale.US)
+        val currentDateandTime = sdf.format(date)
+
+        val sdf1 = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+        val currentDateandTime1 = sdf1.format(date)
+
+        val date11 = sdf.parse(currentDateandTime)
+        val calender = Calendar.getInstance()
+        calender.time = date11
+
+        if (tBoolean) {
+            if (currentDateandTime.substring(currentDateandTime.length - 2).startsWith("A")) {
+                // AM
+                get12HourFormat(date, textView, " AM")
+
+            } else {
+                // PM
+                get12HourFormat(date, textView, " PM")
+            }
+        } else {
+            if (currentDateandTime1.equals(getYesterdayDateString())) {
+                if (currentDateandTime.substring(currentDateandTime.length - 2).startsWith("A")) {
+                    // AM
+                    val time1 = SimpleDateFormat("HH:mm")
+                    val strTime1 = time1.format(date)
+                    val _12HourSDF = SimpleDateFormat("hh:mm")
+                    val _24HourDt = time1.parse(strTime1)
+                    textView.text = "Yesterday "
+                } else {
+                    // PM
+                    val time1 = SimpleDateFormat("HH:mm")
+                    val strTime1 = time1.format(date)
+                    val _12HourSDF = SimpleDateFormat("hh:mm")
+                    val _24HourDt = time1.parse(strTime1)
+                    textView.text = "Yesterday "
+                }
+            } else {
+                if (dayBeforeYesterday.substring(dayBeforeYesterday.length - 2).startsWith("A")) {
+                    // AM
+                    val time1 = SimpleDateFormat("HH:mm")
+                    val strTime1 = time1.format(date)
+                    val _12HourSDF = SimpleDateFormat("hh:mm")
+                    val _24HourDt = time1.parse(strTime1)
+                    textView.text = dayBeforeYesterdayString.toUpperCase()
+                } else {
+                    // PM
+                    val time1 = SimpleDateFormat("HH:mm")
+                    val strTime1 = time1.format(date)
+                    val _12HourSDF = SimpleDateFormat("hh:mm")
+                    val _24HourDt = time1.parse(strTime1)
+                    textView.text = dayBeforeYesterdayString.toUpperCase()
+                }
+                //textView.text = dayBeforeYesterday
+            }
+        }
+
+    }
+
+    fun get12HourFormat(date: Date, textView: TextView, str: String) {
+        val time1 = SimpleDateFormat("HH:mm")
+        val strTime1 = time1.format(date)
+        val _12HourSDF = SimpleDateFormat("hh:mm")
+        val _24HourDt = time1.parse(strTime1)
+        textView.text = "Today "
+    }
+
+    fun get12HourFormatV2(date: Date, str: String): String {
+        val time1 = SimpleDateFormat("HH:mm")
+        val strTime1 = time1.format(date)
+        val _12HourSDF = SimpleDateFormat("hh:mm")
+        val _24HourDt = time1.parse(strTime1)
+        return "Today "
+    }
+
+    fun getYesterdayDateString(): String {
+        var dateFormat = SimpleDateFormat("dd/MM/yyyy");
+        var cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -1)
+        return dateFormat.format(cal.time)
+    }
+
+    fun getYesterdayDateStringV2(): String {
+        var dateFormat = SimpleDateFormat("dd/MM/yyyy");
+        var cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -1)
+        return dateFormat.format(cal.time)
     }
 }

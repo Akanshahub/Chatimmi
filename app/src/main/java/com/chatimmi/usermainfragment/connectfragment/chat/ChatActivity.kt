@@ -54,8 +54,6 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -75,8 +73,8 @@ class ChatActivity : BaseActivitykt() {
     var avatar: String = ""
     var emailId: String = ""
     var myUserId = ""
-    var BlockStatus = "";
-
+    var BlockStatus = ""
+    var isOnline = ""
     var userType = "1"
     var file: File? = null
     private val mPostsPerPage = 20
@@ -94,12 +92,12 @@ class ChatActivity : BaseActivitykt() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chat)
         session = Session(this)
         // chatNode = gettingNotes();
-        //chatList = ArrayList<Chat.Data.MessageData>()
+        //chatList = ArrayList<Cheat.Data.MessageData>()
 
 
         oppUserName = intent.getStringExtra("groupName").toString()
-        categoryName = intent.getStringExtra("categoryName").toString()
-        subCategoryName = intent.getStringExtra("subCategoryName").toString()
+  /*      categoryName = intent.getStringExtra("categoryName").toString()
+        subCategoryName = intent.getStringExtra("subCategoryName").toString()*/
         oppUserId = intent.getIntExtra("userId", 0)
         avatar = intent.getStringExtra("avatar").toString()
         emailId = intent.getStringExtra("emailId").toString()
@@ -157,18 +155,17 @@ class ChatActivity : BaseActivitykt() {
                 if (linearLayoutManager.findFirstVisibleItemPosition() != -1) {
 
                     val dateString: String = chatList!![linearLayoutManager.findFirstVisibleItemPosition()]!!.createdOn!!
-                    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-                    var date: Date? = null
-                    try {
-                        //val sdf_ = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-                        date = sdf.parse(dateString)
-                        val check: String = sdf.format(date!!)
+                    if (dateString.isNotEmpty()) {
+                        Log.d("Dlpsdpos", "onScrolled: " + chatList!![linearLayoutManager.findFirstVisibleItemPosition()]!!.createdOn!!)
+                        getYesterdayDate(dateString, binding!!.tvDaysStatus)
+                        binding!!.tvDaysStatus.visibility = View.VISIBLE
 
-                    } catch (e: ParseException) {
-                        e.printStackTrace()
                     }
-                    getYesterdayDate(chatList!![linearLayoutManager.findFirstVisibleItemPosition()]!!.createdOn!!, binding!!.tvDaysStatus)
-                    binding!!.tvDaysStatus.visibility = View.VISIBLE
+
+/*                    val dateString: String = chatList!![linearLayoutManager.findFirstVisibleItemPosition()]!!.createdOn!!
+                    Log.d("Dlpsdpos", "onScrolled: " + chatList!![linearLayoutManager.findFirstVisibleItemPosition()]!!.createdOn!!)
+                    getYesterdayDate(dateString, binding!!.tvDaysStatus)
+                    binding!!.tvDaysStatus.visibility = View.VISIBLE*/
                 }
                 mTotalItemCount = linearLayoutManager.itemCount
                 mLastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition()
@@ -235,9 +232,8 @@ class ChatActivity : BaseActivitykt() {
         //getIstypingUser()
         clearIsTyping()
 
+        getOnlineStatus()
 
-        /* chat1= Chats()
-       myUserId =chat1!!.uid*/
     }
 
 
@@ -285,7 +281,8 @@ class ChatActivity : BaseActivitykt() {
                     Log.d("haxhskm", "onResponse: ${response.body()}")
                     BlockStatus = gson.data!!.isBlock.toString()
 
-
+                    isOnline = gson.data!!.isOnline.toString()
+                    showOnlineOffline()
                     for (getData in gson.data?.messageData!!) {
                         val day = getYesterdayDateV2(getData?.createdOn!!)
                         getData.shouldVisibleShowDateView = getYesterdayDateV2(getData.createdOn!!) != previousDay
@@ -331,6 +328,7 @@ class ChatActivity : BaseActivitykt() {
                     Log.d("haxhskm", "onResponse: ${response.errorBody()}")
 
                 }
+                // getOnlineStatus()
                 onForBlockUnBlockOpponent()
                 updateUi()
             }
@@ -651,7 +649,6 @@ class ChatActivity : BaseActivitykt() {
         }
         ll_deleteChat!!.setOnClickListener { view1: View? ->
             alertDailog()
-            deleteChat()
             dialog.dismiss()
 
 
@@ -739,7 +736,7 @@ class ChatActivity : BaseActivitykt() {
                     if (oppUserIds == oppUserId.toString() && myUserID == myUserId) {
                         BlockStatus = data.getString("is_block")
                         updateUi()
-                    } else if (oppUserIds ==  myUserId && myUserID == oppUserId.toString()) {
+                    } else if (oppUserIds == myUserId && myUserID == oppUserId.toString()) {
                         BlockStatus = data.getString("is_block")
                         updateUi()
                     }
@@ -752,6 +749,36 @@ class ChatActivity : BaseActivitykt() {
         }
 
 
+    }
+
+    fun getOnlineStatus() {
+        Chatimmi.mSocket!!.on("userStatus") { args ->
+            Log.e("userStatus", args[0].toString())
+            val data = args[0] as JSONObject
+            try {
+                activity.runOnUiThread {
+
+                    val oppUserIds = data.getString("userID")
+                    if (oppUserIds == oppUserId.toString()) {
+                        isOnline = data.getString("is_online")
+                        showOnlineOffline()
+                    }
+                }
+
+
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
+    fun showOnlineOffline() {
+        if (isOnline == "1") {
+            binding!!.appBar.llIsOnlineUser.visibility = View.VISIBLE
+        } else {
+            binding!!.appBar.llIsOnlineUser.visibility = View.GONE
+
+        }
     }
 
     fun updateUi() {

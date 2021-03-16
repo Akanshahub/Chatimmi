@@ -54,8 +54,7 @@ package="com.chatimmi">
         android:windowSoftInputMode="adjustPan" />
     <activity
         android:name=".usermainfragment.connectfragment.chat.ChatActivity"
-
-        android:windowSoftInputMode="adjustPan" />
+        android:windowSoftInputMode="adjustResize" />
     <activity
         android:name="com.chatimmi.usermainfragment.otherfragment.myProfile.MyProfileActivity"
         android:theme="@style/AppTheme" />

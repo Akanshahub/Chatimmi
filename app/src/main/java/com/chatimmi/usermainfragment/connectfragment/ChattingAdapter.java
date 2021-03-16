@@ -57,7 +57,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     String myUid;
     int isToday;
     int isYesterday;
-    String mPreviousTime="";
+    String mPreviousTime = "";
     ChatActivity chatActivity;
 
     //   GetDateStatus getDateStatus;
@@ -78,18 +78,6 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-    public static String getDateBanner(String timeStamp) {
-        String banner_date = "";
-        SimpleDateFormat sim = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        try {
-            banner_date = sim.format(new Date(timeStamp)).trim();
-            return banner_date;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return banner_date;
-        }
-    }
-
     /**
      * @param time        in milliseconds (Timestamp)
      * @param mDateFormat SimpleDateFormat
@@ -103,6 +91,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         boolean isToday = DateUtils.isToday(dateTime.getTime());
         return dateFormat.format(dateTime);
     }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -122,26 +111,18 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Chat.Data.MessageData chat = chatList.get(position);
-        Log.d("fnkanfkla", "onBindViewHolder: " + chatList.size());
+        Log.d("fnkanfkla", "onBindViewHolder: "+chatList.size());
 
         int pos = position - 1;
         int tempPos = (pos == -1) ? pos + 1 : pos;
 
-
         if (holder instanceof MyViewHolder) {
-
-            try {
-                Log.d("fnkanfkla", "try: ");
-                ((MyViewHolder) holder).myBindData(chat, tempPos, position);
-            } catch (ParseException e) {
-                Log.d("fnkanfkla", "MyViewHolder: }" + e.getMessage());
-                e.printStackTrace();
-            }
+            Log.d("fnkanfkla", "MyViewHolder: ");
+            ((MyViewHolder) holder).myBindData(chat, tempPos);
         } else if (holder instanceof OtherViewHolder) {
-
-            // Log.d("fnkanfkla", "MyViewHolder: ");
-            ((OtherViewHolder) holder).otherBindData(chat, tempPos, position);
-        } else {
+            Log.d("fnkanfkla", "MyViewHolder: ");
+            ((OtherViewHolder) holder).otherBindData(chat, tempPos);
+        }else {
 
         }
     }
@@ -228,6 +209,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView my_message, my_date_time_;
@@ -249,20 +231,40 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         }
 
-        void myBindData(final Chat.Data.MessageData chat, int tempPos, int pos) throws ParseException {
+        void myBindData(final Chat.Data.MessageData chat, int tempPos) {
+          //  tv_days_status.setVisibility(View.GONE);
             ly_my_image_view.setVisibility(View.GONE);
             my_message.setVisibility(View.VISIBLE);
             my_message.setText(chat.getMessage());
+            try {
 
-           // String time = chatList.get(tempPos).getCreatedOn();
-            if (mPreviousTime.equals(chat.getCreatedOn())) {
-                tv_days_status.setVisibility(View.GONE);
+//                String strDate = chat.getCreatedOn();
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                Date objDate = dateFormat.parse(strDate);
+//                SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+//                String finalDate = dateFormat2.format(objDate);
+//                Log.d("DateFormat:", "Final Date:"+finalDate);
+//                if (mPreviousTime.equals(finalDate)) {
+//                    Log.d("sdjisjdiosjd", "myBindData: " +finalDate + "----------------" + mPreviousTime);
+//                    tv_days_status.setVisibility(View.GONE);
+//
+//                } else {
+//                    mPreviousTime = finalDate;
+//                    chatActivity.getYesterdayDate(chat.getCreatedOn(),tv_days_status);
+//                    tv_days_status.setVisibility(View.VISIBLE);
+//                }
 
-            } else {
-                mPreviousTime = chat.getCreatedOn();
-                chatActivity.getYesterdayDate(Objects.requireNonNull(chat.getCreatedOn()), tv_days_status);
-                tv_days_status.setVisibility(View.VISIBLE);
+                tv_days_status.setText(chat.getDayName());
+                if(chat.getShouldVisibleShowDateView()){
+                    tv_days_status.setVisibility(View.VISIBLE);
+                }else {
+                    tv_days_status.setVisibility(View.GONE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            // String time = chatList.get(tempPos).getCreatedOn();
+
 
 
 
@@ -306,7 +308,6 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             iv_My_image_chat.setOnClickListener(view -> full_screen_photo_dialog(chat.getMessage()));
 
 
-
         }
 
 
@@ -317,7 +318,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         LinearLayout ly_other_image_view, ly_msg_view;
         ImageView iv_other_side_img, iv_msg_tick;
         TextView my_message, my_date_time_;
-        TextView tv_days_status, other_name, other_name_;
+        TextView tv_days_statuss, other_name, other_name_;
         ProgressBar other_progress;
 
         public OtherViewHolder(View itemView) {
@@ -328,15 +329,43 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ly_msg_view = itemView.findViewById(R.id.ly_msg_view);
             my_message = itemView.findViewById(R.id.my_date_time_);
             other_date_time_ = itemView.findViewById(R.id.other_date_time_);
-            tv_days_status = itemView.findViewById(R.id.tv_days_status);
+            tv_days_statuss = itemView.findViewById(R.id.tv_days_statusaa);
             iv_msg_tick = itemView.findViewById(R.id.iv_msg_tick);
             // other_progress = itemView.findViewById(R.id.other_progress);
 
             //  other_name_ = itemView.findViewById(R.id.other_name_);
         }
 
-        public void otherBindData(final Chat.Data.MessageData chat, int tempPos, int pos) {
+        public void otherBindData(final Chat.Data.MessageData chat, int tempPos) {
+           // tv_days_statuss.setVisibility(View.GONE);
+            try {
 
+//                String strDate = chat.getCreatedOn();
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                Date objDate = dateFormat.parse(strDate);
+//                SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+//                String finalDate = dateFormat2.format(objDate);
+//                Log.d("DateFormat:", "Final Date:"+finalDate);
+//                if (mPreviousTime.equals(finalDate)) {
+//                    Log.d("sdjisjdiosjd", "myBindData: " +finalDate + "----------------" + mPreviousTime);
+//                    tv_days_statuss.setVisibility(View.GONE);
+//
+//                } else {
+//                    mPreviousTime = finalDate;
+//                    chatActivity.getYesterdayDate(chat.getCreatedOn(),tv_days_statuss);
+//                    tv_days_statuss.setVisibility(View.VISIBLE);
+//                }
+
+                tv_days_statuss.setText(chat.getDayName());
+                if(chat.getShouldVisibleShowDateView()){
+                    tv_days_statuss.setVisibility(View.VISIBLE);
+                }else {
+                    tv_days_statuss.setVisibility(View.GONE);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if (chat.isImage() == 1) {
 
                 ly_other_image_view.setVisibility(View.VISIBLE);
@@ -361,6 +390,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 other_message.setVisibility(View.VISIBLE);
                 ly_msg_view.setVisibility(View.VISIBLE);
                 other_message.setText(chat.getMessage());
+                Log.d("aiousu", "otherBindData: "+chat.getMessage());
             }
 
 

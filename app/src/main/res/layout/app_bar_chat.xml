@@ -38,48 +38,26 @@
                     android:layout_height="@dimen/_40sdp"
 
                     android:layout_toEndOf="@id/ivBtnBack"
-                    android:elevation="@dimen/_8sdp"
+
                     android:src="@drawable/image3"
                     app:civ_border_color="@color/white"
                     app:civ_border_overlay="true"
                     app:civ_border_width="@dimen/_2sdp"
                     tools:ignore="MissingConstraints" />
 
-                <!--            <RelativeLayout-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
 
+                <View
+                    android:id="@+id/ll_isOnline_user"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_alignEnd="@+id/image"
+                    android:layout_alignBottom="@+id/image"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:background="@drawable/card_dot_gray"
+                    android:backgroundTint="@color/green"
+                    android:visibility="gone"
 
-                <!--                android:layout_toEndOf="@id/image">-->
-
-                <!--                <TextView-->
-                <!--                    android:id="@+id/tvTitle"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--android:gravity="center_vertical"-->
-                <!--                    android:layout_marginStart="@dimen/_15sdp"-->
-                <!--                    android:fontFamily="@font/montserrat_bold"-->
-                <!--                    android:text="@string/create_account"-->
-                <!--                    android:textColor="@color/title_text_color_white"-->
-                <!--                    android:textSize="18.3dp" />-->
-
-                <!--                <TextView-->
-                <!--                    android:id="@+id/tv_show_typing"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_below="@+id/tvTitle"-->
-                <!--                    android:layout_marginStart="@dimen/_15sdp"-->
-                <!--android:visibility="gone"-->
-                <!--                    android:layout_marginEnd="@dimen/_20sdp"-->
-                <!--                    android:fontFamily="@font/montserrat_medium"-->
-                <!--                    android:maxLines="1"-->
-
-                <!--                    android:text="vfcgdgffdggdf"-->
-
-                <!--                    android:textColor="@color/white"-->
-                <!--                    android:textSize="10dp"-->
-                <!--                   />-->
-                <!--            </RelativeLayout>-->
+                    tools:ignore="NotSibling" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

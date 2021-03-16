@@ -49,7 +49,7 @@ var immigrationConnectFragment=ImmigrationConnectFragment.newInstance("1")
         binding.pager.adapter = viewPagerAdapter
         binding.pager.offscreenPageLimit = 2
         binding.tabCategory.setupWithViewPager(binding.pager)
-       binding.pager. addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+        binding.pager. addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
             }
