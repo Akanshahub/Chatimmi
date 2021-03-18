@@ -5,14 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chatimmi.app.utils.UIStateManager
-import com.chatimmi.model.UserDetialResponse
 import com.chatimmi.repository.SignInRepository
 
 
 class SignInViewModel(val signupRepository: SignInRepository) :
         ViewModel() {
 
-    private var signUpResponseLiveData: LiveData<UserDetialResponse>? = null
+
     var emailAddress = ""
     var password = ""
 
@@ -34,16 +33,15 @@ class SignInViewModel(val signupRepository: SignInRepository) :
 
     private fun validate(): Boolean {
         if ("" == emailAddress) {
-            validationObserver.value = UIStateManager.Error("Please enter your email")
-
+            validationObserver.value = UIStateManager.Error("email")
             return false
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
-            validationObserver.value = UIStateManager.Error("Email address is not valid, please provide a valid email")
+            validationObserver.value = UIStateManager.Error("valid email")
             return false
         }
         if ("" == password) {
-            validationObserver.value = UIStateManager.Error("Please enter your password")
+            validationObserver.value = UIStateManager.Error("password")
             return false
         }
         return true

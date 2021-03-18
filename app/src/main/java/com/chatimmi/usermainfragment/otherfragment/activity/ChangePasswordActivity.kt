@@ -33,6 +33,7 @@ class ChangePasswordActivity : BaseActivitykt(),ApiCallback.ChangePasswordCallBa
         binding = DataBindingUtil.setContentView(this, R.layout.activity_change_password)
         val changePasswordRepository = ChangePasswordRepository(this,this,this,this)
         val factory = ChangePassViewModelFactory(changePasswordRepository)
+
         viewModel = ViewModelProviders.of(this, factory).get(ChangePassViewModel::class.java)
         binding.lifecycleOwner = this
         binding.changePassViewModel = viewModel

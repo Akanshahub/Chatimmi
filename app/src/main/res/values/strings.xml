@@ -46,7 +46,7 @@
 
     <string name="done">DONE</string>
     <string name="under_development">Under development</string>
-    <string name="fullname_must_6_digt">FullName must be atleast 2 characters</string>
+    <string name="fullname_must_2_digt">Full name must be atleast 2 characters</string>
     <string name="comfrim_passwor_not_less_than_6_characters">Confirm password should not less than 6 characters</string>
     <string name="please_accept_termconditions_and_privacy_policy"><![CDATA[Please accept term & conditions and privacy policy]]></string>
 
@@ -140,13 +140,10 @@
     <string name="feedback_sent">Feedback sent successfully</string>
     <string name="you_have_set_your_password">You have set your password, your session is expired. Please login again</string>
     <string name="you_have_changed_your_password">You have changed your password, your session is expired. Please login again</string>
-
-    //Nikita Ma'am
-    <string name="select_your_role_to_login_and_sign_up_your_account">Select your role to login and sign up your account</string>
-    <string name="welcome_to_quickityfix">Welcome to QuickityFix</string>
-    <string name="continue_small">Continue</string>
-    <string name="user_text">User</string>
-    <string name="provider_text">Provider</string>
+    <string name="email_address_is_not_valid">Email address is not valid, please provide a valid email</string>
+    <string name="please_enter_your_password">Please enter your password</string>
+    <string name="password_should_be">Password should be 8 characters long and contains one uppercase character, one special character and at least one number</string>
+    <string name="please_accept_terms"><![CDATA[Please accept terms & conditions and privacy policy]]></string>
 
 
 </resources>

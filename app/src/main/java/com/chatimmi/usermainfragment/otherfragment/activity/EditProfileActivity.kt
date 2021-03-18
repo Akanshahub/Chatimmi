@@ -65,7 +65,16 @@ class EditProfileActivity : BaseActivitykt() {
         viewModel.getValidationData().observe(this, Observer {
             when (it) {
                 is UIStateManager.Error -> {
-                    showToast(it.msg)
+                if(it.msg=="full_name"){
+                    showToast(getString(R.string.please_enter_full_name))
+                }else if(it.msg=="characters"){
+                    showToast(getString(R.string.fullname_must_2_digt))
+                }else if(it.msg=="email"){
+                    showToast(getString(R.string.please_enter_email))
+                }else if(it.msg=="valid_email"){
+                    showToast(getString(R.string.please_enter_valid_email))
+                }
+                //showToast(it.msg)
                 }
                 else -> {
                 }

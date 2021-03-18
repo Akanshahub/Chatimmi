@@ -54,8 +54,8 @@ import java.io.IOException
 import java.util.*
 
 
-class SignupActivitykt : BaseActivitykt(),ApiCallback.SignUpCallback, CommonTaskPerformer {
-var signUpViewModel: SignUpViewModel? = null
+class SignupActivitykt : BaseActivitykt(), ApiCallback.SignUpCallback, CommonTaskPerformer {
+    var signUpViewModel: SignUpViewModel? = null
     private var binding: ActivitySignupBinding? = null
     private var bitmap: Bitmap? = null
     private var avatarUri: Uri? = null
@@ -67,7 +67,7 @@ var signUpViewModel: SignUpViewModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val signUpRepository = SignUpRepository(this,this)
+        val signUpRepository = SignUpRepository(this, this)
         val factory = SignUpViewModalFactory(signUpRepository)
         signUpViewModel = ViewModelProviders.of(this, factory).get(SignUpViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
@@ -76,20 +76,34 @@ var signUpViewModel: SignUpViewModel? = null
         binding!!.signUpViewModel = signUpViewModel
         binding?.invalidateAll()
         session = Session(this)
-        /*viewModel.getValidationData().observe(this, Observer {
-    it?.let {
-        val msg = it as UIStateManager.Error
-        showToast("Under Development")
-    }
 
-})*/
 
         binding?.cbTerm!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> signUpViewModel!!.isSelect = isChecked }
         signUpViewModel!!.getValidationData().observe(this, androidx.lifecycle.Observer {
             it?.let {
                 val msg = it as UIStateManager.Error
-                showToast(it.msg)
+                if (it.msg == "full_name") {
+                    showToast(getString(R.string.please_enter_full_name))
+                } else if (it.msg == "name") {
+                    showToast(getString(R.string.fullname_must_2_digt))
+                } else if (it.msg == "email") {
+                    showToast(getString(R.string.please_enter_email))
+                } else if (it.msg == "valid_email") {
+                    showToast(getString(R.string.please_enter_valid_email))
+                } else if (it.msg == "password") {
+                    showToast(getString(R.string.please_enter_your_password))
+                } else if (it.msg == "number") {
+                    showToast(getString(R.string.password_should_be))
+                } else if (it.msg == "confirm_password") {
+                    showToast(getString(R.string.please_enter_password_to_confirm))
+                } else if (it.msg == "match") {
+                    showToast(getString(R.string.confirm_password_does_not_match))
+                } else if (it.msg == "policy") {
+                    showToast(getString(R.string.please_accept_terms))
+                }
+
             }
+           
         })
 
         signUpRepository.getSignUpResponseData().observe(this, androidx.lifecycle.Observer {
@@ -101,8 +115,7 @@ var signUpViewModel: SignUpViewModel? = null
                         session.setUserData(getData)
                         Chatimmi.authorization = session.getAuthToken()
                         Log.d("fbasfbjasfa", "onCreate: $getData")
-                      /*  showToast(getData.message.toString())*/
-                        // showToast("Under Development")
+
                         Log.d("fbasfbjasfa", "onCreate: $getData")
                         val intent = Intent(this@SignupActivitykt, ChatimmiActivity::class.java)
                         navigateTo(intent, true)
@@ -111,11 +124,11 @@ var signUpViewModel: SignUpViewModel? = null
                     is UIStateManager.Error -> {
                         showToast(it.msg)
                     }
-                    is UIStateManager.Loading ->{
-                        if(it.shouldShowLoading){
+                    is UIStateManager.Loading -> {
+                        if (it.shouldShowLoading) {
                             showLoader()
-                        }else{
-                          hideLoader()
+                        } else {
+                            hideLoader()
                         }
 
                     }
@@ -129,8 +142,8 @@ var signUpViewModel: SignUpViewModel? = null
                 when (it) {
                     is UIStateManager.Success<*> -> {
                         val getData = it.data as ContentTermsConditionModel
-                        signUpViewModel!!.termAndCond=getData.data!!.termsUrl!!
-                        signUpViewModel!!.privacyPolicy=getData.data!!.privacyUrl!!
+                        signUpViewModel!!.termAndCond = getData.data!!.termsUrl!!
+                        signUpViewModel!!.privacyPolicy = getData.data!!.privacyUrl!!
                     }
 
                     is UIStateManager.Error -> {
@@ -141,7 +154,7 @@ var signUpViewModel: SignUpViewModel? = null
                         if (it.shouldShowLoading) {
                             showLoader()
                         } else {
-                           hideLoader()
+                            hideLoader()
                         }
                     }
                     else -> {
@@ -155,16 +168,16 @@ var signUpViewModel: SignUpViewModel? = null
 
     private fun initialSetup() {
 
-   /*     binding!!.tvPrivacyPolicy.setOnClickListener {
-            val intent = Intent(this@SignupActivitykt, PrivacyPolicy::class.java)
-            navigateTo(intent, false)
-        }
-        binding!!.tvTerm.setOnClickListener {
-            val intent = Intent(this@SignupActivitykt, TermAndCond::class.java)
-           // val bundle = Bundle()
-           // bundle.putString("termAndCond",termAndCond)
-            navigateTo(intent, false)
-        }*/
+        /*     binding!!.tvPrivacyPolicy.setOnClickListener {
+                 val intent = Intent(this@SignupActivitykt, PrivacyPolicy::class.java)
+                 navigateTo(intent, false)
+             }
+             binding!!.tvTerm.setOnClickListener {
+                 val intent = Intent(this@SignupActivitykt, TermAndCond::class.java)
+                // val bundle = Bundle()
+                // bundle.putString("termAndCond",termAndCond)
+                 navigateTo(intent, false)
+             }*/
         binding!!.appBar.ivBtnBack.setOnClickListener { onBackPressed() }
         binding!!.btnSignup.setOnClickListener { /* if (validate()) {
                     val intent = Intent(this@SignupActivitykt, ChatimmiActivity::class.java)
@@ -223,7 +236,6 @@ var signUpViewModel: SignUpViewModel? = null
     }
 
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
@@ -234,10 +246,10 @@ var signUpViewModel: SignUpViewModel? = null
             }
 
             temPhoto = uri
-            signUpViewModel!!.imageUri= uri!!
+            signUpViewModel!!.imageUri = uri!!
 
             var bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-            signUpViewModel!!.file= getImageFile(uri)
+            signUpViewModel!!.file = getImageFile(uri)
             try {
                 showImage(uri)
 
@@ -261,7 +273,7 @@ var signUpViewModel: SignUpViewModel? = null
         }
     }
 
-    private fun getImageFile(uri: Uri): File{
+    private fun getImageFile(uri: Uri): File {
         val bitmap: Bitmap =
                 MediaStore.Images.Media.getBitmap(contentResolver, uri)
 
@@ -291,7 +303,6 @@ var signUpViewModel: SignUpViewModel? = null
         parcelFileDescriptor.close()
         return image
     }
-
 
 
     private fun openCropActivity(sourceUri: Uri) {
@@ -361,14 +372,14 @@ var signUpViewModel: SignUpViewModel? = null
     }
 
     override fun onError(errorMessage: String) {
-    toastMessage(errorMessage,this)
+        toastMessage(errorMessage, this)
 
     }
 
     override fun <T> performAction(clazz: Class<T>, bundle: Bundle?, isRequried: Boolean) {
 
-        Intent(this, clazz,).apply {
-            if(isRequried){
+        Intent(this, clazz).apply {
+            if (isRequried) {
                 this.putExtras(bundle!!)
             }
             startActivity(this)

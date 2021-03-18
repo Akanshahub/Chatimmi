@@ -43,20 +43,22 @@ class EditProfileViewModel(private val editProfileRepository: EditProfileReposit
     private fun validate(): Boolean {
 
         if ("" == userName) {
-            validationObserver.value = UIStateManager.Error("Please enter your full name")
-            return false
-        }
-        if (userName.length < 2) {
-            validationObserver.value = UIStateManager.Error("Full name must be atleast 2 characters")
-            return false
-        }
-        if ("" == emailAddress) {
-            validationObserver.value = UIStateManager.Error("Please enter your email")
+            validationObserver.value = UIStateManager.Error("full_name")
 
             return false
         }
+        if (userName.trim().length < 2) {
+            validationObserver.value = UIStateManager.Error("characters")
+
+            return false
+        }
+        if ("" == emailAddress) {
+            validationObserver.value = UIStateManager.Error("email")
+            return false
+        }
         if (!Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
-            validationObserver.value = UIStateManager.Error("Email address is not valid, please provide a valid email")
+            validationObserver.value = UIStateManager.Error("valid_email")
+            //validationObserver.value = UIStateManager.Error("Email address is not valid, please provide a valid email")
             return false
         }
 

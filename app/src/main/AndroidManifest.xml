@@ -225,9 +225,9 @@ package="com.chatimmi">
 
     </activity>
 
-    <activity android:name="com.chatimmi.views.DummyActivity">
 
-    </activity>
+
+
     <activity
         android:name="com.chatimmi.usermainfragment.connectfragment.filter.filtersubcategoryconnect.FiltersubcategoryconnectActivity"
         android:screenOrientation="portrait"

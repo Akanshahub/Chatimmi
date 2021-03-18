@@ -111,7 +111,6 @@
                             android:paddingTop="@dimen/_6sdp"
                             android:paddingEnd="10dp"
                             android:paddingBottom="@dimen/_6sdp"
-
                             android:text="@string/email_id"
                             android:textColor="#505050" />
 
